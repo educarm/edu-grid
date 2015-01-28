@@ -351,7 +351,7 @@
 						});
 					}
 					else{
-						$scope.options.metaData.total=data.count;
+						$scope.options.metaData.total=0;
 						$scope.getData(oParams);
 					
 					}

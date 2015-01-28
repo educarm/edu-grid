@@ -352,7 +352,7 @@ eduGridDirectives.directive('eduGrid', function () {
               $scope.internalControl.showOverlayFormSuccessError('0', data.data, 20000);
             });
           } else {
-            $scope.options.metaData.total = data.count;
+            $scope.options.metaData.total = 0;
             $scope.getData(oParams);
           }
           if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onButtonRefreshClick == 'function') {

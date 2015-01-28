@@ -65,7 +65,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
         showRefreshButton: true,
 		showExtraButtonTopLeft:false,
         showAddButton: true,
-        showPagination: true,
+        showPagination: false,
         showItemsPerPage: true,
 		showCount:false,
 		
