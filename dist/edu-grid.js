@@ -344,12 +344,17 @@ eduGridDirectives.directive('eduGrid', function () {
           if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.transformParams == 'function') {
             oParams = $scope.options.listListeners.transformParams(oParams);
           }
-          $scope.api.getCount(oParams, function (data) {
+          if ($scope.options.showCount == true) {
+            $scope.api.getCount(oParams, function (data) {
+              $scope.options.metaData.total = data.count;
+              $scope.getData(oParams);
+            }, function (data) {
+              $scope.internalControl.showOverlayFormSuccessError('0', data.data, 20000);
+            });
+          } else {
             $scope.options.metaData.total = data.count;
             $scope.getData(oParams);
-          }, function (data) {
-            $scope.internalControl.showOverlayFormSuccessError('0', data.data, 20000);
-          });
+          }
           if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onButtonRefreshClick == 'function') {
             $scope.options.listListeners.onButtonRefreshClick($scope.list);
           }  //CLEAN form field searchQuery
