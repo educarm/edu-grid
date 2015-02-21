@@ -47,15 +47,45 @@
 			    $scope.options.metaData.offset=0;
 				$scope.options.showOverlayLoading=false;
 				$scope.currentPage = undefined;
+				
 				if (!$scope.options.hasOwnProperty('allFieldsGlobalSearch')){
 					$scope.options.allFieldsGlobalSearch=true;
 				}
+				
+				
+				if (!$scope.options.hasOwnProperty('showOverlayWhenLoading')){
+					$scope.options.showOverlayWhenLoading=true;
+				}
+				
+				
+				if (!$scope.options.hasOwnProperty('showPagination')){
+					$scope.options.showPagination=true;
+				}else{
+					if($scope.options.showPagination){
+						$scope.options.showItemsPerPage=true;
+						$scope.options.showMetaData=true;
+						$scope.options.paginationWidth= 3;
+					}else{
+						$scope.options.showItemsPerPage=false;
+						$scope.options.showMetaData=false;
+					}
+				}
+				
+				
+				
+			     
+				
 				$scope.currentPage={
             	                       offset:0,
             	                       label:1
             	                   };
+								   
 				$scope.gridStyle={};
                 $scope.gridStyle.height=$scope.options.height+'px';
+				
+				//height for plugin angular-scrollable-table
+				$(".scrollableContainer").css("height",$scope.options.height+'px');
+				
 				
 				//extract type of fieldKey
 				var typeFieldKey="";
@@ -302,11 +332,11 @@
 						}
 						
 	                    $scope.pagination();
-						
-						$scope.options.showOverlayLoadingGrid=false;
+						if ($scope.options.hasOwnProperty('showOverlayWhenLoading') && $scope.options.showOverlayWhenLoading){
+							$scope.options.showOverlayLoadingGrid=false;
+						}
 	                },function(data){
-							$scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
-					
+						$scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
 					});
                 };
                 
@@ -335,13 +365,14 @@
 						}
 						
 					}
-					$scope.options.showOverlayLoadingGrid=true;
-					
+					if ($scope.options.hasOwnProperty('showOverlayWhenLoading') && $scope.options.showOverlayWhenLoading){
+						$scope.options.showOverlayLoadingGrid=true;
+					}
 					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.transformParams == 'function'){
                        oParams=$scope.options.listListeners.transformParams(oParams);
 					}
 					
-					if($scope.options.showCount == true){
+					if($scope.options.showPagination == true){
 						$scope.api.getCount(oParams,function (data) {
 								$scope.options.metaData.total=data.count;
 								$scope.getData(oParams);

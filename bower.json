@@ -1,6 +1,6 @@
 {
   "name": "edu-grid",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "authors": [
     "educarm"
   ],
@@ -34,6 +34,7 @@
     "bootstrap": "educarm/bootstrap#~3.2.0",
     "textAngular": "educarm/textAngular#~1.2.2",
     "Font-Awesome": "educarm/Font-Awesome#~4.2.0",
+	"angular-scrollable-table":"",
     "angular-file-upload": "educarm/angular-file-upload#~1.0.2",
 	"edu-field": "educarm/edu-field#~0.0.1"
   },
