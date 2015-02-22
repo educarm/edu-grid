@@ -4,15 +4,15 @@
 		{{options.required ? '*' : ''}}
 	</label>
 	<div class="input-group">
-		<span class="input-group-btn"">
-		    <a ng-click="onClick()" class="btn btn-{{options.typebutton||'default'}}">
-			  <i class="fa fa-{{options.icon}}"></i>
-			 {{options.textbutton}}
-			</a>
-		</span>
+			<span class="input-group-btn"">
+				<a ng-click="onClick()" class="btn btn-{{options.typebutton||'default'}} btn-{{options.inputSize || 'default'}}">
+				  <i class="fa fa-{{options.icon}}"></i>
+				 {{options.textbutton}}
+				</a>
+			</span>
 		
 			<input type="text"
-			   class="form-control"
+			   class="form-control  input-{{options.inputSize || 'default'}}"
 			   id="{{id}}"
 			   name="{{name}}"
 			   placeholder="{{options.placeholder}}"

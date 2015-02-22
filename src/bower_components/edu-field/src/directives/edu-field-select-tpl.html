@@ -4,7 +4,8 @@
 		{{options.label}}
 		{{options.required ? '*' : ''}}
 	</label>
-	<select class="form-control"
+	<select 
+			class="form-control input-{{options.inputSize}}"
 			id="{{id}}"
 			autofocus="{{options.autofocus}}"
 			dependent-control="{{options.dependentControl}}"

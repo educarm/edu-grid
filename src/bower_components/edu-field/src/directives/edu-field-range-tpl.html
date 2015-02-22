@@ -1,17 +1,58 @@
 <div class="form-group  {{options.col}}">
 	<label for="{{id}}">
 		{{options.label}}
-		{{options.required ? '*' : ''}}
+		{{options.required ? '*' : ''}} : {{value}}
 	</label>
-	<input type="range"
-		   class="form-control"
-		   id="{{id}}"
-		   autofocus="{{options.autofocus}}"
-		   placeholder="{{options.placeholder}}"
-		   ng-required="options.required"
-		   ng-disabled="options.disabled"
-		   min="{{options.min}}"
-		   max="{{options.max}}"
-		   ng-model="value">
+	
+	
+		   
+		   
+		<div>
+			<div style="clear:both">
+				 <span class="pull-left"><strong>{{options.min}}</strong></span>
+				 <span class="pull-right"><strong>{{options.max}}</strong></span>
+			</div>
+			<div style="clear:both">
+				 <div style="float:left;margin:3px;width:10%;">
+					 <button type="button" class="btn btn-xs btn-primary pull-left" ng-click="value=(value>options.min)?(value*1-1):options.min">
+						<i class="fa fa-minus"></i>
+					 </button>
+				 </div>
+				 <div style="float:left;width:70%;">
+					<input type="range"
+						   id="{{id}}"
+						  
+						   autofocus="{{options.autofocus}}"
+						   placeholder="{{options.placeholder}}"
+						   ng-required="options.required"
+						   ng-disabled="options.disabled"
+						   min="{{options.min}}"
+						   max="{{options.max}}"
+						   ng-model="value">
+					
+				 </div>
+				 <div style="float:left;margin:3px;width:10%;"> 
+					 <button type="button" class="btn btn-xs btn-primary pull-right" ng-click="value=(value<options.max)?(value*1+1):options.max">
+						<i class="fa fa-plus"></i>
+					 </button>
+				 </div>
+			 </div>
+
+		</div>   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
 
 </div>

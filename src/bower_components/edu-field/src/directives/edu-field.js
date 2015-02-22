@@ -403,143 +403,117 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 			// ---
 			// CONTROL TYPE= SELECT
 		    // ---
-			$scope.refreshSelect=function(value){
-			    //if($scope.options.selecttypesource=='url' && (typeof $scope.options.autoload=='undefined' || $scope.options.autoload==true )){
-				if($scope.options.selecttypesource=='url' && true ){
-					var sUrl=$scope.options.selectsource;
-				    if(typeof value!='undefined'){
-						sUrl=sUrl+ "&" + value;
+		$scope.refreshSelect = function (value) {
+            if ($scope.options.selecttypesource == 'url' && true) {
+              var sUrl = $scope.options.selectsource;
+              if (typeof value != 'undefined') {
+                sUrl = sUrl + '&' + value;
+              }
+            
+              $http.get(sUrl).success(function (data, status, headers, config) {
+                $scope.optionsSelect = data;
+                for (var i = 0; i < $scope.optionsSelect.length; i++) {
+                  if (!$scope.optionsSelect[i].hasOwnProperty('value')) {
+                    $scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
+                  }
+                  if (!$scope.optionsSelect[i].hasOwnProperty('name')) {
+                    if ($scope.options.selectconcatvaluename) {
+                      $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionvalue] + ' - ' + $scope.optionsSelect[i][$scope.options.optionname];
+                    } else {
+                      $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
+                    }
+                    delete $scope.optionsSelect[i][$scope.options.optionname];
+                    delete $scope.optionsSelect[i][$scope.options.optionvalue];
+                  } else {
+                    if ($scope.options.selectconcatvaluename) {
+                      $scope.optionsSelect[i].name = $scope.optionsSelect[i]['value'] + ' - ' + $scope.optionsSelect[i]['name'];
+                    } else {
+                      $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
+                    }
+                  }
+                }
+                $scope.onInit();
+              }).error(function (data, status, headers, config) {
+              }); 
+            } else if ($scope.options.selecttypesource == 'array') {
+              $scope.optionsSelect = $scope.options.selectsource;
+             
+                if (typeof $scope.optionsSelect != 'undefined') {
+                  for (var i = 0; i < $scope.optionsSelect.length; i++) {
+				    if (!$scope.optionsSelect[i].hasOwnProperty('value')) {
+                        $scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
+                    }
+					if (!$scope.optionsSelect[i].hasOwnProperty('name')) {
+						if ($scope.options.selectconcatvaluename) {
+							$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionvalue] + ' - ' + $scope.optionsSelect[i][$scope.options.optionname];
+						   
+						} else {
+						    $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
+						}
+					    
 					}
-					//if ($scope.options.loadOnInit){
-						$http.get(sUrl).
-							success(function(data, status, headers, config) {
-							  $scope.optionsSelect=data;
-							  for(var i=0;i<$scope.optionsSelect.length;i++) {
-									if(!$scope.optionsSelect[i].hasOwnProperty("value")){
-										$scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
-									}
-									if(!$scope.optionsSelect[i].hasOwnProperty("name")){
-										if($scope.options.selectconcatvaluename){ 
-											$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionvalue] + " - " +$scope.optionsSelect[i][$scope.options.optionname];
-										}else{
-											$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
-										}
-										delete $scope.optionsSelect[i][$scope.options.optionname];  
-										delete $scope.optionsSelect[i][$scope.options.optionvalue]; 	
-									}else{
-										if($scope.options.selectconcatvaluename){ 
-											$scope.optionsSelect[i].name = $scope.optionsSelect[i]["value"] + " - " +$scope.optionsSelect[i]["name"];
-										}else{
-											$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
-										}
-									}		
-								}
-							  $scope.onInit();
-							}).
-							error(function(data, status, headers, config) {
-								
-							});
-					 //}
-				}else if($scope.options.selecttypesource=='array'){
-				
-					$scope.optionsSelect=$scope.options.selectsource;
-					$scope.$watchCollection('optionsSelect', function() {
-						if(typeof $scope.optionsSelect!='undefined'){
-							for(var i=0;i<$scope.optionsSelect.length;i++) {
-								if(!$scope.optionsSelect[i].hasOwnProperty("value")){
-									$scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
-								}
-								if(!$scope.optionsSelect[i].hasOwnProperty("name")){
-									if($scope.options.selectconcatvaluename){ 
-										$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionvalue] + " - " +$scope.optionsSelect[i][$scope.options.optionname];
-									}else{
-										$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
-									}
-									delete $scope.optionsSelect[i][$scope.options.optionvalue];   
-									delete $scope.optionsSelect[i][$scope.options.optionname];
-								}else{
-									if($scope.options.selectconcatvaluename){ 
-										$scope.optionsSelect[i].name = $scope.optionsSelect[i]["value"] + " - " +$scope.optionsSelect[i]["name"];
-									}else{
-										$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
-									}
-								}	
-							}
+                    
+                  }
+                }
+                $scope.onInit();
+         
+            }
+          };
+          
+          if ($scope.options.type == 'select') {
+            if ($scope.options.selecttypesource == 'url' && (typeof $scope.options.autoload == 'undefined' || $scope.options.autoload == true)) {
+              var sUrl = $scope.options.selectsource;
+              if ($scope.options.loadOnInit) {
+                $http.get(sUrl).success(function (data, status, headers, config) {
+                  $scope.optionsSelect = data;
+                  for (var i = 0; i < $scope.optionsSelect.length; i++) {
+                    if (!$scope.optionsSelect[i].hasOwnProperty('value')) {
+                      $scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
+                    }
+                    if (!$scope.optionsSelect[i].hasOwnProperty('name')) {
+                      if ($scope.options.selectconcatvaluename) {
+                        $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionvalue] + ' - ' + $scope.optionsSelect[i][$scope.options.optionname];
+                      } else {
+                        $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
+                      }
+                      delete $scope.optionsSelect[i][$scope.options.optionname];
+                      delete $scope.optionsSelect[i][$scope.options.optionvalue];
+                    } else {
+                      if ($scope.options.selectconcatvaluename) {
+                        $scope.optionsSelect[i].name = $scope.optionsSelect[i]['value'] + ' - ' + $scope.optionsSelect[i]['name'];
+                      } else {
+                        $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
+                      }
+                    }
+                  }
+                  $scope.onInit();
+                }).error(function (data, status, headers, config) {
+                });
+              }
+            } else if ($scope.options.selecttypesource == 'array') {
+              $scope.optionsSelect = $scope.options.selectsource;
+              $scope.$watchCollection('optionsSelect', function () {
+                if (typeof $scope.optionsSelect != 'undefined' && !$scope.optionsSelect[0].hasOwnProperty('value')) {
+                  for (var i = 0; i < $scope.optionsSelect.length; i++) {
+				    if (!$scope.optionsSelect[i].hasOwnProperty('value')) {
+                        $scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
+                    }
+					if (!$scope.optionsSelect[i].hasOwnProperty('name')) {
+						if ($scope.options.selectconcatvaluename) {
+							$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionvalue] + ' - ' + $scope.optionsSelect[i][$scope.options.optionname];
+						    
+						} else {
+						    $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
 						}
-						$scope.onInit();
-					});
-				}
-
-			};
-			
-			//if($scope.options.type=='select'){
-			//	$scope.refreshSelect();
-			//}
-			
-			if($scope.options.type=='select'){
-				if($scope.options.selecttypesource=='url' && (typeof $scope.options.autoload=='undefined' || $scope.options.autoload==true )){
-					var sUrl=$scope.options.selectsource;
-						if ($scope.options.loadOnInit){
-							$http.get(sUrl).					
-							success(function(data, status, headers, config) {
-							  $scope.optionsSelect=data;
-							  for(var i=0;i<$scope.optionsSelect.length;i++) {
-									if(!$scope.optionsSelect[i].hasOwnProperty("value")){
-										$scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
-									}
-									if(!$scope.optionsSelect[i].hasOwnProperty("name")){
-										if($scope.options.selectconcatvaluename){ 
-											$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionvalue] + " - " +$scope.optionsSelect[i][$scope.options.optionname];
-										}else{
-											$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
-										}
-										delete $scope.optionsSelect[i][$scope.options.optionname];  
-										delete $scope.optionsSelect[i][$scope.options.optionvalue]; 	
-									}else{
-										if($scope.options.selectconcatvaluename){ 
-											$scope.optionsSelect[i].name = $scope.optionsSelect[i]["value"] + " - " +$scope.optionsSelect[i]["name"];
-										}else{
-											$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
-										}
-									}		
-								}
-								
-								$scope.onInit();
-							  
-							}).
-							error(function(data, status, headers, config) {
-								
-							});
-						}
-				}else if($scope.options.selecttypesource=='array'){
-					$scope.optionsSelect=$scope.options.selectsource;
-					$scope.$watchCollection('optionsSelect', function() {
-						if(typeof $scope.optionsSelect!='undefined'){
-							for(var i=0;i<$scope.optionsSelect.length;i++) {
-								if(!$scope.optionsSelect[i].hasOwnProperty("value")){
-									$scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
-								}
-								if(!$scope.optionsSelect[i].hasOwnProperty("name")){
-									if($scope.options.selectconcatvaluename){ 
-										$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionvalue] + " - " +$scope.optionsSelect[i][$scope.options.optionname];
-									}else{
-										$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
-									}
-									delete $scope.optionsSelect[i][$scope.options.optionvalue];   
-									delete $scope.optionsSelect[i][$scope.options.optionname];
-								}else{
-									if($scope.options.selectconcatvaluename){ 
-										$scope.optionsSelect[i].name = $scope.optionsSelect[i]["value"] + " - " +$scope.optionsSelect[i]["name"];
-									}else{
-										$scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
-									}
-								}	
-							}
-						}
-						$scope.onInit();
-					});
-				}
-			}
+					    
+					}
+                    
+                  }
+                }
+                $scope.onInit();
+              });
+            }
+          }
 			
 			// default value
 			if (typeof $scope.options.default !== 'undefined') {

@@ -37,10 +37,10 @@ app.controller('appController', ['$scope','$http', function ($scope,$http) {
 																									console.log("botón clickado")
 																								   } },
 					
-					{key: 'iban',type: 'iban',col:'col-md-4',label: 'Nº cuenta cliente',placeholder: 'Texto',autofocus:'',required: true,name:"nombre",id:"id"  },
-					{key: 'nif',type: 'nifniecif',col:'col-md-4',label: 'NIF',textbutton:'Nif',placeholder: 'NIF',autofocus:'',required: true },
-					{key: 'nie',type: 'nifniecif',col:'col-md-4',label: 'NIE',textbutton:'Nie',placeholder: 'NIE',autofocus:'',required: true },
-					{key: 'cif',type: 'nifniecif',col:'col-md-4',label: 'CIF',textbutton:'Cif',placeholder: 'CIF',autofocus:'',required: true },
+					{key: 'iban',type: 'iban',col:'col-md-4',inputSize:"lg",typebutton:"warning",label: 'Nº cuenta cliente',placeholder: 'Texto',autofocus:'',required: true,name:"nombre",id:"id"  },
+					{key: 'nif',type: 'nifniecif',col:'col-md-4',inputSize:"sm",label: 'NIF',textbutton:'NIF',placeholder: 'NIF',autofocus:'',required: true },
+					{key: 'nie',type: 'nifniecif',col:'col-md-4',inputSize:"sm",label: 'NIE',textbutton:'NIE',placeholder: 'NIE',autofocus:'',required: true },
+					{key: 'cif',type: 'nifniecif',col:'col-md-4',inputSize:"sm",typebutton:"danger",label: 'CIF',textbutton:'Cif',placeholder: 'CIF',autofocus:'',required: true },
 	                {key: 'texto',type: 'text',default:'texto por defecto',
 						fieldListeners:{
 							onChange:function(value){
@@ -53,7 +53,7 @@ app.controller('appController', ['$scope','$http', function ($scope,$http) {
 								console.log("salida del control:"+value);
 							}
 						},col:'col-md-6',label: 'Texto',placeholder: 'Texto',autofocus:'',required: true },
-					{key: 'textobtn',type: 'textbutton',default:'texto por def.',showbutton:true,typebutton:'info',icon:'search',textbutton:'texto',
+					{key: 'textobtn',type: 'textbutton',inputSize:"lg",default:'texto por def.',showbutton:true,typebutton:'info',icon:'search',textbutton:'texto',
 						fieldListeners:{
 						    onClick:function(value){
 								console.log("click on button: "+value);
@@ -76,9 +76,9 @@ app.controller('appController', ['$scope','$http', function ($scope,$http) {
 					{key: 'url',type: 'url',col:'col-md-4',label: 'Url',placeholder: 'Url',autofocus:'',required: true },
 					{key: 'password',type: 'password',col:'col-md-4',label: 'Password',placeholder: 'Password',autofocus:'',required: true },
 				   
-					{key: 'ckeckbox',type: 'checkbox',col:'col-md-4',label: 'Checkbox',placeholder: 'Checkbox',autofocus:'',disabled:false,required: true },
-					{key: 'radio',type: 'radio',col:'col-md-4',label: 'Radio',options:[{"name":"perro","value":"1"},{"name":"gato","value":"2"}],placeholder: 'Checkbox',autofocus:'',required: true },
-					{key: 'rango',type: 'range',col:'col-md-4',label: 'Slider',min:100,max:500,placeholder: 'Slider',autofocus:'',required: true },
+					{key: 'ckeckbox',type: 'checkbox',inputSizeClass:"input-lg",col:'col-md-4',label: 'Checkbox',placeholder: 'Checkbox',autofocus:'',disabled:false,required: true },
+					{key: 'radio',type: 'radio',col:'col-md-4',inputSizeClass:"input-sm",label: 'Radio',options:[{"name":"perro","value":"1"},{"name":"gato","value":"2"}],placeholder: 'Checkbox',autofocus:'',required: true },
+					{key: 'rango',type: 'range',col:'col-md-6',label: 'Slider',min:100,max:500,placeholder: 'Slider',autofocus:'',required: true },
 					
 					
 					{key: 'fecha',type: 'date',col:'col-md-4',lines: 5,label:'Fecha',placeholder: 'Fecha',autofocus:'',required: true}, 
@@ -87,11 +87,11 @@ app.controller('appController', ['$scope','$http', function ($scope,$http) {
 					{key: 'semana',type: 'week',col:'col-md-4',label: 'Semana',placeholder: 'Semana',autofocus:'',required: true },
 					{key: 'hora',type: 'time',col:'col-md-4',label: 'Hora',placeholder: 'Hora',autofocus:'',required: true },
 					
-					{key: 'autocompletelocal',type: 'autocomplete',autofocus:'autofocus',col:'col-md-4',required:true,label: 'Autocomplete datos locales',autoclocaldata:$scope.municipios,autocsearchfields:"name",autocminlength:3,autocfieldtitle:"value,name",autocfielddescription:"",autocfieldvalue:"value",autocpause:300},
+					{key: 'autocompletelocal',type: 'autocomplete',inputSize:"sm",autofocus:'autofocus',col:'col-md-4',required:true,label: 'Autocomplete datos locales',autoclocaldata:$scope.municipios,autocsearchfields:"name",autocminlength:3,autocfieldtitle:"value,name",autocfielddescription:"",autocfieldvalue:"value",autocpause:300},
 				    {key: 'autocompleteremoto',type: 'autocomplete',col:'col-md-4',required:true,label: 'Autocomplete datos remotos',autocurldata: 'api/v1/municipios?filter=',autocsearchfields:"name",autocminlength:3,autocfieldtitle:"value,name",autocfielddescription:"",autocfieldvalue:"value",autocpause:300},											   
 					{key: 'autocompleteremotoloadall',type: 'autocomplete',col:'col-md-4',required:true,label: 'Autocomplete datos remotos load all',autocurldataloadall: 'api/v1/municipios',autocsearchfields:"name",autocminlength:3,autocfieldtitle:"value,name",autocfielddescription:"",autocfieldvalue:"value",autocpause:300},											   
 				   
-					{key: 'selectlocal',type: 'select',col:'col-md-4',required:true,label: 'Select datos locales',selecttypesource:'array',selectsource: $scope.municipios,optionname:"name",optionvalue:"value",selectconcatvaluename:true},
+					{key: 'selectlocal',type: 'select',inputSize:"sm",col:'col-md-4',required:true,label: 'Select datos locales',selecttypesource:'array',selectsource: $scope.municipios,optionname:"name",optionvalue:"value",selectconcatvaluename:true},
 					{key: 'selectremoto', type: 'select',col:'col-md-4',required:true,label: 'Select datos remotos',selecttypesource:'url',selectsource: 'api/v1/municipios',optionname:"name",optionvalue:"value",selectconcatvaluename:true},
 					
 					{key: 'CODIGO_TEMA',

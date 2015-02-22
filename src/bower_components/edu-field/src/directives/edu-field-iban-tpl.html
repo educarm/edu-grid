@@ -6,11 +6,11 @@
 	
 	<div class="input-group">
 		<span class="input-group-btn">
-			<button class="btn btn-default" type="button">IBAN</button>
+			<button class="btn btn-{{options.typebutton || 'default' }} btn-{{options.inputSize || 'default'}}" type="button">IBAN</button>
 		</span>
 		
 			<input type="text" style="width:250px" 
-					class="form-control" 
+					class="form-control  input-{{options.inputSize || 'default'}}"
 					id="{{id}}"
 					name="{{name}}"
 					autofocus="{{options.autofocus}}"
