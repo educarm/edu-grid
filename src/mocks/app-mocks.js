@@ -1,4 +1,8 @@
-angular.module('e2e-mocks', ['ngMockE2E'])
+angular.module('e2e-mocks', ['ngMockE2E']);
+
+angular.module('app').requires.push('e2e-mocks');
+
+angular.module('e2e-mocks')
 .run(function($httpBackend,$http,$log,$filter,filterFilter) {
     // Do your mock
     var baseApiUrl = 'api/v1';
@@ -183,4 +187,3 @@ angular.module('e2e-mocks', ['ngMockE2E'])
     
   });
  
-angular.module('app').requires.push('e2e-mocks');
