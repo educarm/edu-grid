@@ -109,7 +109,9 @@
 					$scope.updateFields();  
 					$scope.refresh();
 				}
-				
+				$scope.internalControl.clearGrid = function() {
+					$scope.list=[];  				
+				}
 				
 				$scope.internalControl.showOverlayLoading = function(bShow) {
 					$scope.options.showOverlayLoadingGrid=bShow;  
