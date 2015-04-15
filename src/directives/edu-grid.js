@@ -70,8 +70,19 @@
 						$scope.options.showMetaData=false;
 					}
 				}
+											
+				if (!$scope.options.hasOwnProperty('showSearch')){
+					$scope.options.showSearch=true;
+				}
+				
+				if (!$scope.options.hasOwnProperty('showTopSearch')){
+					$scope.options.showTopSearch=true;
+				}
 				
 				
+				if (!$scope.options.hasOwnProperty('showTopAdvancedSearch')){
+					$scope.options.showTopAdvancedSearch=false;
+				}
 				
 			     
 				
@@ -521,7 +532,7 @@
 					//$scope.options.formAvancedSearchResult={};
 				 }
 				 
-				
+				 
 				// ---
                 // ON CANCEL BUTTON FORM AVANCED SEARCH
                 // ---	

@@ -8,9 +8,22 @@
 							  <div class="col-md-1">
 									<a href="" class="btn btn-primary btn-xs" ng-show="options.showExtraButtonTopLeft" ng-click="clickExtraButton()"><span class="glyphicon glyphicon-plus-sign"></span> {{options.snippets.extraButtonTop || 'Nuevo'}}</a>
 							   </div>
-							   <div class="col-md-7"><strong>{{options.heading}}</strong></div>
-							   <div class="col-md-3">
+							   <div class="col-md-3"><strong>{{options.heading}}</strong></div>
+							   <div class="col-md-2">
 								<span ng-show="options.showMetaData">{{options.snippets.showingItems || 'Filas'}} {{options.metaData.offset+1}} - {{(options.metaData.offset+options.metaData.limit > options.metaData.total) ? (options.metaData.total) : (options.metaData.offset + options.metaData.limit)}} {{options.snippets.of || 'de'}} {{options.metaData.total}}</span>	
+							   </div>
+							   <div class="col-md-3" >
+								   <div ng-show="options.showSearch && options.showTopSearch">
+									   <label for="ag_search">{{options.snippets.search || 'Buscar:'}}</label>
+									   <input type="text" class="form-inline" ng-model="searchQuery" ng-change="onChangeSearchQuery()"/>
+									   <!--<a  class="glyphicon glyphicon-search btn-xs"></a>-->
+								   </div>
+							   </div>
+							    <div class="col-md-2" >
+								   <!-- avanced search  -->
+								   <div ng-show="options.showAvancedSearch && options.showTopAdvancedSearch" >
+									   <a class="glyphicon glyphicon-search btn btn-primary btn-sm"  ng-click="onClickAvancedSearch()"> {{options.snippets.avancedSearch || ' Avanzada'}}  </a>
+								   </div>
 							   </div>
 							   <div class="col-md-1">
 								   <a class="glyphicon glyphicon-refresh btn  btn-xs" ng-show="options.showRefreshButton" ng-click="refresh()"></a>
@@ -187,14 +200,14 @@
 									   <a class="glyphicon glyphicon-list-alt  btn-xs"></a>
 								   </div>
 							   </div>
-							   <div class="col-md-3" ng-show="options.showSearch">
+							   <div class="col-md-3" ng-show="options.showSearch && options.showBottomSearch">
 								   <div >
 									   <label for="ag_search">{{options.snippets.search || 'Buscar:'}}</label>
 									   <input type="text" class="form-inline" ng-model="searchQuery" ng-change="onChangeSearchQuery()"/>
 									   <!--<a  class="glyphicon glyphicon-search btn-xs"></a>-->
 								   </div>
 							   </div>
-							   <div class="col-md-2" ng-show="options.showAvancedSearch">
+							   <div class="col-md-2" ng-show="options.showAvancedSearch && options.showBottomAdvancedSearch">
 								   <!-- avanced search  -->
 								   <div >
 									   <a class="glyphicon glyphicon-search btn btn-primary btn-sm"  ng-click="onClickAvancedSearch()"> {{options.snippets.avancedSearch || ' Avanzada'}}  </a>
