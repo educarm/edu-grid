@@ -115,7 +115,7 @@ eduGridDirectives.directive('eduGrid', function () {
           $scope.options.showTopSearch = true;
         }
         if (!$scope.options.hasOwnProperty('showTopAdvancedSearch')) {
-          $scope.options.showTopAdvancedSearch = false;
+          $scope.options.showTopAdvancedSearch = true;
         }
         $scope.currentPage = {
           offset: 0,

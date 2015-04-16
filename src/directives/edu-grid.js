@@ -81,7 +81,7 @@
 				
 				
 				if (!$scope.options.hasOwnProperty('showTopAdvancedSearch')){
-					$scope.options.showTopAdvancedSearch=false;
+					$scope.options.showTopAdvancedSearch=true;
 				}
 				
 			     
