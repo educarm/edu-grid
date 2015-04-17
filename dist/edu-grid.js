@@ -397,7 +397,14 @@ eduGridDirectives.directive('eduGrid', function () {
              //$scope.options.formAvancedSearchResult="";
         };
         setTimeout(function () {
-          $scope.refresh();
+          if (!$scope.options.hasOwnProperty('loadOnInit')) {
+            $scope.refresh();
+          } else if (!$scope.options.loadOnInit) {
+            $scope.list = [];
+            $scope.options.loadOnInit = true;
+          } else {
+            $scope.refresh();
+          }
         }, 500);
         //Inicializa la lista de campos para que funcionen correctamente.
         $scope.updateFields = function () {
