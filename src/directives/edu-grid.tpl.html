@@ -22,11 +22,11 @@
 							    <div class="col-md-2" >
 								   <!-- avanced search  -->
 								   <div ng-show="options.showAvancedSearch && options.showTopAdvancedSearch" >
-									   <a class="glyphicon glyphicon-search btn btn-primary btn-sm"  ng-click="onClickAvancedSearch()"> {{options.snippets.avancedSearch || ' Avanzada'}}  </a>
+									   <a class="glyphicon glyphicon-search btn  btn-sm" ng-class="{'btn-primary':!listFiltered,'btn-danger':listFiltered}"  ng-click="onClickAvancedSearch()"> {{options.snippets.avancedSearch || ' Avanzada'}}  </a>
 								   </div>
 							   </div>
 							   <div class="col-md-1">
-								   <a class="glyphicon glyphicon-refresh btn  btn-xs" ng-show="options.showRefreshButton" ng-click="refresh()"></a>
+								   <a class="glyphicon glyphicon-refresh btn  btn-xs" ng-show="options.showRefreshButton" ng-click="refresh(true)"></a>
 								   <a href="" class="btn btn-primary  btn-xs" ng-show="options.showExtraButtonTopRight" ng-click="clickExtraButton()"><span class="glyphicon glyphicon-plus-sign"></span> {{options.snippets.extraButtonTop || 'Nuevo'}}</a>
 							   </div>
 						   </div>
@@ -210,7 +210,7 @@
 							   <div class="col-md-2" ng-show="options.showAvancedSearch && options.showBottomAdvancedSearch">
 								   <!-- avanced search  -->
 								   <div >
-									   <a class="glyphicon glyphicon-search btn btn-primary btn-sm"  ng-click="onClickAvancedSearch()"> {{options.snippets.avancedSearch || ' Avanzada'}}  </a>
+									   <a class="glyphicon glyphicon-search btn btn-primary btn-sm" ng-class="{'btn-primary':!listFiltered,'btn-danger':listFiltered}"   ng-click="onClickAvancedSearch()"> {{options.snippets.avancedSearch || ' Avanzada'}}  </a>
 								   </div>
 							   </div>
 							  

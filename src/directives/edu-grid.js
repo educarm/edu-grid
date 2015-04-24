@@ -353,8 +353,23 @@
 					});
                 };
                 
-                $scope.refresh=function(){
+                $scope.refresh=function(cleanFilters){
 					var oParams={};
+					/*
+					 * Click on button refresh, clear filters
+					 */
+					if(cleanFilters){
+						//global search
+						 $scope.searchQuery="";;
+						
+						//advanced search
+						 $scope.formAvancedSearchEventsClean();
+						 //color button advanced search to blue
+						 $scope.listFiltered=false;
+					}
+					
+					
+					
 					if ($scope.options.allFieldsGlobalSearch){
 							oParams.filter=(typeof $scope.searchQuery!=='undefined'?$scope.searchQuery.toUpperCase().trim():'');
 					}else {
@@ -366,18 +381,20 @@
 							else {
 								throw new Error('options are required!');
 							}
-						}
+					}
+					
 					if($scope.options.hasOwnProperty("fieldFk") && typeof $scope.options.fieldFk!='undefined' && $scope.options.hasOwnProperty("valueFk") && typeof $scope.options.valueFk!='undefined'){
 						oParams["fieldFk"]=$scope.options.fieldFk;
 						oParams["valueFk"]=$scope.options.valueFk;
 					}
-					if($scope.options.hasOwnProperty("formAvancedSearch") && typeof $scope.options.formAvancedSearchResult!='undefined'){
 					
+					 
+					if($scope.options.hasOwnProperty("formAvancedSearch") && typeof $scope.options.formAvancedSearchResult!='undefined'){
 						for(var key in $scope.options.formAvancedSearchResult){
 							oParams[key]=$scope.options.formAvancedSearchResult[key];
 						}
-						
 					}
+					
 					if ($scope.options.hasOwnProperty('showOverlayWhenLoading') && $scope.options.showOverlayWhenLoading){
 						$scope.options.showOverlayLoadingGrid=true;
 					}
@@ -536,7 +553,9 @@
 					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onFormAvancedSearchContinueClick == 'function'){
                        $scope.options.listListeners.onFormAvancedSearchContinueClick($scope.options.formAvancedSearchResult);
 					}
-					//$scope.options.formAvancedSearchResult={};
+					
+					//color button advanced search to red
+					$scope.listFiltered=true;
 				 }
 				 
 				 
@@ -555,6 +574,8 @@
                 // ON CLEAN BUTTON FORM AVANCED SEARCH
                 // ---	
 				 $scope.formAvancedSearchEventsClean=function(){
+				    //color button advanced search to blue
+					$scope.listFiltered=false;
 					$scope.options.formAvancedSearchResult={};
 					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onFormAvancedSearchCleanClick == 'function'){
                        $scope.options.listListeners.onFormAvancedSearchCleanClick();
