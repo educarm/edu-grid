@@ -173,6 +173,9 @@ eduGridDirectives.directive('eduGrid', function () {
         $scope.internalControl.showButtonsUserPost = function (bShow) {
           $scope.options.showButtonsGridUserPost = bShow;
         };
+        $scope.internalControl.clearSelect = function () {
+          $scope.options.selectionRows = [];
+        };
         // ---
         // ENABLE DESING-ELEMENTS
         // ---
@@ -228,7 +231,7 @@ eduGridDirectives.directive('eduGrid', function () {
           if (typeof clickedEntry !== 'undefined') {
             for (var i = 0; i < $scope.list.length; i++) {
               if ($scope.list[i][$scope.options.fieldKey] == clickedEntry[$scope.options.fieldKey]) {
-                clickedEntry.clicked = true;  //!clickedEntry.clicked;
+                clickedEntry.clicked = true;
               } else {
                 $scope.list[i].clicked = false;
               }
@@ -363,6 +366,8 @@ eduGridDirectives.directive('eduGrid', function () {
             $scope.formAvancedSearchEventsClean();
             //color button advanced search to blue
             $scope.listFiltered = false;
+            //clean array seleccion rows
+            $scope.options.selectionRows = [];
           }
           if ($scope.options.allFieldsGlobalSearch) {
             oParams.filter = typeof $scope.searchQuery !== 'undefined' ? $scope.searchQuery.toUpperCase().trim() : '';
@@ -403,10 +408,7 @@ eduGridDirectives.directive('eduGrid', function () {
           }
           if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onButtonRefreshClick == 'function') {
             $scope.options.listListeners.onButtonRefreshClick($scope.list);
-          }  //CLEAN form field searchQuery
-             //$scope.searchQuery="";
-             //CLEAN formAvancedSearchResult
-             //$scope.options.formAvancedSearchResult="";
+          }
         };
         setTimeout(function () {
           if (!$scope.options.hasOwnProperty('loadOnInit')) {
