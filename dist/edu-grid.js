@@ -173,8 +173,11 @@ eduGridDirectives.directive('eduGrid', function () {
         $scope.internalControl.showButtonsUserPost = function (bShow) {
           $scope.options.showButtonsGridUserPost = bShow;
         };
-        $scope.internalControl.clearSelect = function () {
+        $scope.internalControl.clearSelection = function () {
           $scope.options.selectionRows = [];
+          for (var i = 0; i < $scope.list.length; i++) {
+            $scope.list[i].selected = false;
+          }
         };
         // ---
         // ENABLE DESING-ELEMENTS
