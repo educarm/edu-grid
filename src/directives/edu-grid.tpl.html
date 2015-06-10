@@ -58,7 +58,7 @@
 											<input type="checkbox" name="selectAll" ng-change="changeSelectAllRows(valueCheckSelectAll)" ng-model="valueCheckSelectAll"  />    
 										  --> 
 									   </th>
-									   <th ng-repeat="field in options.listFields" width="{{field.weight}}%" title="Click para ordenar">
+									   <th ng-repeat="field in options.listFields" width="{{field.weight}}%" title="{{field.label}}">
 										   <span ng-show="field.order=='asc'">
 											   <i class="glyphicon glyphicon-sort-by-alphabet"></i>
 											   <a ng-click="changeOrder(field, field.orderByValue, 'desc')">{{field.label}}</a>
