@@ -89,8 +89,8 @@
 								   <tr ng-repeat="entry in list" ng-click="onRowClick(entry)"  >
 									   <!-- row number -->
 									   <td ng-if="options.showRowNumber">
-											<button ng-if="entry.clicked" type="button" class="btn btn-success btn-xs">{{options.metaData.offset+1+$index}}</button>
-											<button ng-if="!entry.clicked" type="button" class="btn btn-primary btn-xs">{{options.metaData.offset+1+$index}}</button>
+											<button ng-show="entry.clicked" type="button" class="btn btn-success btn-xs">{{options.metaData.offset+1+$index}}</button>
+											<button ng-show="!entry.clicked" type="button" class="btn btn-primary btn-xs">{{options.metaData.offset+1+$index}}</button>
 									   </td>
 									   
 									   <!-- buttons pre user -->    
