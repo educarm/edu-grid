@@ -461,17 +461,18 @@ eduGridDirectives.directive('eduGrid', function () {
           if (!row.selected) {
             var bExists = false;
             for (var i = 0; i < $scope.options.selectionRows.length; i++) {
-              if ($scope.options.selectionRows[i] == row[$scope.options.fieldKey]) {
+              if ($scope.options.selectionRows[i][$scope.options.fieldKey] == row[$scope.options.fieldKey]) {
                 bExists = true;
                 break;
               }
             }
             if (!bExists) {
-              $scope.options.selectionRows.push(typeFieldKey == 'text' ? row[$scope.options.fieldKey] + '' : row[$scope.options.fieldKey]);
+              //$scope.options.selectionRows.push((typeFieldKey=='text')?row[$scope.options.fieldKey]+"":row[$scope.options.fieldKey]);
+              $scope.options.selectionRows.push(row);
             }
           } else {
             for (var i = 0; i < $scope.options.selectionRows.length; i++) {
-              if ($scope.options.selectionRows[i] == row[$scope.options.fieldKey]) {
+              if ($scope.options.selectionRows[i][$scope.options.fieldKey] == row[$scope.options.fieldKey]) {
                 $scope.options.selectionRows.splice(i, 1);
                 break;
               }
