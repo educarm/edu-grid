@@ -112,8 +112,8 @@
 				// ---
 				$scope.internalControl = $scope.options.gridControl || {};
 			  
-				$scope.internalControl.refresh = function() {
-					$scope.refresh();  
+				$scope.internalControl.refresh = function(bCleanFilters) {
+					$scope.refresh(bCleanFilters);  
 				}
 				
 				$scope.internalControl.updateFields = function() {
