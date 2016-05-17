@@ -189,7 +189,7 @@ eduGridDirectives.directive('eduGrid', function () {
         // ---
         for (var field in $scope.options.listFields) {
           if ($scope.options.listFields[field].column.toUpperCase() == $scope.options.metaData.orderBy.toUpperCase()) {
-            $scope.options.listFields[field].order = $scope.options.metaData.order;
+            $scope.options.listFields[field].order = $scope.options.metaData.order.toLowerCase();
           }
         }
         ;
