@@ -526,6 +526,7 @@
                 $scope.onChangeItemsPerPage=function(){
 					clearInterval(timerOnChangeItemsPerPage);
 					timerOnChangeItemsPerPage = setInterval(function(){$scope.refresh();clearInterval(timerOnChangeItemsPerPage);}, 750);
+					$scope.options.metaData.offset = 0;
 				};
                 
               

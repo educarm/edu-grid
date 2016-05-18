@@ -499,6 +499,7 @@ eduGridDirectives.directive('eduGrid', function () {
             $scope.refresh();
             clearInterval(timerOnChangeItemsPerPage);
           }, 750);
+          $scope.options.metaData.offset = 0;
         };
         // ---
         // ON SEARCH
