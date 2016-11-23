@@ -14,6 +14,9 @@
                     throw new Error('options are required!');
                 }
 			
+			    edu-form-formAvancedSearchEventsContinue
+			
+			
                 /**
                  * Prepare fields
                  */
