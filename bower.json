@@ -33,7 +33,7 @@
     "angular-ui-bootstrap3": "educarm/angular-ui-bootstrap3#~0.12.0",
     "bootstrap": "educarm/bootstrap#~3.2.0",
     "textAngular": "educarm/textAngular#~1.2.2",
-    "Font-Awesome": "educarm/Font-Awesome#~4.2.0",
+    "Font-Awesome": "educarm/Font-Awesome#~4.7.0",
 	"angular-scrollable-table":"educarm/angular-scrollable-table#~1.0.0",
     "angular-file-upload": "educarm/angular-file-upload#~1.0.2",
 	"edu-field": "educarm/edu-field#~0.0.1"
