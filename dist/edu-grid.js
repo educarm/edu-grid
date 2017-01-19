@@ -179,6 +179,9 @@ eduGridDirectives.directive('eduGrid', function () {
             $scope.list[i].selected = false;
           }
         };
+        $scope.internalControl.clearFormAvancedSearch = function () {
+          $scope.formAvancedSearchEventsClean();
+        };
         // ---
         // ENABLE DESING-ELEMENTS
         // ---

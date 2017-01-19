@@ -163,6 +163,10 @@
 							$scope.list[i].selected=false;
 					}					
 				  }
+				  
+				$scope.internalControl.clearFormAvancedSearch = function() {  
+				  $scope.formAvancedSearchEventsClean();
+				}
 				
 
                 // ---
