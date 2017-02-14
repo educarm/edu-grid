@@ -488,7 +488,7 @@
 				
                 // ON CLICK SELECT ROWS CHECKBOX
 				 $scope.checkSelectRow=function(row){
-					if(!row.selected){
+					if(row.selected){
 						var bExists=false;
 						for( var i=0;i< $scope.options.selectionRows.length;i++){
 							if($scope.options.selectionRows[i][$scope.options.fieldKey]==row[$scope.options.fieldKey]){
