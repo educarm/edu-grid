@@ -417,6 +417,11 @@ eduGridDirectives.directive('eduGrid', function () {
           }
         };
         setTimeout(function () {
+          if ($scope.options.hasOwnProperty('filterOnInit') && typeof $scope.options.filterOnInit != 'undefined') {
+            for (var key in $scope.options.filterOnInit) {
+              $scope.options.formAvancedSearchResult[key] = $scope.options.filterOnInit[key];
+            }
+          }
           if (!$scope.options.hasOwnProperty('loadOnInit')) {
             $scope.refresh();
           } else if (!$scope.options.loadOnInit) {
@@ -461,7 +466,7 @@ eduGridDirectives.directive('eduGrid', function () {
         };
         // ON CLICK SELECT ROWS CHECKBOX
         $scope.checkSelectRow = function (row) {
-          if (!row.selected) {
+          if (row.selected) {
             var bExists = false;
             for (var i = 0; i < $scope.options.selectionRows.length; i++) {
               if ($scope.options.selectionRows[i][$scope.options.fieldKey] == row[$scope.options.fieldKey]) {

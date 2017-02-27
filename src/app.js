@@ -68,7 +68,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
         showPagination: true,  //default true
         showItemsPerPage: true,
 		loadOnInit:true,
-		
+		filterOnInit:{vcodcen:'30009319'},
 		allFieldsGlobalSearch:false,
 		
 		fieldsGlobalSearch:['vdencen','vdomcen'],

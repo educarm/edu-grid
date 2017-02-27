@@ -403,6 +403,7 @@
 						oParams["valueFk"]=$scope.options.valueFk;
 					}
 					
+					
 					 
 					if($scope.options.hasOwnProperty("formAvancedSearch") && typeof $scope.options.formAvancedSearchResult!='undefined'){
 						for(var key in $scope.options.formAvancedSearchResult){
@@ -438,7 +439,14 @@
 					
                 };
 				
-                setTimeout(function(){			
+                setTimeout(function(){		
+				
+                    if($scope.options.hasOwnProperty("filterOnInit") && typeof $scope.options.filterOnInit!='undefined'){
+						for(var key in $scope.options.filterOnInit){
+							$scope.options.formAvancedSearchResult[key]=$scope.options.filterOnInit[key];
+						}
+					}
+					
 					if (!$scope.options.hasOwnProperty('loadOnInit')){
 						$scope.refresh();
 					} else if (!$scope.options.loadOnInit){
@@ -447,6 +455,9 @@
 					} else {
 						$scope.refresh();
 					}
+					
+					
+					
 	            },500);
 				
 				//Inicializa la lista de campos para que funcionen correctamente.
