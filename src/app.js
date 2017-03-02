@@ -5,6 +5,7 @@ var app = angular.module('app', [
 ]);
 
 app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($scope,$http,dataFactoryGrid) {
+	
      $scope.field={key: 'vcodcen',type: 'date',col:'col-md-6',label: 'Código',placeholder: 'Denominación',autofocus:'',required: true }
 										
 	
@@ -100,7 +101,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		fieldKeyLabel:'código',
         height:300,
         listFields: [
-                 {label: 'Código', column: 'vcodcen', weight: '7',type:'text'},
+                 {label: 'Código', column: 'vcodcen', weight: '70',type:'date'},
                  {label: 'Denominación', column: 'vdencen', weight: '50',type:'text'},
                  {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text'},
                  {label: 'Localidad', column: 'vloccen', weight: '10',type:'text'},
@@ -139,9 +140,9 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 				  
               ],
         buttonsUserPost: [
-            {label: 'Ejecutar', class: '', glyphicon: 'flash', button: false, onclick: function (row) {
-                console.log('ejecutar consulta:', row);
-            }}
+           // {label: 'Ejecutar', class: '', glyphicon: 'flash', button: false, onclick: function (row) {
+           //     console.log('ejecutar consulta:', row);
+           // }}
         ],
 		formUser:{
 		    width:'700px',

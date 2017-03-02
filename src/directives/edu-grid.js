@@ -1,5 +1,6 @@
 
- eduGridDirectives.directive('eduGrid', function () {
+ eduGridDirectives
+ .directive('eduGrid', function () {
         return {
             restrict: "A",
             replace: true,
@@ -28,6 +29,8 @@
                         };
                     }
                 }
+				
+				
                
             },
             // ------------------------------------------------------------------------------------------- //
@@ -37,6 +40,11 @@
 				if (!$scope.hasOwnProperty('options')) {
                     throw new Error('options are required!');
                 }
+				
+				
+				
+
+				
 				
 				// ---
 				// SETUP
@@ -608,4 +616,5 @@
 				}	    				
             }
         };
-    });
+    })
+	

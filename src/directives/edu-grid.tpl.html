@@ -33,23 +33,23 @@
 					   <div class="panel-body" >
 					   
 					  <!----> 
-						<div  style="overflow:auto;" > 
+						<div  style="overflow-x:scroll;" > 
 						 <scrollable-table watch="list">
-						   <table class="table table-condensed table-hover table-striped">
+						   <table id="table-grid" class="table table-condensed table-hover table-striped">
 							   <thead>
 								   <tr> 
 									   <!-- space row number-->	
-									   <th ng-if="options.showRowNumber">
+									   <th ng-if="options.showRowNumber" width="5">
 									   
 									   </th>
 									   
 									   <!-- space buttons user pre-->	
-									   <th ng-if="options.showButtonsGridUserPre" ng-repeat="button in options.buttonsUserPre">
+									   <th ng-if="options.showButtonsGridUserPre" ng-repeat="button in options.buttonsUserPre"  width="5">
 									   
 									   </th>
 									   
 									   <!-- check select all -->    
-									   <th ng-if="options.showSelectRow" >
+									   <th ng-if="options.showSelectRow"  width="5">
 										   <!--
 											<label for="selectAll"  style="align:left">
 														{{options.snippets.selectAll || 'Todos'}} 
@@ -57,7 +57,7 @@
 											<input type="checkbox" name="selectAll" ng-change="changeSelectAllRows(valueCheckSelectAll)" ng-model="valueCheckSelectAll"  />    
 										  --> 
 									   </th>
-									   <th ng-repeat="field in options.listFields" width="{{field.weight}}%" title="{{field.label}}">
+									   <th ng-repeat="field in options.listFields" width="{{field.weight}}" title="{{field.label}}">
 										   <span ng-show="field.order=='asc'">
 											   <i class="glyphicon glyphicon-sort-by-alphabet"></i>
 											   <a ng-click="changeOrder(field, field.orderByValue, 'desc')">{{field.label}}</a>
@@ -72,7 +72,7 @@
 									   </th>
 									   
 									   <!-- space buttons user post-->
-									   <th ng-if="options.showButtonsGridUserPost" ng-repeat="button in options.buttonsUserPost">
+									   <th ng-if="options.showButtonsGridUserPost" ng-repeat="button in options.buttonsUserPost"  width="5">
 									   
 									   </th>
 								   </tr>
@@ -125,7 +125,7 @@
 										  {{field.renderer(entry[field.column], entry, field.column,field.type)}}
 										   </div>
 										   <div ng-if="field.type=='date'">
-										   {{entry[field.column] | date:'dd-MM-yyyy'}}
+										   {{entry[field.column] | date:field.format ||'dd/MM/yyyy'}}
 										   </div>
 										   <div ng-if="field.type=='input-checkbox'">
 												<input type="checkbox" ng-model="entry[field.column]" >
