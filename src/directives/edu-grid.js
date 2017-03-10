@@ -596,6 +596,7 @@
                 // ON CANCEL BUTTON FORM AVANCED SEARCH
                 // ---	
 				 $scope.formAvancedSearchEventsCancel=function(){
+					$scope.refresh(true);
 					$scope.options.formAvancedSearchResult={};
 					$scope.showOverlayFormAvancedSearch=false;
 					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onFormAvancedSearchCancelClick == 'function'){
