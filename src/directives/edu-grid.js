@@ -126,13 +126,12 @@
 				$timeout(function() {
 					
 					//*
-					// fixed columns tools
+					// fixed columns tools    
 					//*
 					
 					angular.element('#' + $scope.idGrid+'-table-edu-grid .scrollArea').on('scroll' ,function( evt ) {
 						
 						var pixelsScrolledLeft =angular.element('#' + $scope.idGrid+'-table-edu-grid .scrollArea')[0].scrollLeft;
-						
 							var objs1=angular.element('#' + $scope.idGrid+'-table-edu-grid .scrollArea thead tr th.preFixedColumn');
 							var pos=0;
 							for(var i=0;i<objs1.length;i++){

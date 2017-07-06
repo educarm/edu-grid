@@ -145,7 +145,7 @@ eduGridDirectives.directive('mySortable', function () {
         objsEduGrid.attr('id', $scope.idGrid + '-table-edu-grid');
         $timeout(function () {
           //*
-          // fixed columns tools
+          // fixed columns tools    
           //*
           angular.element('#' + $scope.idGrid + '-table-edu-grid .scrollArea').on('scroll', function (evt) {
             var pixelsScrolledLeft = angular.element('#' + $scope.idGrid + '-table-edu-grid .scrollArea')[0].scrollLeft;
