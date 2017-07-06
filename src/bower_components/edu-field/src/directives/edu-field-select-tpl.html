@@ -4,11 +4,11 @@
 		{{options.label}}
 		{{options.required ? '*' : ''}}
 	</label>
-	<select 
+	<select ng-class="{'loadinggif':options.loading}"
 			class="form-control input-{{options.inputSize}}"
 			id="{{id}}"
-			autofocus="{{options.autofocus}}"
-			dependent-control="{{options.dependentControl}}"
+			autofocus="options.autofocus"
+			dependent-control="options.dependentControl"
 			ng-blur="onBlur()"
 			ng-focus="onFocus()"
 			ng-change="onChange()"
@@ -17,7 +17,11 @@
 			ng-disabled="options.disabled"
 			ng-init="value = options.options[options.default]"
 			ng-options="option.value as option.name for option in optionsSelect">
+		 
+		<option value="">{{options.emptyOptionText}}</option> 
+                 
 	</select>
+	
 	<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
 				<small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca un valor</small>
 				<small class="error" ng-show="$invalidMinlength">Debe tener al menos {{options.min}} caracteres</small>

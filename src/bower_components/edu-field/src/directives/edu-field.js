@@ -1,4 +1,177 @@
 'use strict';
+/*eduFieldDirectives.directive('validDate', function () {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, element, attrs, control) {
+            control.$parsers.push(function (viewValue) {
+                var newDate = model.$viewValue;
+                control.$setValidity("invalidDate", true);  
+                if (typeof newDate === "object" || newDate == "") return newDate;  // pass through if we clicked date from popup
+                if (!newDate.match(/^\d{1,2}\/\d{1,2}\/((\d{2})|(\d{4}))$/))
+                    control.$setValidity("invalidDate", false);
+                return viewValue;
+            });
+        }
+    };
+})*/
+eduFieldDirectives.directive("validateIban",function($compile){
+		return {
+			restrict:"A",
+			require: 'ngModel',
+			//priority:1000,
+			link: function(scope, elm, attrs, ctrl) {
+				function myValidation(value) {
+					/*if (value.indexOf("e") > -1) {
+					  ctrl.$setValidity('charE', true);
+					} else {
+					  ctrl.$setValidity('charE', false);
+					}*/
+					
+					//---------------------------------------
+					var prefId=attrs.id.substring(0,attrs.id.indexOf("-"));
+				  
+				  var pais=angular.element("input#"+prefId+"-pais");
+				  var entidad=angular.element("input#"+prefId+"-entidad");
+				  var oficina=angular.element("input#"+prefId+"-oficina");
+				  var control2=angular.element("input#"+prefId+"-control2");
+				  var cuenta=angular.element("input#"+prefId+"-cuenta");
+				  
+				  var iban=pais.val()+entidad.val()+oficina.val()+control2.val()+cuenta.val();
+				  
+				  
+				  var valid=false;
+				  
+				  if(!pais.attr('class') && !entidad.attr('class') && !oficina.attr('class') && !control2.attr('class') && !cuenta.attr('class')){
+					valid=true;  
+				  } 
+				
+				  
+				  
+				  if(attrs.name==pais.attr("name")){
+					
+					if(pais.val().length==pais.attr("maxlength")){
+						valid=true;
+						entidad.focus();
+					}
+				  }else if(attrs.name==entidad.attr("name")){
+					
+					if(entidad.val().length==entidad.attr("maxlength")){
+						valid=true;
+						oficina.focus();
+					}
+					  
+				  }else if(attrs.name==oficina.attr("name")){
+					
+					if(oficina.val().length==oficina.attr("maxlength")){
+						valid=true;
+						control2.focus();
+					}
+					  
+				  }else if(attrs.name==control2.attr("name")){
+					if(control2.val().length==control2.attr("maxlength")){
+						valid=true;
+						cuenta.focus();
+					}
+					
+					  
+				  }else if(attrs.name==cuenta.attr("name")){
+					  
+					  //if(cuenta.val().length==cuenta.attr("maxlength")){
+						 valid=IBAN.isValid(iban);
+						 ctrl.$setValidity('validateIban', valid);
+						 return iban;
+					  //}
+				  }
+					
+				  
+					
+					
+					return value;
+				}
+				ctrl.$parsers.push(myValidation);
+				
+			 /* ctrl.$validators.validateIban = function(modelValue, viewValue) {
+				 if(modelValue && viewValue){ 
+				  
+				  var prefId=attrs.id.substring(0,attrs.id.indexOf("-"));
+				  
+				  var pais=angular.element("input#"+prefId+"-pais");
+				  var entidad=angular.element("input#"+prefId+"-entidad");
+				  var oficina=angular.element("input#"+prefId+"-oficina");
+				  var control2=angular.element("input#"+prefId+"-control2");
+				  var cuenta=angular.element("input#"+prefId+"-cuenta");
+				  
+				  var iban=pais.val()+entidad.val()+oficina.val()+control2.val()+cuenta.val();
+				  
+				  
+				  var valid=IBAN.isValid(iban);
+				  
+				  if(!pais.attr('class') && !entidad.attr('class') && !oficina.attr('class') && !control2.attr('class') && !cuenta.attr('class')){
+					valid=true;  
+				  } 
+				  var a=pais.attr('class');
+				  console.log(prefId + " class:" +a);
+				  
+				  if(attrs.name==pais.attr("name")){
+					if (valid) {
+						//scope.border={"border-color":"#3c763d"};  
+					}else{
+						//scope.border={"border-color":"#a94442"};
+					}
+					if(pais.val().length==pais.attr("maxlength")){
+						entidad.focus();
+					}
+				  }else if(attrs.name==entidad.attr("name")){
+					if (valid) {
+						//scope.border={"border-color":"#3c763d"};  
+					}else{
+						//scope.border={"border-color":"#a94442"};
+					}
+					if(entidad.val().length==entidad.attr("maxlength")){
+						oficina.focus();
+					}
+					  
+				  }else if(attrs.name==oficina.attr("name")){
+					if (valid) {
+						//scope.border={"border-color":"#3c763d"};  
+					}else{
+						//scope.border={"border-color":"#a94442"};
+					}
+					if(oficina.val().length==oficina.attr("maxlength")){
+						control2.focus();
+					}
+					  
+				  }else if(attrs.name==control2.attr("name")){
+					if(control2.val().length==control2.attr("maxlength")){
+						  cuenta.focus();
+					}
+					if (valid) {
+						//scope.border={"border-color":"#3c763d"};  
+					}else{
+						//scope.border={"border-color":"#a94442"};
+					}
+					  
+				  }else if(attrs.name==cuenta.attr("name")){
+					  if(cuenta.val().length==cuenta.attr("maxlength")){
+						if (valid) {
+							//scope.border={"border-color":"#3c763d"};  
+						}else{
+							//scope.border={"border-color":"#a94442"};
+						}
+					  }
+				  }
+				  
+				//scope.border={"border-color":"#66afe9"};  
+				//return true;
+				return valid; 
+
+			  };
+			 }
+			 */
+			}
+		};
+	});
 
 eduFieldDirectives.directive("dynamicName",function($compile){
     return {
@@ -72,11 +245,17 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 			case 'upload':
 				templateUrl = 'directives/edu-field-upload-tpl.html';
 				break;
+			case 'upload15x':
+				templateUrl = 'directives/edu-field-upload15x-tpl.html';
+				break;
 		    case 'nifniecif':
 				templateUrl = 'directives/edu-field-nifniecif-tpl.html';
 				break;
 			case 'iban':
 				templateUrl = 'directives/edu-field-iban-tpl.html';
+				break;
+			case 'iban2':
+				templateUrl = 'directives/edu-field-iban2-tpl.html';
 				break;
 			case 'autocomplete':
 				templateUrl = 'directives/edu-field-autocomplete-tpl.html';
@@ -99,8 +278,11 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 			case 'month':
 				templateUrl = 'directives/edu-field-month-tpl.html';
 				break;
-			case 'date':
+			case 'date<13':
 				templateUrl = 'directives/edu-field-date-tpl.html';
+				break;
+			case 'date':
+				templateUrl = 'directives/edu-field-date-ag-ui-tpl.html';
 				break;
 			case 'date-time':
 				templateUrl = 'directives/edu-field-date-time-tpl.html';
@@ -139,7 +321,98 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 
 		return templateUrl;
 	};
-	
+	var getStringPattern = function(type) {
+		var stringPattern = '';
+
+		switch(type) {
+		    case 'textbutton':
+				stringPattern = '';
+				break;
+			case 'button':
+				stringPattern = '';
+				break;
+			case 'hidden':
+				stringPattern = '';
+				break;
+			case 'literal':
+				stringPattern = '';
+				break;
+			case 'upload':
+				stringPattern = '';
+				break;
+			case 'upload15x':
+				stringPattern = '';
+				break;
+		    case 'nifniecif':
+				stringPattern = '';
+				break;
+			case 'iban':
+				stringPattern = '';
+				break;
+			case 'autocomplete':
+				stringPattern = '';
+				break;
+			case 'range':
+				stringPattern = '';
+				break;
+			case 'textedit':
+				stringPattern = '';
+				break;
+			case 'url':
+				stringPattern = '';
+				break;
+			case 'time':
+				stringPattern = '';
+				break;
+			case 'week':
+				stringPattern = '';
+				break;
+			case 'month':
+				stringPattern = '^(19|20)\d\d[- \/](0[1-9]|1[012])$';
+				break;
+			case 'date<13':
+				stringPattern = '';
+				break;
+			case 'date':
+				stringPattern = '';
+				break;
+			case 'date-time':
+				stringPattern = '';
+				break;
+			case 'textarea':
+				stringPattern = '';
+				break;
+			case 'radio':
+				stringPattern = '';
+				break;
+			case 'select':
+				stringPattern = '';
+				break;
+			case 'number':
+				stringPattern = '^-?[0-9]+$';
+				break;
+			case 'checkbox':
+				stringPattern = '';
+				break;
+			case 'password' :
+				stringPattern = '';
+				break;
+			case 'hidden' :
+				stringPattern = '';
+				break;
+			case 'email':
+				stringPattern = "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+(?:[A-Z]{2}|es|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\b$";
+				break;
+			case 'text':
+				stringPattern = '';
+				break;
+			default :
+				stringPattern = '';
+				break;
+		}
+
+		return stringPattern;
+	};
 	return {
 		restrict: 'AE',
 		transclude: true,
@@ -154,13 +427,16 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
         // -------------------------------------------------- //
 		
 		
-		link: function fieldLink($scope, $element, $attr,ctrl) {
+		link: function fieldLink($scope, $element, $attr) {
+			
 			if (!$scope.hasOwnProperty('options')) {
 				throw new Error('options are required!');
             }
 			
+			
 		    // load the correct template
 			var templateUrl = $scope.options.templateUrl || getTemplateUrl($scope.options.type);
+			
 			if (templateUrl) {
 				$http.get(templateUrl, {
 					cache: $templateCache
@@ -191,9 +467,32 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 					$scope.options.fieldListeners.onClick($scope.value);
 				}
 			}
-			$scope.onChange=function() {
+			$scope.onChange=function(subitem) {
+				
+				
 				if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChange == 'function'){
-					$scope.options.fieldListeners.onChange($scope.value);
+					var item={};
+					var value="";
+					if($scope.options.type=='select'){
+						for(var i=0;i<$scope.optionsSelect.length;i++){
+							if($scope.optionsSelect[i][$scope.options.optionvalue]==$scope.value){
+								item=$scope.optionsSelect[i];
+								value=$scope.value;
+								break;
+							}
+						}
+					}else if($scope.options.type=='iban2'){
+						value=$scope.value[subitem];
+						item=subitem;
+						
+					}
+					$scope.options.fieldListeners.onChange(value,item);
+				}
+			}
+			
+			$scope.onKeypress=function($event) {
+				if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onKeypress == 'function'){
+					$scope.options.fieldListeners.onKeypress($event);
 				}
 			}
 			
@@ -208,13 +507,24 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				}
 			}
 			
-			$scope.onFocus=function() {
+			$scope.onFocus=function(subitem) {
+				var item="";
+				var value="";
 				if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onFocus == 'function'){
-					$scope.options.fieldListeners.onFocus($scope.value);
+					if($scope.options.type=='iban'){
+						value=($scope.value)?$scope.value[subitem]:'';
+						item=subitem;
+					}else{
+						value=$scope.value;
+						
+					}
+					$scope.options.fieldListeners.onFocus(value,item);
 				}
 			}
 			
-			$scope.onBlur=function() {
+			$scope.onBlur=function(subitem) {
+				var item="";
+				var value="";
 				var elementClass=$element.find("[id^='"+$scope.id+"']").attr('class');
 				$element.find("[id^='"+$scope.id+"']").attr('blur',true);
 				if(typeof elementClass!=="undefined"){
@@ -238,7 +548,14 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				}
 				
 				if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onBlur == 'function'){
-					$scope.options.fieldListeners.onBlur($scope.value);
+					if($scope.options.type=='iban'){
+						value=($scope.value)?$scope.value[subitem]:'';
+						item=subitem;
+					}else{
+						value=($scope.value)?$scope.value:'';
+					}
+					
+					$scope.options.fieldListeners.onBlur(value,item);
 				}
 				
 			}	
@@ -252,7 +569,7 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 		
 		
 		
-		controller: function fieldController($scope,FileUploader) {
+		controller: function fieldController($scope,Upload,FileUploader) {
 			
 			// component control
 			$scope.options.fieldControl={};
@@ -264,18 +581,40 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 			// ---  
 			$scope.internalControl.upload = function(idxFile) {
 				console.log("llamada a file upload file:"+idxFile);
-				if($scope.options.type="upload"){
+				if($scope.options.type=="upload"){
 					$scope.uploader.queue[idxFile-1].upload();
 				}
+				if($scope.options.type=="upload15x"){
+					$scope.ngfupload();
+				}
 			}
+			$scope.internalControl.filesInQueue = function() {
+				
+				if($scope.options.type=="upload"){
+					return $scope.uploader.queue.length;
+				}else{
+					return 0;
+				}
+			}
+			
+			$scope.internalControl.clearQueue = function() {
+				
+				if($scope.options.type=="upload"){
+					return $scope.uploader.clearQueue();
+				}else{
+					return 0;
+				}
+			}
+			
+			
 			$scope.internalControl.refresh = function(value) {
-				if($scope.options.type="select"){
+				if($scope.options.type=="select"){
 					$scope.refreshSelect(value);
 				}
 			}
 			
 			$scope.internalControl.clean = function(value) {
-				if($scope.options.type="select"){
+				if($scope.options.type=="select"){
 					$scope.optionsSelect=[];
 				}
 			}
@@ -283,6 +622,45 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 			if (!$scope.options.hasOwnProperty('loadOnInit')&&$scope.options.type=='select'){
 				$scope.options.loadOnInit=true;
 			}
+			
+			//apply pattern to types. For fix change to 1.5.x
+			$scope.pattern_validator = (function() {
+				var regexp = '';
+				if($scope.options.hasOwnProperty("pattern")){
+					regexp=$scope.options.pattern;
+					if(regexp.substr(0,1)=='/'){
+						regexp=regexp.substr(1);
+					}
+					if(regexp.substr(regexp.length-1,1)=='/'){
+						regexp=regexp.substr(0,regexp.length-1);
+					}
+					
+				}else{
+					regexp=getStringPattern($scope.options.type);
+				}
+				return regexp;
+			})();
+			
+			//Especific validator
+			
+			// ---
+			// CONTROL TYPE= date
+		    // ---
+			if($scope.options.type=='date'){
+				$scope.options.dateOptions= {
+										"startingDay": 1,
+										"showWeeks":false
+									};
+									
+			    $scope.internalControl.showCalendar = function($event) {
+					$event.preventDefault();
+					$event.stopPropagation();
+					$scope.options.showPopupCalendar=true;
+				};
+			}
+			
+			
+			
 			// ---
 			// CONTROL TYPE= iban
 		    // ---
@@ -323,6 +701,45 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				};
 			})();
 			
+			
+			// ---
+			// CONTROL TYPE= uploader15x -- plugin ng-file-upload
+		    // ---
+			$scope.ngfselect=function(file){
+				if(file){
+					$scope.value=file.$ngfName || file.name;
+					if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onAfterAddingFile == 'function'){
+					$scope.options.fieldListeners.onAfterAddingFile(file);
+			  }
+				}
+			}
+			$scope.uploading=false;
+			$scope.ngfupload=function(){
+				$scope.uploading=true;
+				if($scope.file){
+					Upload.upload({
+						url: $scope.options.url,
+						data: {file: $scope.file}
+					}).then(function (resp) {
+						$scope.uploading=false;
+						if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onSuccessItem == 'function'){
+							$scope.options.fieldListeners.onSuccessItem(resp.config.data.file,resp);
+						}
+					}, function (resp) {
+						$scope.uploading=false;
+						if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onErrorItem == 'function'){
+							$scope.options.fieldListeners.onErrorItem(resp.status);
+						}
+					}, function (evt) {
+						$scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+						if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onProgressItem == 'function'){
+							$scope.options.fieldListeners.onProgressItem($scope.progressPercentage,evt.config.data.file.name);
+						}
+					});
+				}
+			}
+			
+			
 			// ---
 			// CONTROL TYPE= uploader
 		    // ---
@@ -349,6 +766,7 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 					}
 				};
 				uploader.onAfterAddingFile = function(fileItem) {
+					$scope.value=uploader.queue[0]._file.name
 					if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onAfterAddingFile == 'function'){
 						$scope.options.fieldListeners.onAfterAddingFile(fileItem);
 					}
@@ -413,6 +831,7 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
               $http.get(sUrl).success(function (data, status, headers, config) {
                 $scope.optionsSelect = data;
                 for (var i = 0; i < $scope.optionsSelect.length; i++) {
+				 			  
                   if (!$scope.optionsSelect[i].hasOwnProperty('value')) {
                     $scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
                   }
@@ -422,8 +841,8 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
                     } else {
                       $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
                     }
-                    delete $scope.optionsSelect[i][$scope.options.optionname];
-                    delete $scope.optionsSelect[i][$scope.options.optionvalue];
+                    //delete $scope.optionsSelect[i][$scope.options.optionname];
+                    //delete $scope.optionsSelect[i][$scope.options.optionvalue];
                   } else {
                     if ($scope.options.selectconcatvaluename) {
                       $scope.optionsSelect[i].name = $scope.optionsSelect[i]['value'] + ' - ' + $scope.optionsSelect[i]['name'];
@@ -476,8 +895,8 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
                       } else {
                         $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionname];
                       }
-                      delete $scope.optionsSelect[i][$scope.options.optionname];
-                      delete $scope.optionsSelect[i][$scope.options.optionvalue];
+                      //delete $scope.optionsSelect[i][$scope.options.optionname];
+                      //delete $scope.optionsSelect[i][$scope.options.optionvalue];
                     } else {
                       if ($scope.options.selectconcatvaluename) {
                         $scope.optionsSelect[i].name = $scope.optionsSelect[i]['value'] + ' - ' + $scope.optionsSelect[i]['name'];

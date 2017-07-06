@@ -1,13 +1,13 @@
 <div class="checkbox  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative"><!--ng-required="{{options.required}}"-->
-	<label>
+	<label style="margin-top:20px;margin-bottom:20px">
 		<input type="checkbox"
 			id="{{id}}"
 			name="name"
 			
-			autofocus="{{options.autofocus}}"
+			autofocus="options.autofocus"
 			ng-false-value="'N'"
 			ng-true-value="'S'"
-			ng-disabled="{{options.disabled}}"
+			ng-disabled="options.disabled"
 			ng-model="value"
 			ng-blur="onBlur()"
 			ng-focus="onFocus()"

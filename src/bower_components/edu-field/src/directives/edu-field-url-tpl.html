@@ -11,12 +11,12 @@
 		   ng-blur="onBlur()"
 		   ng-focus="onFocus()"
 		   ng-change="onChange()"
-		   autofocus="{{options.autofocus}}"
-		   ng-required="{{options.required}}"
-		   ng-disabled="{{options.disabled}}"
+		   autofocus="options.autofocus"
+		   ng-required="options.required"
+		   ng-disabled="options.disabled"
 		   ng-pattern="/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/"
-		   ng-minlength="{{options.min}}"
-           ng-maxlength="{{options.max}}"
+		   ng-minlength="options.min"
+           ng-maxlength="options.max"
 		   ng-model="value">
 		 
 		 <div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">

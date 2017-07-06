@@ -1,25 +1,75 @@
 <div>	 
+  <style>
+	.nowrap_overflow_hidden_ellipsis{
+		white-space: nowrap;
+        overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	.table_layout_fixed{
+		table-layout:fixed;
+	}
+	
+	.table_layout_auto{
+		table-layout:auto;
+	}
+	.wrapper-table-edu-grid .glyphicon.glyphicon-triangle-bottom {
+		font-size: 8px;
+    }
+	.wrapper-table-edu-grid .glyphicon.glyphicon-triangle-top {
+		font-size: 8px;
+    }
+	
+	.wrapper-table-edu-grid .glyphicon.glyphicon-chevron-left {
+		font-size: 8px;
+    }
+	.wrapper-table-edu-grid .glyphicon.glyphicon-chevron-right {
+		font-size: 8px;
+    }
+	.wrapper-table-edu-grid .glyphicon.glyphicon-sort-by-alphabet {
+		font-size: 12px;
+    }
+	.wrapper-table-edu-grid .glyphicon.glyphicon-sort-by-alphabet-alt {
+		font-size: 12px;
+    }
+	
+	.scrollArea table th .box {
+		padding: 0 0px;
+		padding-right: 0px;
+		border-left: 1px solid #ddd;
+		
+    }
+	
+	
+	
+  </style>
+  
+  
 	<div class="box-edu-grid">
 		<div class="panel panel-{{options.metaData.panelType}}">
 					   <div class="panel-heading" ng-show="showHeadingBar" >
 						   <div class="row" >
 							
 							  <div class="col-md-1">
-									<a href="" class="btn btn-primary btn-xs" ng-show="options.showExtraButtonTopLeft" ng-click="clickExtraButton()"><span class="glyphicon glyphicon-plus-sign"></span> {{options.snippets.extraButtonTop || 'Nuevo'}}</a>
+									<a href="" class="btn btn-primary btn-xs" ng-show="options.showExtraButtonTopLeft" ng-click="clickExtraButton()"><span class="glyphicon glyphicon-{{options.iconExtraButtonTopLeft || 'plus-sign'}}"></span> {{options.snippets.extraButtonTop || 'Nuevo'}}</a>
 							   </div>
 							   <div class="col-md-3"><strong>{{options.heading}}</strong></div>
 							   <div class="col-md-2">
 								<span ng-show="options.showMetaData">{{options.snippets.showingItems || 'Filas'}} {{options.metaData.offset+1}} - {{(options.metaData.offset+options.metaData.limit > options.metaData.total) ? (options.metaData.total) : (options.metaData.offset + options.metaData.limit)}} {{options.snippets.of || 'de'}} {{options.metaData.total}}</span>	
 							   </div>
-							   <div class="col-md-3" >
+							   
+							    <!-- global search -->
+							    <div class="col-md-3" >
 								   <div ng-show="options.showSearch && options.showTopSearch">
 									   <label for="ag_search">{{options.snippets.search || 'Buscar:'}}</label>
 									   <input type="text" class="form-inline" ng-model="searchQuery" ng-change="onChangeSearchQuery()"/>
 									   <!--<a  class="glyphicon glyphicon-search btn-xs"></a>-->
 								   </div>
-							   </div>
+							    </div>
+								
+							     <!-- avanced search  -->
 							    <div class="col-md-2" >
-								   <!-- avanced search  -->
+								  
 								   <div ng-show="options.showAvancedSearch && options.showTopAdvancedSearch && !options.showAdvancedSearchInHeader" >
 									   <a class="btn  btn-sm" ng-class="{'btn-primary':!listFiltered,'btn-danger':listFiltered}"  ng-click="onClickAvancedSearch()"><i class="glyphicon glyphicon-search"></i> {{options.snippets.avancedSearch || ' Avanzada'}}  </a>
 								   </div>
@@ -42,34 +92,35 @@
 								</fieldset>	
 						   </div>
 						   <div ng-if="options.showAdvancedSearchInHeader" class="row">
-							<div class="col-md-offset-9 col-md-3">  
-								<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="formAvancedSearch.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Buscar'}}</button> 
-								<button ng-click="formAvancedSearchEventsCancel()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || 'Cancelar'}}</button> 
-								<button ng-click="formAvancedSearchEventsClean()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || 'Limpiar'}}</button>
-							</div> 
-						</div>
+								<div class="col-md-offset-9 col-md-3">  
+									<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="formAvancedSearch.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Buscar'}}</button> 
+									<!--<button ng-click="formAvancedSearchEventsCancel()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || 'Cancelar'}}</button> -->
+									<button ng-click="formAvancedSearchEventsClean()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || 'Limpiar'}}</button>
+								</div> 
+							</div>
 						   
-					   </div>
-					   <div class="panel-body" >
+					    </div>
+					    <div class="panel-body" >
 					   
-					  <!----> 
-						<div  style="overflow-x:scroll;" > 
-						 <scrollable-table watch="list">
-						   <table id="table-grid" class="table table-condensed table-hover table-striped">
+					    <!-- grid --> 
+						<div  style="overflow-x:scroll;" id="{{idGrid}}-table-edu-grid" class="wrapper-table-edu-grid"> 
+						
+						<scrollable-table watch="list">
+						   <table id="table-grid" class="table table-condensed table-hover table-striped"   ng-class="{'table-bordered':options.tableBordered,'table_layout_fixed':options.table_layout_fixed, 'table_layout_auto':!options.table_layout_fixed}" >
 							   <thead>
 								   <tr> 
 									   <!-- space row number-->	
-									   <th ng-if="options.showRowNumber" width="5">
+									   <th ng-if="options.showRowNumber" width="5" title="&nbsp" class="preFixedColumn">
 									   
 									   </th>
 									   
 									   <!-- space buttons user pre-->	
-									   <th ng-if="options.showButtonsGridUserPre" ng-repeat="button in options.buttonsUserPre"  width="5">
+									   <th ng-if="options.showButtonsGridUserPre" ng-repeat="button in options.buttonsUserPre"  width="5"  title="&nbsp" class="preFixedColumn">
 									   
 									   </th>
 									   
 									   <!-- check select all -->    
-									   <th ng-if="options.showSelectRow"  width="5">
+									   <th ng-if="options.showSelectRow"  width="5" title="&nbsp" class="preFixedColumn">
 										   <!--
 											<label for="selectAll"  style="align:left">
 														{{options.snippets.selectAll || 'Todos'}} 
@@ -77,18 +128,56 @@
 											<input type="checkbox" name="selectAll" ng-change="changeSelectAllRows(valueCheckSelectAll)" ng-model="valueCheckSelectAll"  />    
 										  --> 
 									   </th>
-									   <th ng-repeat="field in options.listFields" width="{{field.weight}}" title="{{field.label}}">
-										   <span ng-show="field.order=='asc'">
-											   <i class="glyphicon glyphicon-sort-by-alphabet"></i>
-											   <a ng-click="changeOrder(field, field.orderByValue, 'desc')">{{field.label}}</a>
-										   </span>
-										   <span ng-show="field.order=='desc'">
-											   <i class="glyphicon glyphicon-sort-by-alphabet-alt"></i>
-											   <a ng-click="changeOrder(field, field.orderByValue, 'asc')">{{field.label}}</a>
-										   </span>
-										   <span ng-hide="field.order.length>0">
-											   <a ng-click="changeOrder(field, field.orderByValue, 'desc')">{{field.label}}</a>
-										   </span>
+									   <th ng-repeat="field in options.listFields" class="noFixedColumn droptarget " width="{{field.weight}}%" title="&nbsp" style="text-align: center" id="{{$index}}">
+									         
+										<!--div class="box" -->	   
+										 <div class="col-resizable">
+										    <table  width="100%">  <!-- style="border: 2px solid red;" -->
+											 <tr>
+                                              <td>											 
+												<table width="100%" border="0"   class="dragtarget" id="{{$index}}" draggable="true"> <!-- style="table-layout: fixed;"-->
+													<tr>
+														
+														<td width="13px">
+														   <span class="header-column" title="Mover columna a la izquierda">
+															   <a ng-click="changeColumnOrder($index-1, $index)"><i class="glyphicon glyphicon-chevron-left"></i></a>
+														   </span>
+														</td>
+														<td  style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis; ">
+															<span  ng-click="changeOrder(field, field.orderByValue, 'desc')" ng-show="field.order=='asc'" class="header-column"  title="Ordenar por {{field.label}}">
+															   <i class="glyphicon glyphicon-sort-by-alphabet"></i>
+															   <a>&nbsp{{field.label}}</a>
+														   </span>
+														   <span  ng-click="changeOrder(field, field.orderByValue, 'asc')" ng-show="field.order=='desc'" class="header-column" title="Ordenar por {{field.label}}">
+															   <i class="glyphicon glyphicon-sort-by-alphabet-alt"></i>
+															   <a>&nbsp{{field.label}}</a>
+														   </span>
+														   <span ng-click="changeOrder(field, field.orderByValue, 'desc')" ng-hide="field.order.length>0" class="header-column" title="Ordenar por {{field.label}}">
+															   <a>&nbsp{{field.label}}</a>
+														   </span>
+														</td>
+														<td  width="15px">
+														   <span class="header-column" title="Mover columna a la derecha">
+															   <a ng-click="changeColumnOrder($index+1, $index)"><i class="glyphicon glyphicon-chevron-right"></i></a>
+														   </span>
+														</td>
+														
+													</tr>
+												</table>
+											  </td>
+											  <td width="0px">
+												<table>
+													<tr>
+														<td class="resizable" id="{{$index}}" style="height:30px;border: 0px solid #ddd;cursor: col-resize;background-color:#ddd">
+															
+														</td>
+													</tr>
+												</table>
+											  </td>
+											 </tr>	
+											</table>
+										</div>
+											   
 									   </th>
 									   
 									   <!-- space buttons user post-->
@@ -106,14 +195,14 @@
 								   </tr>
 								 
 								   <tr ng-repeat="entry in list" ng-click="onRowClick(entry)"  >
-									   <!-- row number -->
-									   <td ng-if="options.showRowNumber">
+									   <!-- row number  ng-style="styleLeft"-->
+									   <td ng-if="options.showRowNumber"    class="preFixedColumn">
 											<button ng-show="entry.clicked" type="button" class="btn btn-success btn-xs">{{options.metaData.offset+1+$index}}</button>
 											<button ng-show="!entry.clicked" type="button" class="btn btn-primary btn-xs">{{options.metaData.offset+1+$index}}</button>
 									   </td>
 									   
 									   <!-- buttons pre user -->    
-									   <td ng-if="options.showButtonsGridUserPre" ng-repeat="button in options.buttonsUserPre">
+									   <td ng-if="options.showButtonsGridUserPre" ng-repeat="button in options.buttonsUserPre"  class="preFixedColumn">
 										   <div ng-if="!button.button">
 											   <div ng-if="button.glyphicon.length>0"  >
 												   <a class="btn btn-xs" ng-click="handleButtonClick(button.onclick, entry)"  ng-disabled="button.disabled(entry)">
@@ -131,13 +220,13 @@
 										   </button>
 									   </td>
 									   <!-- select column -->    
-									   <td ng-if="options.showSelectRow" >
+									   <td ng-if="options.showSelectRow" class="preFixedColumn" >
 										   
 										   <input type="checkbox" ng-click="checkSelectRow(entry)" ng-model="entry.selected" />
 											   
 									   </td>
 									   <!-- fields -->
-									   <td ng-repeat="field in options.listFields" ng-click="onRowClick()">
+									   <td ng-repeat="field in options.listFields" ng-click="onRowClick()" ng-class="{'nowrap_overflow_hidden_ellipsis':options.overflow_hidden}">
 										   <div ng-if="field.type!='number' && field.type!='date' && field.type!='date-time'  && field.type!='input-checkbox' && field.type!='input-text' && field.type!='input-date' && field.type!='input-select' && field.type!='input-radio'">
 										   {{field.renderer(entry[field.column], entry, field.column,field.type)}}
 										   </div>
@@ -299,8 +388,8 @@
 					<div class="panel-footer" >
 					   <div class="row">
 							<div class="col-md-offset-3 col-md-9">  
-								<button ng-click="options.formUser.events.continue(selectedRow)" ng-disabled="formUser.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formUserButtonContinue || 'Aceptar'}}</button> 
-								<button ng-click="options.formUser.events.cancel()" class="btn btn-sm">{{options.snippets.formUserButtonCancel || 'Cancelar'}}</button> 
+								<button ng-click="formUserOnContinue(options.formUser.result)" ng-disabled="formUser.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formUserButtonContinue || 'Aceptar'}}</button> 
+								<button ng-click="formUserOnCancel()" class="btn btn-sm">{{options.snippets.formUserButtonCancel || 'Cancelar'}}</button> 
 							</div> 
 						</div>
 					</div>

@@ -1,3 +1,30 @@
+
+/*.preFixedColumn{
+	'background-color': grey;
+	'position': relative;
+}
+*/
+
+.preFixedcolumn{
+	         background-color: #efefef !important;
+			 
+	}
+span.header-column>a{
+	cursor:pointer !important;
+}
+
+span.header-column>i{
+	cursor:pointer !important;
+}
+span.header-column>a:hover{
+	text-decoration: none !important;
+}
+
+span.header-column>a:focus{
+	text-decoration: none !important;
+}
+
+
 fieldset.avancedSearch {
     border: 1px groove white !important;
 	
@@ -7,7 +34,7 @@ fieldset.avancedSearch {
     box-shadow:  0px 0px 0px 0px #000		
 }
 fieldset legend{
-	width:2% !important;
+	width:100% !important;
 	margin-bottom: 0px !important;
 	
 }

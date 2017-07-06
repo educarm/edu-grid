@@ -1,7 +1,7 @@
 <div class="form-group   {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
 	<label for="{{id}}">
 		{{options.label}}
-		{{options.required ? '*' : ''}}
+		{{options.required ? '*' : ''}} 
 	</label>
 	
 		
@@ -10,16 +10,18 @@
 			   id="{{id}}"
 			   name="{{name}}"
 			   placeholder="{{options.placeholder}}"
-			   autofocus="{{options.autofocus}}"
-			   ng-required="{{options.required}}"
-			   ng-disabled="{{options.disabled}}"
-			   ng-pattern="{{options.pattern}}"
-			   ng-minlength="{{options.min}}"
-			   ng-maxlength="{{options.max}}"
+			   autofocus="options.autofocus"
+			   ng-required="options.required"
+			   ng-disabled="options.disabled"
+			   ng-pattern="pattern_validator"
+			   
+			   ng-minlength="options.min"
+			   ng-maxlength="options.max"
 			   ng-model="value"
 			   ng-blur="onBlur()"
 			   ng-focus="onFocus()"
-			   ng-change="onChange()">
+			   ng-change="onChange()"
+			   ng-keypress="onKeypress($event)">
 
 		   
 	<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">

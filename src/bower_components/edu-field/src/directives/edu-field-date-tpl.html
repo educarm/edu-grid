@@ -3,18 +3,18 @@
 		{{options.label}}
 		{{options.required ? '*' : ''}}
 	</label>
-	<input type="date"
-			class="form-control  input-{{options.inputSize}}"
+	<input type="date" date-input
+			class="form-control {{options.inputSize}}"
 			id="{{id}}"
 			name="{{name}}"
 			placeholder="{{options.placeholder}}"
-			autofocus="{{options.autofocus}}"
+			autofocus="options.autofocus"
 			ng-model="value"
 			ng-blur="onBlur()"
 			ng-focus="onFocus()"
 			ng-change="onChange()"
-			ng-required="{{options.required}}"
-			ng-disabled="{{options.disabled}}">
+			ng-required="options.required"
+			ng-disabled="options.disabled">
 	<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
 		<small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca una fecha</small>
 		<small class="error" ng-show="$invalidPattern">Introduzca un fecha válida (dd-mm-aaaa)</small>

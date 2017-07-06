@@ -9,8 +9,8 @@
 		    name="{{name}}"
 			ta-toolbar="options.toolbar || [['h1','h2','h3'],['bold','italics']] " 
 			ng-model="value"
-			ng-required="{{options.required}}"
-			autofocus="{{options.autofocus}}"
+			ng-required="options.required"
+			autofocus="options.autofocus"
 			ng-blur="onBlur()"
 			ng-focus="onFocus()"
 			ng-change="onChange()">

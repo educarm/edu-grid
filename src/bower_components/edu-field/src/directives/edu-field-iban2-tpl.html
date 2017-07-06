@@ -1,0 +1,128 @@
+<div class="form-group   {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
+<style>
+	
+	
+	.iban-sm::-webkit-input-placeholder{
+		font-size: 8px;	
+	}
+	
+	.input-sm.dp{
+		width:40px;
+		padding:2px;
+	}
+	.input-sm.dc1{
+		width:20px;
+		padding:2px;
+	}
+	.input-sm.entidad{
+		width:35px;
+		padding:2px;
+	}
+	.input-sm.oficina{
+		width:35px;
+		padding:2px;
+	}
+	.input-sm.dc2{
+		width:20px;
+		padding:2px;
+	}
+	
+	.input-sm.cuenta{
+		width:77px;
+		padding:2px;
+	}
+	
+	
+	
+	.iban-lg::-webkit-input-placeholder{
+		font-size: 13px;	
+	}
+	
+	.input-lg.dp{
+		width:56px;
+		padding:2px;
+	}
+	.input-lg.dc1{
+		width:28px;
+		padding:2px;
+	}
+	.input-lg.entidad{
+		width:50px;
+		padding:2px;
+	}
+	.input-lg.oficina{
+		width:50px;
+		padding:2px;
+	}
+	.input-lg.dc2{
+		width:28px;
+		padding:2px;
+	}
+	
+	.input-lg.cuenta{
+		width:110px;
+		padding:2px;
+	}
+	
+	
+	
+	.iban-default::-webkit-input-placeholder{
+		font-size: 10px;	
+	}
+	
+
+	
+	.input-default.dp{
+		width:44px;
+		padding:2px;
+	}
+	.input-default.dc1{
+		width:22px;
+		padding:2px;
+	}
+	.input-default.entidad{
+		width:40px;
+		padding:1px;
+	}
+	.input-default.oficina{
+		width:40px;
+		padding:2px;
+	}
+	.input-default.dc2{
+		width:22px;
+		padding:2px;
+	}
+	
+	.input-default.cuenta{
+		width:87px;
+		padding:2px;
+	}
+	
+	
+</style>
+	<label for="{{id}}">
+		{{options.label}}
+		{{options.required ? '*' : ''}}
+	</label>
+	
+	<div class="input-group">
+		<span class="input-group-btn" ng-if="options.showbutton">
+			<button class="btn btn-{{options.typebutton || 'default' }} btn-{{options.inputSize || 'def'}}" type="button">IBAN</button>
+		</span>
+		
+		<form>
+		  <input type="text" maxlength="4" class="form-control dp iban-{{options.inputSize || 'default'}} input-{{options.inputSize || 'default'}}" id="{{options.key}}-pais" name="{{options.key}}-pais"  placeholder="DP" autofocus="options.autofocus" ng-required="options.required"  ng-disabled="options.disabled"  ng-model="value['IBANDP']" ng-blur="onBlur('IBANDP')" ng-focus="onFocus('IBANDP')" ng-change="onChange('IBANDP')"  ng-keypress="onKeypress($event)" validate-iban ng-style="border">			
+		  <input type="text" maxlength="4" class="form-control entidad iban-{{options.inputSize || 'default'}}  input-{{options.inputSize || 'default'}}"  id="{{options.key}}-entidad" name="{{options.key}}-entidad"  placeholder="Entidad" ng-required="options.required"  ng-disabled="options.disabled"  ng-model="value['IBANEntidad']" ng-blur="onBlur('IBANEntidad')" ng-focus="onFocus('IBANEntidad')" ng-change="onChange('IBANEntidad')" ng-keypress="onKeypress($event)" validate-iban  ng-style="border">
+		  <input type="text" maxlength="4" class="form-control oficina iban-{{options.inputSize || 'default'}} input-{{options.inputSize || 'default'}}"  id="{{options.key}}-oficina" name="{{options.key}}-oficina"  placeholder="Oficina" ng-required="options.required"  ng-disabled="options.disabled"  ng-model="value['IBANOficina']" ng-blur="onBlur('IBANOficina')" ng-focus="onFocus('IBANOficina')" ng-change="onChange('IBANOficina')" ng-keypress="onKeypress($event)" validate-iban ng-style="border">
+		  <input type="text" maxlength="2" class="form-control  dc2 iban-{{options.inputSize || 'default'}} input-{{options.inputSize || 'default'}}"  id="{{options.key}}-control2" name="{{options.key}}-control2"  placeholder="DC" ng-required="options.required" ng-disabled="options.disabled"  ng-model="value['IBANDC2']" ng-blur="onBlur('IBANDC2')" ng-focus="onFocus('IBANDC2')" ng-change="onChange('IBANDC2')" ng-keypress="onKeypress($event)" validate-iban ng-style="border">
+		  <input type="text" maxlength="10" class="form-control cuenta iban-{{options.inputSize || 'default'}} input-{{options.inputSize || 'default'}}"  id="{{options.key}}-cuenta" name="{{options.key}}-cuenta"  placeholder="Nº Cuenta" ng-required="options.required" ng-disabled="options.disabled" ng-model="value['IBANCuenta']" ng-blur="onBlur('IBANCuenta')" ng-focus="onFocus('IBANCuenta')" ng-change="onChange('IBANCuenta')" ng-keypress="onKeypress($event)" validate-iban ng-style="border">	
+		</form>		
+	</div>
+	
+		<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
+			<small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca un IBAN</small>
+			<small class="error" ng-show="$invalidMinlength">Debe tener al menos {{options.min}} caracteres</small>
+			<small class="error" ng-show="$invalidMaxlength">No puede tener más de {{options.max}} caracteres</small>
+			<small class="error" ng-show="$invalidPattern">Introduzca un IBAN válido</small>
+		</div>
+</div>

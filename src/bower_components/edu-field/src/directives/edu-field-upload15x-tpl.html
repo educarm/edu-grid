@@ -1,0 +1,61 @@
+
+	 
+<div flow-prevent-drop  class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
+	<label for="{{id}}">
+		{{options.label}}
+		{{options.required ? '*' : ''}}
+	</label>
+
+	
+	<div id="{{id}}" ngf-drop> 
+		<div class="input-group">
+		    
+			<span class="input-group-btn">	
+				
+				<button  class="btn btn-{{options.typeButton || 'default'}} btn-{{options.inputSize}}" type="button"
+				    ngf-select="ngfselect(file)" 
+					ng-model="file" 
+					name="file" 
+					ngf-pattern="'{{options.pattern}}/*'"
+					ngf-accept="'{{options.pattern}}/*'" 
+					ngf-max-size="{{options.maxsize}}" 
+					ngf-min-height="100" 
+					ngf-resize="{width: 100, height: 100}">
+					<i class="fa fa-{{options.iconButtonSelectFile || 'folder-open'}}"></i>
+					{{options.labelButtonSelectFile}}
+				</button>
+			</span>
+			<input type="text" class="form-control input-{{options.inputSize}}" aria-describedby="basic-addon1"
+				readonly 
+				ng-model="value"
+				autofocus="options.autofocus"
+				ng-required="options.required"
+				ng-disabled="options.disabled"
+				ng-blur="onBlur()"
+				ng-focus="onFocus()"
+				ng-change="onChange()">
+				
+			<span class="input-group-btn">		
+				<button class="btn btn-{{options.typeButton || 'default'}} btn-{{options.inputSize}}" type="button" ng-click="ngfupload()">
+					<i ng-if="!uploading" class="fa fa-{{options.iconButtonUpload || 'upload'}}"></i>
+					<i ng-if="uploading" class="fa fa-spinner fa-spin	"></i>
+                    <span  ng-if="uploading" >{{progressPercentage}}%</span> 					
+					{{options.labelButtonUpload}}
+				</button>
+				
+			
+			</span>
+				
+			
+			  
+		</div>				
+			
+					
+	</div>
+	
+
+	
+	<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
+		<small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca un valor</small>
+	</div>
+</div>

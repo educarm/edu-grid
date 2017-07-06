@@ -310,27 +310,31 @@ eduGridDirectives.directive('eduGrid', function () {
         $scope.getData = function (oParams) {
           //var oParams={};
           if (typeof $scope.options.metaData.limit !== 'undefined' && typeof $scope.options.metaData.offset !== 'undefined') {
-            oParams.limit = $scope.options.metaData.limit;
-            if ($scope.options.allFieldsGlobalSearch) {
-              oParams.filter = typeof $scope.searchQuery !== 'undefined' ? $scope.searchQuery.toUpperCase().trim() : '';
-            } else {
-              if ($scope.options.hasOwnProperty('fieldsGlobalSearch')) {
-                for (field in $scope.options.fieldsGlobalSearch) {
-                  oParams[$scope.options.fieldsGlobalSearch[field]] = typeof $scope.searchQuery !== 'undefined' ? $scope.searchQuery.toUpperCase().trim() : '';
-                }
-              } else {
-                throw new Error('options are required!');
-              }
+            /*if ($scope.options.allFieldsGlobalSearch){
+							oParams.filter=(typeof $scope.searchQuery!=='undefined'?$scope.searchQuery.toUpperCase().trim():'');
+						} else {
+							if ($scope.options.hasOwnProperty('fieldsGlobalSearch')){
+								for(field in $scope.options.fieldsGlobalSearch){															
+									oParams[$scope.options.fieldsGlobalSearch[field]]=(typeof $scope.searchQuery!=='undefined'?$scope.searchQuery.toUpperCase().trim():'');
+								}
+							}
+							else {
+								throw new Error('options are required!');
+							}
+						}*/
+            if ($scope.options.hasOwnProperty('metaData')) {
+              oParams.limit = $scope.options.metaData.limit;
+              oParams.offset = $scope.options.metaData.offset;
+              oParams.orderby = $scope.options.metaData.orderBy;
+              oParams.order = $scope.options.metaData.order;
             }
-            oParams.offset = $scope.options.metaData.offset;
-            oParams.orderby = $scope.options.metaData.orderBy;
-            oParams.order = $scope.options.metaData.order;
           }
           ;
-          if ($scope.options.hasOwnProperty('fieldFk') && typeof $scope.options.fieldFk != 'undefined' && $scope.options.hasOwnProperty('valueFk') && typeof $scope.options.valueFk != 'undefined') {
-            oParams['fieldFk'] = $scope.options.fieldFk;
-            oParams['valueFk'] = $scope.options.valueFk;
-          }
+          /*
+					if($scope.options.hasOwnProperty("fieldFk") && typeof $scope.options.fieldFk!='undefined' && $scope.options.hasOwnProperty("valueFk") && typeof $scope.options.valueFk!='undefined'){
+						oParams["fieldFk"]=$scope.options.fieldFk;
+						oParams["valueFk"]=$scope.options.valueFk;
+					}*/
           if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.transformParams == 'function') {
             oParams = $scope.options.listListeners.transformParams(oParams);
           }
@@ -375,24 +379,70 @@ eduGridDirectives.directive('eduGrid', function () {
             //clean array seleccion rows
             $scope.options.selectionRows = [];
           }
-          if ($scope.options.allFieldsGlobalSearch) {
-            oParams.filter = typeof $scope.searchQuery !== 'undefined' ? $scope.searchQuery.toUpperCase().trim() : '';
-          } else {
-            if ($scope.options.hasOwnProperty('fieldsGlobalSearch')) {
-              for (field in $scope.options.fieldsGlobalSearch) {
-                oParams[$scope.options.fieldsGlobalSearch[field]] = typeof $scope.searchQuery !== 'undefined' ? $scope.searchQuery.toUpperCase().trim() : '';
+          // for compatibility with genericRest
+          if ($scope.options.hasOwnProperty('modeGenericRest') && $scope.options.modeGenericRest == true) {
+            //....................................................................................................................
+            var filterAS = [];
+            var filterGS = [];
+            var filterFK = '';
+            var filter = '';
+            // Advanced Search
+            if ($scope.options.hasOwnProperty('formAvancedSearch') && typeof $scope.options.formAvancedSearchResult != undefined) {
+              $scope.options.formAvancedSearch.fields.forEach(function (v, i) {
+                if ($scope.options.formAvancedSearchResult.hasOwnProperty(v.key)) {
+                  var valor = v.valuefilter ? v.valuefilter($scope.options.formAvancedSearchResult[v.key]) : $scope.options.formAvancedSearchResult[v.key];
+                  var campo = v.keyfilter || v.key;
+                  var aux;
+                  if (v.operator !== 'checknull') {
+                    aux = '[' + campo + ']' + v.operator + valor;
+                  } else if (valor === 'S' || valor === 's') {
+                    aux = '[' + campo + '] IS NULL';
+                  } else if (valor === 'N' || valor === 'n') {
+                    aux = '[' + campo + '] IS NOT NULL';
+                  } else {
+                    return;
+                  }
+                  filterAS.push(aux);
+                }
+              });
+              filter = filterAS.join(' AND ');
+            }  // Global Search
+            else if ($scope.searchQuery != undefined && $scope.searchQuery != '') {
+              if ($scope.options.hasOwnProperty('fieldsGlobalSearch') && Array.isArray($scope.options.fieldsGlobalSearch)) {
+                for (var i = 0; i < $scope.options.fieldsGlobalSearch.length; i++) {
+                  filterGS.push('[' + $scope.options.fieldsGlobalSearch[i] + ']=' + $scope.searchQuery);
+                }
+                filter = filterGS.length > 0 ? filterGS.join(' OR ') : '';
+              } else {
+                filter = $scope.searchQuery;
               }
-            } else {
-              throw new Error('options are required!');
             }
-          }
-          if ($scope.options.hasOwnProperty('fieldFk') && typeof $scope.options.fieldFk != 'undefined' && $scope.options.hasOwnProperty('valueFk') && typeof $scope.options.valueFk != 'undefined') {
-            oParams['fieldFk'] = $scope.options.fieldFk;
-            oParams['valueFk'] = $scope.options.valueFk;
-          }
-          if ($scope.options.hasOwnProperty('formAvancedSearch') && typeof $scope.options.formAvancedSearchResult != 'undefined') {
-            for (var key in $scope.options.formAvancedSearchResult) {
-              oParams[key] = $scope.options.formAvancedSearchResult[key];
+            // Foreign Key for master/detail
+            if ($scope.options.hasOwnProperty('fieldFk') && typeof $scope.options.fieldFk != undefined && $scope.options.hasOwnProperty('valueFk') && typeof $scope.options.valueFk != undefined) {
+              filterFK = '[' + $scope.options.fieldFk + ']=' + $scope.options.valueFk;
+              filter = filter != '' ? filterFK + ' AND ' + filter : filterFK;
+            }
+            oParams.filter = filter;  //.....................................................................................................................................
+          } else {
+            if ($scope.options.allFieldsGlobalSearch) {
+              oParams.filter = typeof $scope.searchQuery !== 'undefined' ? $scope.searchQuery.toUpperCase().trim() : '';
+            } else {
+              if ($scope.options.hasOwnProperty('fieldsGlobalSearch')) {
+                for (field in $scope.options.fieldsGlobalSearch) {
+                  oParams[$scope.options.fieldsGlobalSearch[field]] = typeof $scope.searchQuery !== 'undefined' ? $scope.searchQuery.toUpperCase().trim() : '';
+                }
+              } else {
+                throw new Error('options are required!');
+              }
+            }
+            if ($scope.options.hasOwnProperty('fieldFk') && typeof $scope.options.fieldFk != 'undefined' && $scope.options.hasOwnProperty('valueFk') && typeof $scope.options.valueFk != 'undefined') {
+              oParams['fieldFk'] = $scope.options.fieldFk;
+              oParams['valueFk'] = $scope.options.valueFk;
+            }
+            if ($scope.options.hasOwnProperty('formAvancedSearch') && typeof $scope.options.formAvancedSearchResult != 'undefined') {
+              for (var key in $scope.options.formAvancedSearchResult) {
+                oParams[key] = $scope.options.formAvancedSearchResult[key];
+              }
             }
           }
           if ($scope.options.hasOwnProperty('showOverlayWhenLoading') && $scope.options.showOverlayWhenLoading) {

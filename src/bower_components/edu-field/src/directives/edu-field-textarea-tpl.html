@@ -1,25 +1,29 @@
 <div class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
-	<label for="{{id}}">
-		{{options.label}}
-		{{options.required ? '*' : ''}}
-	</label>
-	<textarea type="text"
-			class="form-control"
-			id="{{id}}"
-			rows="{{options.rows}}"
-			placeholder="{{options.placeholder}}"
-			autofocus="{{options.autofocus}}"
-			ng-required="{{options.required}}"
-			ng-disabled="{{options.disabled}}"
-			ng-model="value"
-			ng-blur="onBlur()"
-			ng-focus="onFocus()"
-			ng-change="onChange()">
-	</textarea>
-	<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
-		<small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca un valor</small>
-		<small class="error" ng-show="$invalidMinlength">Debe tener al menos {{options.min}} caracteres</small>
-		<small class="error" ng-show="$invalidMaxlength">No puede tener más de {{options.max}} caracteres</small>
-		<small class="error" ng-show="$invalidPattern">Introduzca un valor válido</small>
-	</div>
+<label for="{{id}}">
+{{options.label}}
+{{options.required ? '*' : ''}}
+</label>
+<textarea type="text"
+class="form-control"
+id="{{id}}"
+rows="options.rows"
+placeholder="{{options.placeholder}}"
+autofocus="options.autofocus"
+ng-required="options.required"
+ng-disabled="options.disabled"
+ng-minlength="options.minlength"
+ng-maxlength="options.maxlength"
+ng-pattern="pattern_validator"
+ng-trim="options.trim"
+ng-model="value"
+ng-blur="onBlur()"
+ng-focus="onFocus()"
+ng-change="onChange()">
+</textarea>
+<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
+<small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca un valor</small>
+<small class="error" ng-show="$invalidMinlength">   No alcanza el número mínimo de caracteres ({{options.minlength}})</small>
+<small class="error" ng-show="$invalidMaxlength">   Excede el número máximo de caracteres ({{options.maxlength}})</small>
+<small class="error" ng-show="$invalidPattern">Introduzca un valor válido</small>
+</div>
 </div>

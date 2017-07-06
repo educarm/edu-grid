@@ -62,26 +62,35 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
     $scope.options = {
         heading: 'Demo eduGrid',
 		showOverlayWhenLoading:true, //default true
-		showOverlayFormUser:false,
-        showRefreshButton: true,
-		showExtraButtonTopLeft:false,
-        showAddButton: true,
+		showOverlayFormUser:false, //default false
+        showRefreshButton: true, //default true
+		showExtraButtonTopLeft:true, //default false
+		iconExtraButtonTopLeft:'pencil', //default 'plus-sing
         showPagination: true,  //default true
-        showItemsPerPage: true,
-		loadOnInit:true,
-		filterOnInit:{vcodcen:'30009319'},
-		allFieldsGlobalSearch:false,
 		
+		showSearch: true, //default true
+		allFieldsGlobalSearch:true, //default true. Esta y la siguiente son excluyentes. Si la propiedad allFieldsGlobalSearch está definida ignora la propiedad fieldsGlobalSearch
 		fieldsGlobalSearch:['vdencen','vdomcen'],
 		
-        showSearch: false,
-		showAvancedSearch:true,
-		showAdvancedSearchInHeader:true,
-		showTopAdvancedSearch: true,
-		showTopSearch: true,
-		showBottomSearch: true,
-		showBottomAdvancedSearch: true,
-        
+		showTopSearch: true, //default true. Lugar donde se situa el input par introducir el texto a buscar en todos los campos
+		showBottomSearch:false, // default false
+		
+		showAvancedSearch:false, //default false . Éste y el siguiente son excluyentes. showAdvancedSearchInHeader tiene prioridad sobre ésta.
+		showAdvancedSearchInHeader:true, //default value false.
+		
+		showTopAdvancedSearch: true, // default value true. Depende del atributo showAvancedSearch
+		showBottomAdvancedSearch: false, //default false
+		
+		
+		loadOnInit:true, // default value true. Used so that it does not load the grid at the beginning
+		
+		
+		filterOnInit:{vcodcen:'30009319'}, //default {}. Assign value to los campos del formulario de búsqueda avanzada
+		
+		tableBordered:true, //default false
+		modeGenericRest:false, //default false
+		
+        showItemsPerPage: true,
         paginationWidth: 3,
 		
 		showButtonsGridUserPre:true,
@@ -91,20 +100,24 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		showRowNumber:true,
 		showSelectRow:true,
 		
-        crudUri:'api/v1/centros/:id',
-		actions:{
-				 getAll: {method:'GET', url: 'api\/v1\/centros\/\?getData', params:{}, headers:{'Access-Control-Allow-Credentials': true}, isArray:true},
-				 getCount: {method:'GET', url: 'api\/v1\/centros\/\?getCount', params:{}, headers:{'Access-Control-Allow-Credentials': true}, isArray:false}
-				},
+       crudUri:'api/v1/centros/:id', //url del servicio rest. Espera métodos get, getAll, count, delete, post, put
+		
+		// para sobrescribir los métodos del api rest
+		//actions:{
+		//		 getAll: {method:'GET', url: 'api\/v1\/centros\/\?getData', params:{}, headers:{'Access-Control-Allow-Credentials': true}, isArray:true},
+		//		 getCount: {method:'GET', url: 'api\/v1\/centros\/\?getCount', params:{}, headers:{'Access-Control-Allow-Credentials': true}, isArray:false}
+		//		},
+		
 		fieldFk:'codigo',
 		valueFk:'30000018',
         fieldKey:'vcodcen',
 		fieldKeyLabel:'código',
         height:300,
+		
         listFields: [
-                 {label: 'Código', column: 'vcodcen', weight: '70',type:'date'},
-                 {label: 'Denominación', column: 'vdencen', weight: '50',type:'text'},
-                 {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text'},
+                 {label: 'Código', column: 'vcodcen', weight: '10',type:'number'},
+                 {label: 'Denominación', column: 'vdencen', weight: '40',type:'text'},
+                 {label: 'Domicilio', column: 'vdomcen', weight: '30',type:'text'},
                  {label: 'Localidad', column: 'vloccen', weight: '10',type:'text'},
                  {label: 'Municipio', column: 'vmuncen', weight: '10',type:'text'}
         ],
@@ -148,22 +161,34 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		formUser:{
 		    width:'700px',
 			fields:$scope.userFieldsFormGrid,
-			events:{
+			listeners:{
 					continue: function () {
                       console.log('form User continue button:');
 					  $scope.options.gridControl.showOverlayFormUser(false)
-                  },
-				  cancel: function () {
+                    },
+				    cancel: function () {
                       console.log('form User cancel button');
 					  $scope.options.formUser.result={};
 					  $scope.options.gridControl.showOverlayFormUser(false)
-                  }
+                    }
 			  },
 		     result:{}
 		},
 		formAvancedSearch:{
 			width:'1200',
-			fields:$scope.avancedSearchFieldsFormGrid
+			fields:$scope.avancedSearchFieldsFormGrid,
+			listeners:{
+					onContinue: function (filters) {
+                      
+                    },
+				    onCancel: function () {
+                      
+                    },
+				    onClean: function () {
+                      
+                    }
+			  }
+			
 		}
     };
 }])

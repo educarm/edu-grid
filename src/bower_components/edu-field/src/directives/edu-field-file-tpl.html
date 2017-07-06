@@ -1,0 +1,30 @@
+<div class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
+	<label for="{{id}}">
+		{{options.label}}
+		{{options.required ? '*' : ''}}
+	</label>
+
+	
+	<div id="{{id}}"> 
+        
+		 <div class="input-group" >
+			<input type="file" class="form-control input-{{options.inputSize}}" aria-describedby="basic-addon1"
+				readonly 
+				file-model="value"
+				autofocus="options.autofocus"
+			    ng-required="options.required"
+			    ng-disabled="options.disabled"
+			/> 
+			   
+			<span class="input-group-btn">
+				<label  class="btn btn-{{options.typeButton || 'default'}} btn-{{options.inputSize}}" type="button" ng-click='upload(value)'><i class="fa fa-{{options.iconButton}}"></i>  {{options.labelButton}}</label>
+			</span>
+		</div>
+	 
+	</div> 
+    	 
+
+	<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
+		<small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca un valor</small>
+	</div>
+</div>
