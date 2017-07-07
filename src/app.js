@@ -88,7 +88,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		filterOnInit:{vcodcen:'30009319'}, //default {}. Assign value to los campos del formulario de búsqueda avanzada
 		
 		tableBordered:true, //default false
-		modeGenericRest:false, //default false
+		mode:'normal', //default 'normal', ('normal' | 'genericRest')
 		
         showItemsPerPage: true,
         paginationWidth: 3,

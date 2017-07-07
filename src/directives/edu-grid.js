@@ -126,6 +126,117 @@
 				$timeout(function() {
 					
 					//*
+					// resize columns
+					//*
+					var pressed = false;
+					var start = undefined;
+					var startX, startWidth;
+					
+					angular.element('#' + $scope.idGrid+'-table-edu-grid .scrollArea thead tr th.noFixedColumn .resizable').mousedown(function(e) {
+						
+						start = $(this);
+						pressed = true;
+						startX = e.pageX;
+						startWidth2 = $(this).width();
+						startWidth =$(start).parents('.box').width();
+						//$(start).addClass("resizing");
+					});
+					
+					angular.element(document).mousemove(function(e) {
+						
+						if(pressed) {
+							
+							console.log('mousemove:'+(e.pageX-startX));
+							//barra vertical sobre la que se hace click para redimensionar
+							
+							// redimensiona el contenedor de la celda actual
+							//angular.element(start).parents('.box').width(startWidth+(e.pageX-startX));
+							
+							
+							
+				//........................................................................................................			
+							//obtiene
+							var id=angular.element(start).attr('id');
+							var nextId= parseInt(id)+1+'';
+							
+							//redimendiona la celda actual
+							//angular.element(start).parents('.th-inner').width(startWidth+(e.pageX-startX));
+				//			angular.element('#' + $scope.idGrid+'-table-edu-grid #table-grid thead tr th#'+id).width(startWidth+(e.pageX-startX));
+				//			angular.element('#' + $scope.idGrid+'-table-edu-grid #table-grid thead tr th#'+id+ '.th-inner').width(startWidth+(e.pageX-startX));
+							
+							
+				//.............................................................................................................			
+							
+							//angular.element(start).parents('DIV.col-resizable').find('.dragtarget').width(startWidth+(e.pageX-startX));//.attr('width',startWidth-(e.pageX-startX)+'px');
+							console.log("startWidth2:"+startWidth2+" startWidth2:"+startWidth2+ " .dragtarget width:"+(startWidth+(e.pageX-startX)))
+							
+							
+							
+							//cambia porcentajes por pixeles
+							/*var ths=angular.element('#' + $scope.idGrid+'-table-edu-grid #table-grid thead tr th')
+							for(var i=0;i<ths.length;i++){
+								$scope.$apply(function () {
+									angular.element(ths[i]).attr('width',angular.element(ths[i]).width());
+									
+								})
+							}*/
+							
+							
+							
+							for(var i=0;i<$scope.options.listFields.length;i++){
+								//$scope.options.listFields[i].width=angular.element('#' + $scope.idGrid+'-table-edu-grid #table-grid thead tr th#'+i).width();
+							}
+							
+							for(var i=0;i<$scope.options.listFields.length;i++){
+								$scope.$apply(function () {
+									//$scope.options.listFields[i].weight=$scope.options.listFields[i].width;
+								})
+							}
+							
+							
+							var widthCurrentElement=angular.element('#' + $scope.idGrid+'-table-edu-grid #table-grid thead tr th#'+id).width();
+							//var widthNextElement=angular.element('#' + $scope.idGrid+'-table-edu-grid #table-grid thead tr th#'+nextId).width();
+							//var leftNextElement=angular.element('#' + $scope.idGrid+'-table-edu-grid #table-grid thead tr th#'+nextId).position().left;
+							
+							//console.log("current:"+(startWidth+(e.pageX-startX)) + " next:" + (widthNextElement-(e.pageX-startX)))
+							
+							//var a=angular.element('#' + $scope.idGrid+'-table-edu-grid TABLE.dragtarget#'+id).parents('.box').width();
+							var a2=angular.element('#' + $scope.idGrid+'-table-edu-grid TH.droptarget#'+id).attr('width');
+							
+							
+							//var b=angular.element('#' + $scope.idGrid+'-table-edu-grid TABLE.dragtarget#'+nextId).parents('.box').width();
+							var b2=angular.element('#' + $scope.idGrid+'-table-edu-grid TH.droptarget#'+nextId).attr('width');
+							var a22=a2.replace('%','');
+							
+							var advance=(e.pageX-startX);
+							var porcCurrent=parseInt(a22);
+							var porcentaje=( (widthCurrentElement+advance) * porcCurrent / widthCurrentElement).toFixed(0);
+							
+							
+							
+							
+							$scope.$apply(function () {
+										$scope.options.listFields[id].weight=porcentaje;//widthCurrentElement+advance;
+							})
+							console.log("id" +id+" avance:" + advance+" current a22:"+porcCurrent + "% next newPorc:" + porcentaje);
+							//angular.element('#' + $scope.idGrid+'-table-edu-grid TABLE.dragtarget#'+nextId).parents('.box').width(widthNextElement-(e.pageX-startX));
+							//angular.element('#' + $scope.idGrid+'-table-edu-grid TABLE.dragtarget#'+nextId).parents('.box').css('position','relative');
+							//angular.element('#' + $scope.idGrid+'-table-edu-grid TABLE.dragtarget#'+nextId).parents('.box').css('left',leftNextElement +(e.pageX-startX));
+							
+							//angular.element('#' + $scope.idGrid+'-table-edu-grid #table-grid thead tr th#'+id).attr('width',(startWidth+(e.pageX-startX)));//width(startWidth+(e.pageX-startX));
+							//angular.element('#' + $scope.idGrid+'-table-edu-grid #table-grid thead tr th#'+nextId).attr('width',(widthNextElement-(e.pageX-startX)));
+						}
+					});
+					
+					angular.element(document).mouseup(function() {
+						if(pressed) {
+							//$(start).removeClass("resizing");
+							pressed = false;
+						}
+					});
+					
+					
+					//*
 					// fixed columns tools    
 					//*
 					
@@ -263,9 +374,9 @@
 					}
 				}
 				
-				// by default show button refresh
-				if (!$scope.options.hasOwnProperty('modeGenericRest')){
-					$scope.options.modeGenericRest=false;
+				// by default mode
+				if (!$scope.options.hasOwnProperty('mode')){
+					$scope.options.mode='normal';
 				}
 				
 				// by default show button refresh
@@ -668,7 +779,7 @@
 					
 					
 					// for compatibility with genericRest
-					if($scope.options.hasOwnProperty("modeGenericRest") && $scope.options.modeGenericRest==true){
+					if($scope.options.hasOwnProperty("mode") && $scope.options.mode=='genericRest'){
 			//....................................................................................................................
 						var filterAS=[];
 						var filterGS=[];
