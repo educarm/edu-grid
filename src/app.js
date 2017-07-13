@@ -113,6 +113,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
         fieldKey:'vcodcen',
 		fieldKeyLabel:'código',
         height:300,
+		mode:'genericRest',
 		
         listFields: [
                  {label: 'Código', column: 'vcodcen', weight: '10',type:'number'},
@@ -176,7 +177,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		},
 		formAvancedSearch:{
 			width:'1200',
-			fields:$scope.avancedSearchFieldsFormGrid,
+			//fields:$scope.avancedSearchFieldsFormGrid,
 			listeners:{
 					onContinue: function (filters) {
                       

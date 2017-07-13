@@ -780,14 +780,14 @@
 					
 					// for compatibility with genericRest
 					if($scope.options.hasOwnProperty("mode") && $scope.options.mode=='genericRest'){
-			//....................................................................................................................
+			        //....................................................................................................................
 						var filterAS=[];
 						var filterGS=[];
 						var filterFK='';
 						var filter='';
 						
 						// Advanced Search
-						if($scope.options.hasOwnProperty("formAvancedSearch") && typeof $scope.options.formAvancedSearchResult!=undefined){
+						if($scope.options.hasOwnProperty("formAvancedSearch") && $scope.options.formAvancedSearch.hasOwnProperty("fields") && typeof $scope.options.formAvancedSearchResult!=undefined){
 							
 							$scope.options.formAvancedSearch.fields.forEach(function(v,i)
 							{
