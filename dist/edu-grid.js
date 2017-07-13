@@ -674,7 +674,7 @@ eduGridDirectives.directive('mySortable', function () {
             var filterFK = '';
             var filter = '';
             // Advanced Search
-            if ($scope.options.hasOwnProperty('formAvancedSearch') && $scope.options.formAvancedSearch.hasOwnProperty('fields') && typeof $scope.options.formAvancedSearchResult != undefined) {
+            if ($scope.options.hasOwnProperty('formAvancedSearch') && $scope.options.formAvancedSearch.hasOwnProperty('fields') && $scope.options.formAvancedSearch.fields != undefined && typeof $scope.options.formAvancedSearchResult != undefined) {
               $scope.options.formAvancedSearch.fields.forEach(function (v, i) {
                 if ($scope.options.formAvancedSearchResult.hasOwnProperty(v.key)) {
                   var valor = v.valuefilter ? v.valuefilter($scope.options.formAvancedSearchResult[v.key]) : $scope.options.formAvancedSearchResult[v.key];
