@@ -226,7 +226,7 @@
 									   </td>
 									   <!-- fields -->
 									   <td ng-repeat="field in options.listFields" ng-click="onRowClick()" ng-class="{'nowrap_overflow_hidden_ellipsis':options.overflow_hidden}">
-										   <div ng-if="field.type!='number' && field.type!='date' && field.type!='date-time'  && field.type!='input-checkbox' && field.type!='input-text' && field.type!='input-date' && field.type!='input-select' && field.type!='input-radio'">
+										   <div ng-if="field.type!='number' && field.type!='date' && field.type!='date-time'  && field.type!='checkbox' && field.type!='input-text' && field.type!='input-date' && field.type!='input-select' && field.type!='input-radio'">
 										   {{field.renderer(entry[field.column], entry, field.column,field.type)}}
 										   </div>
 										   <div ng-if="field.type=='number'"  class="pull-right">
@@ -235,8 +235,8 @@
 										   <div ng-if="field.type=='date'">
 										   {{entry[field.column] | date:field.format ||'dd/MM/yyyy'}}
 										   </div>
-										   <div ng-if="field.type=='input-checkbox'">
-												<input type="checkbox" ng-model="entry[field.column]" >
+										   <div ng-if="field.type=='checkbox'">
+												<input type="checkbox" ng-model="entry[field.column]" ng-false-value="'N'" ng-true-value="'S'" onclick="javascript: return false;" >
 										   </div>
 										   <div ng-if="field.type=='input-text'">
 												<input type="text" ng-model="entry[field.column]">

@@ -117,10 +117,12 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		
         listFields: [
                  {label: 'Código', column: 'vcodcen', weight: '10',type:'number'},
+				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',type:'checkbox'},
                  {label: 'Denominación', column: 'vdencen', weight: '40',type:'text'},
                  {label: 'Domicilio', column: 'vdomcen', weight: '30',type:'text'},
                  {label: 'Localidad', column: 'vloccen', weight: '10',type:'text'},
-                 {label: 'Municipio', column: 'vmuncen', weight: '10',type:'text'}
+                 {label: 'Municipio', column: 'vmuncen', weight: '10',type:'text'},
+				 
         ],
         metaData:{
 		   panelType:"info",
