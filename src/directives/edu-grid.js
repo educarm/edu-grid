@@ -904,9 +904,8 @@
 					}
 					
                     // If loadOnInit, loads the grid
-					if ($scope.options.loadOnInit){
+					if ($scope.options.hasOwnProperty('loadOnInit') && typeof $scope.options.loadOnInit!=undefined && $scope.options.loadOnInit===true){
 						$scope.refresh();
-					
 					} else {
 						$scope.list=[];
 						$scope.options.loadOnInit=true;

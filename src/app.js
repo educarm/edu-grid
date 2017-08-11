@@ -82,7 +82,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		showBottomAdvancedSearch: false, //default false
 		
 		
-		loadOnInit:true, // default value true. Used so that it does not load the grid at the beginning
+		loadOnInit:false, // default value true. Used so that it does not load the grid at the beginning
 		
 		
 		filterOnInit:{vcodcen:'30009319'}, //default {}. Assign value to los campos del formulario de búsqueda avanzada
