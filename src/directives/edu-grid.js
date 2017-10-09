@@ -1,5 +1,11 @@
 
  eduGridDirectives
+ .filter('toEuros', function() {
+  return function(input,fractionDigit) {
+	var fractD=fractionDigit?fractionDigit:2;
+    return Number(input).toLocaleString("es-ES", {minimumFractionDigits: fractD}) + ' €';
+  };
+})
  .directive('mySortable',function(){
   return {
     link:function(scope,el,attrs){

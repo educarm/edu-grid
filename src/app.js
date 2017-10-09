@@ -82,10 +82,10 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		showBottomAdvancedSearch: false, //default false
 		
 		
-		loadOnInit:false, // default value true. Used so that it does not load the grid at the beginning
+		loadOnInit:true, // default value true. Used so that it does not load the grid at the beginning
 		
 		
-		filterOnInit:{vcodcen:'30009319'}, //default {}. Assign value to los campos del formulario de búsqueda avanzada
+		filterOnInit:{},//{vcodcen:'30009319'}, //default {}. Assign value to los campos del formulario de búsqueda avanzada
 		
 		tableBordered:true, //default false
 		mode:'normal', //default 'normal', ('normal' | 'genericRest')
@@ -116,12 +116,12 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		//mode:'genericRest',
 		
         listFields: [
-                 {label: 'Código', column: 'vcodcen', weight: '10',type:'number'},
+                 {label: 'Código', column: 'vcodcen', weight: '10',type:'currency'},
 				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',type:'checkbox'},
-                 {label: 'Denominación', column: 'vdencen', weight: '40',type:'text'},
-                 {label: 'Domicilio', column: 'vdomcen', weight: '30',type:'text'},
+                 {label: 'Denominación', column: 'vdencen', weight: '30',type:'text'},
+                 {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text'},
                  {label: 'Localidad', column: 'vloccen', weight: '10',type:'text'},
-                 {label: 'Municipio', column: 'vmuncen', weight: '10',type:'text'},
+                 {label: 'Municipio', column: 'vmuncen', weight: '20',type:'text',noOrder:true},
 				 
         ],
         metaData:{
