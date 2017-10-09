@@ -121,7 +121,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
                  {label: 'Denominación', column: 'vdencen', weight: '30',type:'text'},
                  {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text'},
                  {label: 'Localidad', column: 'vloccen', weight: '10',type:'text'},
-                 {label: 'Municipio', column: 'vmuncen', weight: '20',type:'text',noOrder:true},
+                 {label: 'Municipio', column: 'vmuncen', weight: '20',type:'text',notOrder:true},
 				 
         ],
         metaData:{

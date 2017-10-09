@@ -3,10 +3,16 @@
  .filter('toEuros', function() {
   return function(input,fractionDigit) {
 	var fractD=fractionDigit?fractionDigit:2;
-    return Number(input).toLocaleString("es-ES", {minimumFractionDigits: fractD}) + ' €';
+	var amount= Number(input).toLocaleString("es-ES", {minimumFractionDigits: fractD}) + ' €';
+	if(amount=='0,00 €' || amount=='NaN €'){
+		return; 
+	}else{
+		return amount;
+	}  
+	
   };
 })
- .directive('mySortable',function(){
+.directive('mySortable',function(){
   return {
     link:function(scope,el,attrs){
       el.sortable({
