@@ -78,10 +78,14 @@
 								   <a href="" class="btn btn-primary  btn-xs" ng-show="options.showExtraButtonTopRight" ng-click="clickExtraButton()"><span class="glyphicon glyphicon-plus-sign"></span> {{options.snippets.extraButtonTop || 'Nuevo'}}</a>
 							   </div>
 						   </div>
+						   
 						   <div ng-if="options.showAdvancedSearchInHeader" class="row">
 							
 								<fieldset class="avancedSearch">
-									<legend class="avancedSearch">  <i class="fa fa-search"></i></legend>
+									<legend class="avancedSearch">  
+										<i class="fa fa-search"></i>
+										<span style="font-size:1.2em;font-weight:normal">{{options.snippets.formAvancedSearchTitle}}</span>
+									</legend>
 									 <div class="control-group">
 										<div class="" ng-repeat="field in options.formAvancedSearch.fields">
 											<div edu-field options="field" value="options.formAvancedSearchResult[field.key]"> </div>
