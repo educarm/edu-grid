@@ -145,14 +145,46 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
         },
 		
         buttonsUserPre: [
-                  {label: 'Ejecutar', class: '', glyphicon: 'flash', button: false,
-					  onclick: function (row) {
-						  console.log('ejecutar consulta:', row);
-					  },
-					  disabled: function (row) {
-						  //console.log('disabled button:', row);
-						  return false;
-					  }
+					{   
+						label: 'Ejecutar', 
+						class: '', 
+						glyphicon: 'flash', 
+						button: false,
+						onclick: function (row) {
+							console.log('ejecutar consulta:', row);
+						},
+						disabled: function (row) {
+							//console.log('disabled button:', row);
+							return false;
+						},
+						hidden: function (row) {
+							//console.log('disabled button:', row);
+							if(row.vcodcen=='30000018'){
+								return true;
+							}else{
+								return false;
+							}
+							
+						}
+				  },
+				  {   
+						label: 'Boton2', 
+						class: '', 
+						glyphicon: 'envelope', 
+						button: false,
+						onclick: function (row) {
+							console.log('envío:', row);
+						},
+						disabled: function (row) {
+							return false;
+						},
+						hidden: function (row) {
+							if(row.vcodcen=='30000146'){
+								return true;
+							}else{
+								return false;
+							}
+						}
 				  }
 				  
               ],

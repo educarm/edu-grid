@@ -568,8 +568,9 @@
 				  }
 				  
 				$scope.internalControl.clearFormAvancedSearch = function() {  
-				  $scope.formAvancedSearchEventsClean();
+					$scope.formAvancedSearchEventsClean();
 				}
+				
 				
 
                 // ---
@@ -965,7 +966,7 @@
 				}
 				
                 // ON CLICK SELECT ROWS CHECKBOX
-				 $scope.checkSelectRow=function(row){
+				$scope.checkSelectRow=function(row){
 					if(row.selected){
 						var bExists=false;
 						for( var i=0;i< $scope.options.selectionRows.length;i++){

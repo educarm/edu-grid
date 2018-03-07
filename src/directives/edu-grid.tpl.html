@@ -213,7 +213,8 @@
 									   
 									   <!-- buttons pre user -->    
 									   <td ng-if="options.showButtonsGridUserPre" ng-repeat="button in options.buttonsUserPre"  class="preFixedColumn">
-										   <div ng-if="!button.button">
+											
+										   <div ng-if="!button.button"  ng-show="!button.hidden(entry)">
 											   <div ng-if="button.glyphicon.length>0"  >
 												   <a class="btn btn-xs" ng-click="handleButtonClick(button.onclick, entry)"  ng-disabled="button.disabled(entry)">
 													   <i class="glyphicon glyphicon-{{button.glyphicon}}" title="{{button.label}}"></i>
@@ -223,9 +224,8 @@
 												   <img ng-src="button.iconPath" alt="{{button.label}}"/>
 											   </div>
 										   </div>
-										   <button ng-if="button.button" ng-click="handleButtonClick(button.onclick, entry)"  ng-disabled="button.disabled(entry)">
-											   <i ng-if="button.glyphicon.length>0" class="glyphicon glyphicon-{{button.glyphicon}}"
-											   title="{{button.label}}"></i>
+										   <button ng-if="button.button" ng-show="!button.hidden(entry)" ng-click="handleButtonClick(button.onclick, entry)"  ng-disabled="button.disabled(entry)">
+											   <i ng-if="button.glyphicon.length>0" class="glyphicon glyphicon-{{button.glyphicon}}" title="{{button.label}}"></i>
 											   <img ng-if="button.iconPath.length>0" ng-src="button.iconPath" alt="{{button.label}}"/>{{button.label}}
 										   </button>
 									   </td>
