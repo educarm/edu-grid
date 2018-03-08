@@ -4,7 +4,7 @@
   return function(input,fractionDigit) {
 	var fractD=fractionDigit?fractionDigit:2;
 	var amount= Number(input).toLocaleString("es-ES", {minimumFractionDigits: fractD}) + ' €';
-	if(amount=='0,00 €' || amount=='NaN €'){
+	if(amount=='0,00 €' || amount=='NaN €' || amount=='NaN'){
 		return; 
 	}else{
 		return amount;

@@ -51,7 +51,7 @@ eduGridDirectives.filter('toEuros', function () {
   return function (input, fractionDigit) {
     var fractD = fractionDigit ? fractionDigit : 2;
     var amount = Number(input).toLocaleString('es-ES', { minimumFractionDigits: fractD }) + ' \u20ac';
-    if (amount == '0,00 \u20ac' || amount == 'NaN \u20ac') {
+    if (amount == '0,00 \u20ac' || amount == 'NaN \u20ac' || amount == 'NaN') {
       return;
     } else {
       return amount;

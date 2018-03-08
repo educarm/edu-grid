@@ -116,7 +116,8 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		//mode:'genericRest',
 		
         listFields: [
-                 {label: 'Código', column: 'vcodcen', weight: '10',type:'currency'},
+				 {label: 'Código', column: 'vcodcen', weight: '10',type:'number'},
+                 {label: 'Presupuesto', column: 'presupuesto', weight: '10',type:'currency'},
 				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',type:'checkbox'},
                  {label: 'Denominación', column: 'vdencen', weight: '30',type:'text'},
                  {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text'},
