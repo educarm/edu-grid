@@ -65,7 +65,9 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		showOverlayFormUser:false, //default false
         showRefreshButton: true, //default true
 		showExtraButtonTopLeft:true, //default false
+		showExtraButtonTopRight:true,
 		iconExtraButtonTopLeft:'pencil', //default 'plus-sing
+		iconExtraButtonTopRight:'file',
         showPagination: true,  //default true
 		
 		showSearch: true, //default true
@@ -122,7 +124,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
                  {label: 'Denominación', column: 'vdencen', weight: '30',type:'text'},
                  {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text'},
                  {label: 'Localidad', column: 'vloccen', weight: '10',type:'text'},
-                 {label: 'Municipio', column: 'vmuncen', weight: '20',type:'text',notOrder:true},
+                 {label: 'Municipio', column: 'vmuncen', weight: '20',type:'text',notOrder:true}
 				 
         ],
         metaData:{
@@ -132,6 +134,9 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		   order:'asc'
         },
         listListeners: {
+			onExtraButtonRightClick:function(){
+				alert('button right clicked');
+			},
 		    onPageLoadComplete:function(rows){
             	//console.log('onPageLoadComplete rows:'+angular.toJson(rows));
             },
@@ -225,7 +230,12 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
                     }
 			  }
 			
-		}
+		},
+		snippets:{
+					titleExtraButtonTopRight:'Informes',
+					extraButtonTopRight:'Informes'
+					
+				}
     };
 }])
 

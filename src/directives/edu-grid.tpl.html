@@ -49,16 +49,16 @@
 					   <div class="panel-heading" ng-show="showHeadingBar" >
 						   <div class="row" >
 							
-							  <div class="col-md-1">
+							  <div class="col-md-1 col-sm-1">
 									<a href="" class="btn btn-primary btn-xs" ng-show="options.showExtraButtonTopLeft" ng-click="clickExtraButton()"><span class="glyphicon glyphicon-{{options.iconExtraButtonTopLeft || 'plus-sign'}}"></span> {{options.snippets.extraButtonTop || 'Nuevo'}}</a>
 							   </div>
-							   <div class="col-md-3"><strong>{{options.heading}}</strong></div>
-							   <div class="col-md-2">
+							   <div class="col-md-2 col-sm-2"><strong>{{options.heading}}</strong></div>
+							   <div class="col-md-2 col-sm-2">
 								<span ng-show="options.showMetaData">{{options.snippets.showingItems || 'Filas'}} {{options.metaData.offset+1}} - {{(options.metaData.offset+options.metaData.limit > options.metaData.total) ? (options.metaData.total) : (options.metaData.offset + options.metaData.limit)}} {{options.snippets.of || 'de'}} {{options.metaData.total}}</span>	
 							   </div>
 							   
 							    <!-- global search -->
-							    <div class="col-md-3" >
+							    <div class="col-md-3 col-sm-2" >
 								   <div ng-show="options.showSearch && options.showTopSearch">
 									   <label for="ag_search">{{options.snippets.search || 'Buscar:'}}</label>
 									   <input type="text" class="form-inline" ng-model="searchQuery" ng-change="onChangeSearchQuery()"/>
@@ -67,15 +67,15 @@
 							    </div>
 								
 							     <!-- avanced search  -->
-							    <div class="col-md-2" >
+							    <div class="col-md-2 col-sm-2" >
 								  
 								   <div ng-show="options.showAvancedSearch && options.showTopAdvancedSearch && !options.showAdvancedSearchInHeader" >
 									   <a class="btn  btn-sm" ng-class="{'btn-primary':!listFiltered,'btn-danger':listFiltered}"  ng-click="onClickAvancedSearch()"><i class="glyphicon glyphicon-search"></i> {{options.snippets.avancedSearch || ' Avanzada'}}  </a>
 								   </div>
 							   </div>
-							   <div class="col-md-1">
+							   <div class="col-md-2 col-sm-2">
 								   <span class="btn  btn-xs" ng-show="options.showRefreshButton" ng-click="refresh(true)"><i class="glyphicon glyphicon-refresh"></i></span>
-								   <a href="" class="btn btn-primary  btn-xs" ng-show="options.showExtraButtonTopRight" ng-click="clickExtraButton()"><span class="glyphicon glyphicon-plus-sign"></span> {{options.snippets.extraButtonTop || 'Nuevo'}}</a>
+								   <a href="" title="{{options.snippets.titleExtraButtonTopRight}}" class="btn btn-primary  btn-xs" ng-show="options.showExtraButtonTopRight" ng-click="clickExtraButtonRight()"><span class="glyphicon glyphicon-{{options.iconExtraButtonTopRight || 'plus-sign'}}"></span> {{options.snippets.extraButtonTopRight}}</a>
 							   </div>
 						   </div>
 						   
@@ -95,7 +95,7 @@
 								</fieldset>	
 						   </div>
 						   <div ng-if="options.showAdvancedSearchInHeader" class="row">
-								<div class="col-md-offset-9 col-md-3">  
+								<div class="col-md-offset-9 col-md-3  col-sm-offset-9 col-sm-3">  
 									<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="formAvancedSearch.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Buscar'}}</button> 
 									<!--<button ng-click="formAvancedSearchEventsCancel()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || 'Cancelar'}}</button> -->
 									<button ng-click="formAvancedSearchEventsClean()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || 'Limpiar'}}</button>

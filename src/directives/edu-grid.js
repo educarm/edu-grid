@@ -411,6 +411,11 @@
 					$scope.options.showExtraButtonTopLeft=false;
 				}
 				
+				// By default not show extra button in top right
+				if (!$scope.options.hasOwnProperty('showExtraButtonTopRight')){
+					$scope.options.showExtraButtonTopRight=false;
+				}
+				
 				// By default show input search							
 				if (!$scope.options.hasOwnProperty('showSearch')){
 					$scope.options.showSearch=true;
@@ -499,7 +504,8 @@
                 $scope.gridStyle.height=$scope.options.height+'px';
 				
 				//height for plugin angular-scrollable-table
-				$(".scrollableContainer").css("height",$scope.options.height+'px');
+				//$(".scrollableContainer").css("height",$scope.options.height+'px');
+				$("#"+$scope.idGrid+"-table-edu-grid" +" .scrollableContainer").css("height",$scope.options.height+'px');
 				
 				
 				//extract type of fieldKey
@@ -846,7 +852,7 @@
 						if($scope.options.hasOwnProperty("fieldFk") && typeof $scope.options.fieldFk!=undefined && $scope.options.hasOwnProperty("valueFk") && typeof $scope.options.valueFk!=undefined){
 							filterFK= '[' + $scope.options.fieldFk + ']=' + $scope.options.valueFk;
 							
-							filter=filter!=''?filterFK + ' AND ' + filter:filterFK;
+							filter=filter!=''?filterFK + ' AND ' + filter : filterFK;
 						}
 						
 						oParams.filter=filter;
@@ -949,6 +955,13 @@
 				$scope.clickExtraButton=function(value){ 
 					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onExtraButtonClick == 'function'){
                        $scope.options.listListeners.onExtraButtonClick();
+					}
+				}
+				
+				// ON CLICK EXTRA BUTTON RIGHT
+				$scope.clickExtraButtonRight=function(value){ 
+					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onExtraButtonRightClick == 'function'){
+                       $scope.options.listListeners.onExtraButtonRightClick();
 					}
 				}
 				
