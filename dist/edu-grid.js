@@ -637,9 +637,10 @@ eduGridDirectives.filter('toEuros', function () {
 						oParams["fieldFk"]=$scope.options.fieldFk;
 						oParams["valueFk"]=$scope.options.valueFk;
 					}*/
-          if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.transformParams == 'function') {
-            oParams = $scope.options.listListeners.transformParams(oParams);
-          }
+          /*if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.transformParams == 'function'){
+                       oParams=$scope.options.listListeners.transformParams(oParams);
+					}
+					*/
           $scope.api.getAll(oParams, function (data) {
             //$scope.searchQuery="";					
             $scope.list = data;
