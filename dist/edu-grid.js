@@ -693,19 +693,33 @@ eduGridDirectives.filter('toEuros', function () {
             if ($scope.options.hasOwnProperty('formAvancedSearch') && $scope.options.formAvancedSearch.hasOwnProperty('fields') && $scope.options.formAvancedSearch.fields != undefined && typeof $scope.options.formAvancedSearchResult != undefined) {
               $scope.options.formAvancedSearch.fields.forEach(function (v, i) {
                 if ($scope.options.formAvancedSearchResult.hasOwnProperty(v.key)) {
-                  var valor = v.valuefilter ? v.valuefilter($scope.options.formAvancedSearchResult[v.key]) : $scope.options.formAvancedSearchResult[v.key];
-                  var campo = v.keyfilter || v.key;
-                  var aux;
-                  if (v.operator !== 'checknull') {
-                    aux = '[' + campo + ']' + v.operator + valor;
-                  } else if (valor === 'S' || valor === 's') {
-                    aux = '[' + campo + '] IS NULL';
-                  } else if (valor === 'N' || valor === 'n') {
-                    aux = '[' + campo + '] IS NOT NULL';
+                  if (v.hasOwnProperty('betweenFields')) {
+                    if (v.betweenFields.hasOwnProperty('fieldRight') && v.betweenFields.hasOwnProperty('fieldLeft')) {
+                      var optionsBF = {
+                          fieldLeft: '',
+                          fieldRight: '',
+                          operatorLeft: '<=',
+                          operatorRight: '>='
+                        };
+                      angular.extend(optionsBF, v.betweenFields);
+                      filterAS.push('[' + optionsBF.fieldLeft + ']' + optionsBF.operatorLeft + $scope.options.formAvancedSearchResult[v.key] + ' AND ([' + optionsBF.fieldRight + ']' + optionsBF.operatorRight + $scope.options.formAvancedSearchResult[v.key] + ' OR [' + optionsBF.fieldRight + '] IS NULL)');
+                    }
                   } else {
-                    return;
+                    var valor = v.valuefilter ? v.valuefilter($scope.options.formAvancedSearchResult[v.key]) : $scope.options.formAvancedSearchResult[v.key];
+                    var campo = v.keyfilter || v.key;
+                    var aux;
+                    angular.extend(v, { operator: '=' });
+                    if (v.operator !== 'checknull') {
+                      aux = '[' + campo + ']' + v.operator + valor;
+                    } else if (valor === 'S' || valor === 's') {
+                      aux = '[' + campo + '] IS NULL';
+                    } else if (valor === 'N' || valor === 'n') {
+                      aux = '[' + campo + '] IS NOT NULL';
+                    } else {
+                      return;
+                    }
+                    filterAS.push(aux);
                   }
-                  filterAS.push(aux);
                 }
               });
               filter = filterAS.join(' AND ');

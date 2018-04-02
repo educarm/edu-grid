@@ -16,7 +16,11 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 				];
 	
 	$scope.avancedSearchFieldsFormGrid=[	  
-			        {key: 'fecha_ini_1',type: 'date',col:'col-md-3',label: 'Fecha inicio',placeholder: 'Fecha inicio',autofocus:'',required: false,size:'sm' },
+			        {key: 'fecha_ini_1',type: 'date',col:'col-md-3',label: 'Fecha inicio',placeholder: 'Fecha inicio',autofocus:'',required: false,size:'sm',betweenFields:{
+																																											  fieldRight:'campoDerecha',
+																																											  fieldLeft:'campoIzquierda',
+																																											
+																																											} },
 					{key: 'fecha_fin_1',type: 'date',col:'col-md-3',label: 'Fecha fin',placeholder: 'Fecha fin',autofocus:'',required: false,size:'sm' },
 					{key: 'fecha_ini_2',type: 'date',col:'col-md-3',label: 'Fecha inicio',placeholder: 'Fecha inicio',autofocus:'',required: false,size:'sm' },
 					{key: 'fecha_fin_2',type: 'date',col:'col-md-3',label: 'Fecha fin',placeholder: 'Fecha fin',autofocus:'',required: false,size:'sm' },
@@ -115,7 +119,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
         fieldKey:'vcodcen',
 		fieldKeyLabel:'código',
         height:300,
-		//mode:'genericRest',
+		mode:'genericRest',
 		
         listFields: [
 				 {label: 'Código', column: 'vcodcen', weight: '10',type:'number'},
