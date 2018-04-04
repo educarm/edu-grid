@@ -694,15 +694,52 @@ eduGridDirectives.filter('toEuros', function () {
               $scope.options.formAvancedSearch.fields.forEach(function (v, i) {
                 if ($scope.options.formAvancedSearchResult.hasOwnProperty(v.key)) {
                   if (v.hasOwnProperty('betweenFields')) {
+                    var bNullLeft = false;
+                    var bNullRight = false;
                     if (v.betweenFields.hasOwnProperty('fieldRight') && v.betweenFields.hasOwnProperty('fieldLeft')) {
                       var optionsBF = {
-                          fieldLeft: '',
-                          fieldRight: '',
                           operatorLeft: '<=',
                           operatorRight: '>='
                         };
                       angular.extend(optionsBF, v.betweenFields);
-                      filterAS.push('[' + optionsBF.fieldLeft + ']' + optionsBF.operatorLeft + $scope.options.formAvancedSearchResult[v.key] + ' AND ([' + optionsBF.fieldRight + ']' + optionsBF.operatorRight + $scope.options.formAvancedSearchResult[v.key] + ' OR [' + optionsBF.fieldRight + '] IS NULL)');
+                      optionsBF.operatorLeft = optionsBF.operatorLeft.toUpperCase();
+                      optionsBF.operatorRight = optionsBF.operatorRight.toUpperCase();
+                      if (optionsBF.operatorLeft.indexOf('NULL') >= 0) {
+                        optionsBF.operatorLeft = optionsBF.operatorLeft.replace('NULL', '');
+                        bNullLeft = true;
+                      }
+                      /*if(optionsBF.operatorLeft.indexOf('null')>=0){
+													optionsBF.operatorLeft=optionsBF.operatorLeft.replace('null','');
+													bNullLeft=true;
+												}*/
+                      if (optionsBF.operatorRight.indexOf('NULL') >= 0) {
+                        optionsBF.operatorRight = optionsBF.operatorRight.replace('NULL', '');
+                        bNullRight = true;
+                      }
+                      /*if(optionsBF.operatorRight.indexOf('null')>=0){
+													optionsBF.operatorRight=optionsBF.operatorRight.replace('null','');
+													bNullRight=true;
+												}*/
+                      var filterBF = '(left_OR_NULL) AND (right_OR_NULL)';
+                      var filterBFLeft = [];
+                      if (optionsBF.operatorLeft != '') {
+                        filterBFLeft.push('[' + optionsBF.fieldLeft + ']' + optionsBF.operatorLeft + $scope.options.formAvancedSearchResult[v.key]);
+                      }
+                      if (bNullLeft) {
+                        filterBFLeft.push('[' + optionsBF.fieldLeft + '] IS NULL');
+                      }
+                      var leftOrNull = filterBFLeft.join(' OR ');
+                      filterBF = filterBF.replace('left_OR_NULL', leftOrNull);
+                      var filterBFRight = [];
+                      if (optionsBF.operatorRight != '') {
+                        filterBFRight.push('[' + optionsBF.fieldRight + ']' + optionsBF.operatorRight + $scope.options.formAvancedSearchResult[v.key]);
+                      }
+                      if (bNullRight) {
+                        filterBFRight.push('[' + optionsBF.fieldRight + '] IS NULL');
+                      }
+                      var rightOrNull = filterBFRight.join(' OR ');
+                      filterBF = filterBF.replace('right_OR_NULL', rightOrNull);
+                      filterAS.push(filterBF);
                     }
                   } else {
                     var valor = v.valuefilter ? v.valuefilter($scope.options.formAvancedSearchResult[v.key]) : $scope.options.formAvancedSearchResult[v.key];

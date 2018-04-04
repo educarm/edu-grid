@@ -17,9 +17,11 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 	
 	$scope.avancedSearchFieldsFormGrid=[	  
 			        {key: 'fecha_ini_1',type: 'date',col:'col-md-3',label: 'Fecha inicio',placeholder: 'Fecha inicio',autofocus:'',required: false,size:'sm',betweenFields:{
-																																											  fieldRight:'campoDerecha',
 																																											  fieldLeft:'campoIzquierda',
-																																											
+																																											  operatorLeft:'<=null',
+																																											  fieldRight:'campoDerecha',
+																																											  operatorRight:'NULL'
+																																											  
 																																											} },
 					{key: 'fecha_fin_1',type: 'date',col:'col-md-3',label: 'Fecha fin',placeholder: 'Fecha fin',autofocus:'',required: false,size:'sm' },
 					{key: 'fecha_ini_2',type: 'date',col:'col-md-3',label: 'Fecha inicio',placeholder: 'Fecha inicio',autofocus:'',required: false,size:'sm' },
