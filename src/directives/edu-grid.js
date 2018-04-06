@@ -779,6 +779,48 @@
 						$scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
 					});
                 };
+				/**
+            	 * internal functions form crud
+            	 */
+				 
+				function getOid(row){
+				
+                		var vid=row[$scope.options.fieldKey];
+            	    	var oId={};
+						oId['id']=vid;
+            	    	
+						//agm88x: 10-04-2015 añadir mecanismo de transformParams
+						if ($scope.options.hasOwnProperty('gridListeners') && typeof $scope.options.gridListeners.transformParams == 'function'){
+							oId=$scope.options.gridListeners.transformParams(row);
+						}
+						
+						return oId;
+				}
+				
+				$scope.onCheckboxChange=function(row,options){
+					console.log('checkbox changed value:'+row[options.column]);
+					if(options.editable){
+					    console.log('checkbox editable:'+row);
+						var oId = getOid(row);
+						
+						$scope.api.update(oId,row,function (data) {  
+                             if ($scope.options.hasOwnProperty('crudListeners')){
+								if ($scope.options.gridListeners.hasOwnProperty('onAfterSave')&& typeof($scope.options.gridListeners.onAfterSave)=='function') {
+									$scope.options.gridListeners.onAfterSave(data);
+								}
+							}								
+							
+            	        },function(data){
+							if ($scope.options.hasOwnProperty('crudListeners')){
+								if ($scope.options.gridListeners.hasOwnProperty('onAfterSave')&& typeof($scope.options.gridListeners.onAfterSave)=='function') {
+									$scope.options.gridListeners.onAfterSave(data);
+								}
+							}		
+							$scope.options.gridControl.showOverlayFormSuccessError('0',data.data,20000);
+						});
+					
+					}
+				}
                 
                 $scope.refresh=function(cleanFilters){
 					var oParams={};

@@ -249,8 +249,8 @@
 										   <div ng-if="field.type=='currency'">
 										   {{entry[field.column]  | toEuros}}
 										   </div>
-										   <div ng-if="field.type=='checkbox'">
-												<input type="checkbox" ng-model="entry[field.column]" ng-false-value="'N'" ng-true-value="'S'" onclick="javascript: return false;" >
+										   <div ng-if="field.type=='checkbox'"> <!--onclick="javascript: return false;"-->
+												<input type="checkbox" ng-model="entry[field.column]" ng-false-value="'N'" ng-true-value="'S'"  ng-change="onCheckboxChange(entry,field)" >
 										   </div>
 										   <div ng-if="field.type=='input-text'">
 												<input type="text" ng-model="entry[field.column]">

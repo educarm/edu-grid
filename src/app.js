@@ -16,13 +16,14 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 				];
 	
 	$scope.avancedSearchFieldsFormGrid=[	  
-			        {key: 'fecha_ini_1',type: 'date',col:'col-md-3',label: 'Fecha inicio',placeholder: 'Fecha inicio',autofocus:'',required: false,size:'sm',betweenFields:{
+			        /*{key: 'fecha_ini_1',type: 'date',col:'col-md-3',label: 'Fecha inicio',placeholder: 'Fecha inicio',autofocus:'',required: false,size:'sm',betweenFields:{
 																																											  fieldLeft:'campoIzquierda',
 																																											  operatorLeft:'<=null',
 																																											  fieldRight:'campoDerecha',
 																																											  operatorRight:'NULL'
 																																											  
 																																											} },
+					*/
 					{key: 'fecha_fin_1',type: 'date',col:'col-md-3',label: 'Fecha fin',placeholder: 'Fecha fin',autofocus:'',required: false,size:'sm' },
 					{key: 'fecha_ini_2',type: 'date',col:'col-md-3',label: 'Fecha inicio',placeholder: 'Fecha inicio',autofocus:'',required: false,size:'sm' },
 					{key: 'fecha_fin_2',type: 'date',col:'col-md-3',label: 'Fecha fin',placeholder: 'Fecha fin',autofocus:'',required: false,size:'sm' },
@@ -116,8 +117,8 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		//		 getCount: {method:'GET', url: 'api\/v1\/centros\/\?getCount', params:{}, headers:{'Access-Control-Allow-Credentials': true}, isArray:false}
 		//		},
 		
-		fieldFk:'codigo',
-		valueFk:'30000018',
+		//fieldFk:'codigo',
+		//valueFk:'30000018',
         fieldKey:'vcodcen',
 		fieldKeyLabel:'código',
         height:300,
@@ -126,7 +127,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
         listFields: [
 				 {label: 'Código', column: 'vcodcen', weight: '10',type:'number'},
                  {label: 'Presupuesto', column: 'presupuesto', weight: '10',type:'currency'},
-				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',type:'checkbox'},
+				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',type:'checkbox','editable':true},
                  {label: 'Denominación', column: 'vdencen', weight: '30',type:'text'},
                  {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text'},
                  {label: 'Localidad', column: 'vloccen', weight: '10',type:'text'},

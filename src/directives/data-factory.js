@@ -4,6 +4,7 @@ eduGridServices.factory('dataFactoryGrid', [ '$resource', function ( $resource) 
 	    var defActions={
 						getAll: {method:'GET', params:{}, withCredentials: true, isArray:true},
 						getCount: {method:'GET', url: uri + '/count', params:{}, withCredentials: true, isArray:false},
+						update: {method:'PUT', params:{}, withCredentials: true, isArray:false}
 						
 		};
 		
