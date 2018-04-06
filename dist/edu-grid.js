@@ -691,13 +691,13 @@ eduGridDirectives.filter('toEuros', function () {
             console.log('checkbox editable:' + row);
             var oId = getOid(row);
             $scope.api.update(oId, row, function (data) {
-              if ($scope.options.hasOwnProperty('crudListeners')) {
+              if ($scope.options.hasOwnProperty('gridListeners')) {
                 if ($scope.options.gridListeners.hasOwnProperty('onAfterSave') && typeof $scope.options.gridListeners.onAfterSave == 'function') {
                   $scope.options.gridListeners.onAfterSave(data);
                 }
               }
             }, function (data) {
-              if ($scope.options.hasOwnProperty('crudListeners')) {
+              if ($scope.options.hasOwnProperty('gridListeners')) {
                 if ($scope.options.gridListeners.hasOwnProperty('onAfterSave') && typeof $scope.options.gridListeners.onAfterSave == 'function') {
                   $scope.options.gridListeners.onAfterSave(data);
                 }
