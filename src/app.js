@@ -145,6 +145,14 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 				alert('button right clicked');
 			},
 		    onPageLoadComplete:function(rows){
+				
+				for(var i=0;i<rows.length;i++){
+					if(i%2==0){
+						rows[i].$styles={'background':'green'};
+					}else{
+						rows[i].$styles={'background':'red'};
+					}
+				}
             	//console.log('onPageLoadComplete rows:'+angular.toJson(rows));
             },
             onRowClick:function(row){

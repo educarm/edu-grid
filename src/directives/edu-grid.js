@@ -656,8 +656,7 @@
                 };
 				
 				$scope.onPageLoadComplete = function(rows) {
-                    if (!$scope.options.hasOwnProperty('listListeners')
-                        || typeof $scope.options.listListeners.onPageLoadComplete !== 'function')
+                    if (!$scope.options.hasOwnProperty('listListeners') || typeof $scope.options.listListeners.onPageLoadComplete !== 'function')
                         return;
 					$scope.options.listListeners.onPageLoadComplete($scope.list);
                 };
