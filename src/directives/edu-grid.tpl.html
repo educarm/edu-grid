@@ -106,7 +106,8 @@
 					    <div class="panel-body" >
 					   
 					    <!-- grid --> 
-						<div  style="overflow-x:scroll;" id="{{idGrid}}-table-edu-grid" class="wrapper-table-edu-grid"> 
+						<!-- <div  style="overflow-x:scroll;" id="{{idGrid}}-table-edu-grid" class="wrapper-table-edu-grid">  -->
+						<div  style="overflow-x:scroll;" id={{options.metaData.id}} class="wrapper-table-edu-grid">
 						
 						<scrollable-table watch="list">
 						   <table id="table-grid" class="table table-condensed table-hover table-striped"   ng-class="{'table-bordered':options.tableBordered,'table_layout_fixed':options.table_layout_fixed, 'table_layout_auto':!options.table_layout_fixed}" >

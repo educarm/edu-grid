@@ -121,7 +121,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		//valueFk:'30000018',
         fieldKey:'vcodcen',
 		fieldKeyLabel:'código',
-        height:300,
+        height:150,
 		mode:'genericRest',
 		
         listFields: [
@@ -135,10 +135,10 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 				 
         ],
         metaData:{
-		   panelType:"info",
-           limit:50,
-		   orderBy:'vcodcen',
-		   order:'asc'
+			panelType:"info",
+			limit:50,
+			orderBy:'vcodcen',
+			order:'asc'
         },
         listListeners: {
 			onExtraButtonRightClick:function(){
