@@ -75,7 +75,8 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		showExtraButtonTopRight:true,
 		iconExtraButtonTopLeft:'pencil', //default 'plus-sing
 		iconExtraButtonTopRight:'file',
-        showPagination: true,  //default true
+        showPagination: false,  //default true
+		
 		
 		showSearch: true, //default true
 		allFieldsGlobalSearch:true, //default true. Esta y la siguiente son excluyentes. Si la propiedad allFieldsGlobalSearch está definida ignora la propiedad fieldsGlobalSearch

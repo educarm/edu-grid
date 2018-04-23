@@ -49,12 +49,14 @@
 					   <div class="panel-heading" ng-show="showHeadingBar" >
 						   <div class="row" >
 							
-							  <div class="col-md-1 col-sm-1">
+							  <div class="col-md-3 col-sm-3">
 									<a href="" class="btn btn-primary btn-xs" ng-show="options.showExtraButtonTopLeft" ng-click="clickExtraButton()"><span class="glyphicon glyphicon-{{options.iconExtraButtonTopLeft || 'plus-sign'}}"></span> {{options.snippets.extraButtonTop || 'Nuevo'}}</a>
 							   </div>
-							   <div class="col-md-2 col-sm-2"><strong>{{options.heading}}</strong></div>
+							   
 							   <div class="col-md-2 col-sm-2">
-								<span ng-show="options.showMetaData">{{options.snippets.showingItems || 'Filas'}} {{options.metaData.offset+1}} - {{(options.metaData.offset+options.metaData.limit > options.metaData.total) ? (options.metaData.total) : (options.metaData.offset + options.metaData.limit)}} {{options.snippets.of || 'de'}} {{options.metaData.total}}</span>	
+									<span ng-show="options.showMetaData">{{options.snippets.showingItems || 'Filas'}} {{options.metaData.offset+1}} - {{(options.metaData.offset+options.metaData.limit > options.metaData.total) ? (options.metaData.total) : (options.metaData.offset + options.metaData.limit)}} {{options.snippets.of || 'de'}} {{options.metaData.total}}
+									</span>	
+									
 							   </div>
 							   
 							    <!-- global search -->
@@ -77,6 +79,9 @@
 								   <span class="btn  btn-xs" ng-show="options.showRefreshButton" ng-click="refresh(true)"><i class="glyphicon glyphicon-refresh"></i></span>
 								   <a href="" title="{{options.snippets.titleExtraButtonTopRight}}" class="btn btn-primary  btn-xs" ng-show="options.showExtraButtonTopRight" ng-click="clickExtraButtonRight()"><span class="glyphicon glyphicon-{{options.iconExtraButtonTopRight || 'plus-sign'}}"></span> {{options.snippets.extraButtonTopRight}}</a>
 							   </div>
+						   </div>
+						   <div class="row">
+								<div class="col-md-12 col-sm-12"><strong>{{options.heading}}</strong></div>
 						   </div>
 						   
 						   <div ng-if="options.showAdvancedSearchInHeader" class="row">
