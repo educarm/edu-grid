@@ -1,6 +1,6 @@
 {
   "name": "edu-grid",
-  "version": "0.0.52",
+  "version": "0.0.53",
   "build": 0,
   "devDependencies": {
     "grunt-gh-pages": "~0.9.0",
