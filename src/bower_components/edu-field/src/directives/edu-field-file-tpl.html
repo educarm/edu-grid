@@ -1,4 +1,4 @@
-<div class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
+<div class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative" ng-hide="options.hidden">
 	<label for="{{id}}">
 		{{options.label}}
 		{{options.required ? '*' : ''}}
@@ -14,6 +14,7 @@
 				autofocus="options.autofocus"
 			    ng-required="options.required"
 			    ng-disabled="options.disabled"
+				edu-focus="options.autofocus"
 			/> 
 			   
 			<span class="input-group-btn">

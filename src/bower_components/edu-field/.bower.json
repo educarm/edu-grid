@@ -1,6 +1,5 @@
 {
   "name": "edu-field",
-  "version": "0.0.33",
   "authors": [
     "educarm"
   ],
@@ -24,31 +23,29 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "educarm/jquery#~2.1.1",
-    "angular": "1.5.x",
-    "angular-sanitize": "1.5.x",
-    "angular-resource": "1.5.x",
-    "angular-ui-bootstrap3": "educarm/angular-ui-bootstrap3#~0.12.0",
-    "bootstrap": "educarm/bootstrap#~3.2.0",
-    "textAngular": "educarm/textAngular#~1.2.2",
-    "Font-Awesome": "educarm/Font-Awesome#~4.7.0",
-    "angular-file-upload": "educarm/angular-file-upload#~1.0.2",
-    "ng-file-upload": ""
+    "jquery": "educarm/jquery#~2.x",
+    "angular": "educarm/angular#~1.x",
+    "angular-sanitize": "educarm/angular-sanitize#~1.x",
+    "angular-resource": "educarm/angular-resource#~1.x",
+    "angular-ui-bootstrap3": "educarm/angular-ui-bootstrap3#~0.x",
+    "bootstrap": "educarm/bootstrap#~3.x",
+    "textAngular": "educarm/textAngular#~1.x",
+    "Font-Awesome": "educarm/Font-Awesome#~4.x",
+    "angular-file-upload": "educarm/angular-file-upload#~1.x"
   },
   "devDependencies": {
-    "angular-mocks": "educarm/angular-mocks#~1.2.17"
-  },
-  "resolutions:": {
-    "angular": "1.5.x"
+    "angular-mocks": "educarm/angular-mocks#~1.x"
   },
   "homepage": "https://github.com/educarm/edu-field",
-  "_release": "0.0.33",
+  "version": "0.0.1",
+  "_release": "0.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "v0.0.33",
-    "commit": "966d3403b590b018b9418550b69e9c36067fa79d"
+    "tag": "v0.0.1",
+    "commit": "9892541c4c1baeb62597c941c0a8f72ea7a51d02"
   },
   "_source": "git://github.com/educarm/edu-field.git",
-  "_target": "~0.0.1",
-  "_originalSource": "educarm/edu-field"
+  "_target": "0.0.1",
+  "_originalSource": "educarm/edu-field",
+  "_direct": true
 }

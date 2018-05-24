@@ -3,21 +3,24 @@
 eduFieldDirectives.directive('eduComplete', function ($parse, $http, $sce, $timeout) {
     return {
         restrict: 'EA',
+		priority:0,
         scope: {
             "id": "@id_",
 			"name": "@name",
 			"onblur":"&onblur",
 			"onfocus":"&onfocus",
 			"autofocus":"=autofocus",
-			//"onchange":"&onchange",
+			
 			"required":"=required",
             "placeholder": "@placeholder",
             "selectedObject": "=selectedobject",
             "url": "@url",
 			"urldataloadall":"@urldataloadall",
+			
             "dataField": "@datafield",
             "titleField": "@titlefield",
             "descriptionField": "@descriptionfield",
+			
             "imageField": "@imagefield",
             "imageUri": "@imageuri",
             "inputClass": "@inputclass",
@@ -25,9 +28,28 @@ eduFieldDirectives.directive('eduComplete', function ($parse, $http, $sce, $time
             "localData": "=localdata",
             "searchFields": "@searchfields",
             "minLengthUser": "@minlength",
-            "matchClass": "@matchclass"
+            "matchClass": "@matchclass",
+			"disabled":"@disabled",
+		    "readonly": "@readonly",
+			"widthdropdown":"=widthdropdown",
+			"whenNotFoundReturnSearchString":"=whennotfoundreturnsearchstring"
         },
-        template: '<div class="eduComplete-holder"><input id="{{id}}" name="{{name}}" autofocus="{{autofocus}}" ng-blur="onblur()" ng-focus="onfocus()" ng-change="onchange()" ng-required="{{required}}" ng-model="searchStr" type="text" placeholder="{{placeholder}}" class="{{inputClass}}" onmouseup="this.select();" ng-focus="resetHideResults()" ng-blur="hideResults()" /><div id="{{id}}_dropdown" class="eduComplete-dropdown" ng-if="showDropdown"><div class="eduComplete-searching" ng-show="searching">Buscando...</div><div class="eduComplete-searching" ng-show="!searching && (!results || results.length == 0)">No hay resultados</div><div class="eduComplete-row" ng-repeat="result in results" ng-click="selectResult(result)" ng-mouseover="hoverRow()" ng-class="{\'eduComplete-selected-row\': $index == currentIndex}"><div ng-if="imageField" class="eduComplete-image-holder"><img ng-if="result.image && result.image != \'\'" ng-src="{{result.image}}" class="eduComplete-image"/><div ng-if="!result.image && result.image != \'\'" class="eduComplete-image-default"></div></div><div class="eduComplete-title" ng-if="matchClass" ng-bind-html="result.title"></div><div class="eduComplete-title" ng-if="!matchClass">{{ result.title }}</div><div ng-if="result.description && result.description != \'\'" class="eduComplete-description">{{result.description}}</div></div></div></div>',
+template:  '<div class="eduComplete-holder">'+
+		   '	<input id="{{id}}" name="{{name}}" ng-disabled="{{disabled}}" ng-readonly={{readonly}} edu-focus="{{autofocus}}"  ng-blur="onblur()"  ng-focus="onfocus()"  ng-required="{{required}}" ng-model="searchStr" type="text" placeholder="{{placeholder}}" class="{{inputClass}}" onmouseup="this.select();" ng-focus="resetHideResults()" ng-blur="hideResults()" />' +
+           '	<div id="{{id}}_dropdown" class="eduComplete-dropdown" ng-if="showDropdown"  ng-style="widthdropdown2"> '+
+		   '		<div class="eduComplete-searching" ng-show="searching">Buscando...</div>'+
+		   '		<div class="eduComplete-searching" ng-show="!searching && (!results || results.length == 0)">No hay resultados</div>'+
+		   '		<div class="eduComplete-row" ng-repeat="result in results" ng-click="selectResult(result)"  ng-mouseover="hoverRow()" ng-class="{\'eduComplete-selected-row\': $index == currentIndex}">'+
+		   '			<div ng-if="imageField" class="eduComplete-image-holder">'+
+		   '				<img ng-if="result.image && result.image != \'\'" ng-src="{{result.image}}" class="eduComplete-image"/>'+
+		   '				<div ng-if="!result.image && result.image != \'\'" class="eduComplete-image-default"></div>'+
+		   '			</div>'+
+		   '			<div class="eduComplete-title" ng-if="matchClass" ng-bind-html="result.title"></div>'+
+		   '			<div class="eduComplete-title" ng-if="!matchClass">{{ result.title }}</div>'+
+		   '			<div ng-if="result.description && result.description != \'\'" class="eduComplete-description">{{result.description}}</div>'+
+		   '		</div>'+
+		   '	</div>'+
+		   '</div>',
 
         link: function($scope, elem, attrs) {
             $scope.lastSearchTerm = null;
@@ -38,6 +60,8 @@ eduFieldDirectives.directive('eduComplete', function ($parse, $http, $sce, $time
             $scope.searching = false;
             $scope.pause = 500;
             $scope.minLength = 3;
+			
+			$scope.widthdropdown2={width:$scope.widthdropdown};
 			
 			if($scope.urldataloadall && $scope.urldataloadall !=""){
 				
@@ -64,7 +88,9 @@ eduFieldDirectives.directive('eduComplete', function ($parse, $http, $sce, $time
             isNewSearchNeeded = function(newTerm, oldTerm) {
                 return newTerm.length >= $scope.minLength && newTerm != oldTerm
             }
-
+            
+			
+			
             $scope.processResults = function(responseData, str) {
                 if (responseData && responseData.length > 0) {
                     $scope.results = [];
@@ -112,8 +138,8 @@ eduFieldDirectives.directive('eduComplete', function ($parse, $http, $sce, $time
                             title: text,
                             description: description,
                             image: image,
-							data:data
-                            //originalObject: responseData[i]
+							data:data,
+                            allData: responseData[i]
                         }
                         $scope.results[$scope.results.length] = resultRow;
 						
@@ -122,6 +148,11 @@ eduFieldDirectives.directive('eduComplete', function ($parse, $http, $sce, $time
 
                 } else {
                     $scope.results = [];
+					
+					//if search string not found, return this how value
+					if($scope.whenNotFoundReturnSearchString){
+						$scope.selectedObject=str;
+					}
                 }
             }
 
@@ -203,11 +234,12 @@ eduFieldDirectives.directive('eduComplete', function ($parse, $http, $sce, $time
                 } else {
                     event.preventDefault();
                 }
+				
             }
 			
 			//cuando hay cambios en el value del control autocomplete
 			$scope.$watch('selectedObject', function(value) {  
-			  if(typeof value!=='undefined'){//coloca en el input text que ve el usuario el titulo o nombre que corresponde al valor que hay en la propiedad value del control autocomplete
+			  if(typeof value!=='undefined' && value!=''){//coloca en el input text que ve el usuario el titulo o nombre que corresponde al valor que hay en la propiedad value del control autocomplete
 				 var titleField="";
 				 var str=$scope.selectedObject;
 				 if ($scope.titleField && $scope.titleField != "") {
@@ -268,6 +300,9 @@ eduFieldDirectives.directive('eduComplete', function ($parse, $http, $sce, $time
 				$scope.selectedObject = result.data;
                 $scope.showDropdown = false;
                 $scope.results = [];
+				
+				//$scope.value=result;
+				$scope.$parent.onChange(result);
             }
 
             var inputField = elem.find('input');
@@ -314,8 +349,19 @@ eduFieldDirectives.directive('eduComplete', function ($parse, $http, $sce, $time
                     $scope.$apply();
                 }
             });
+			
+			$scope.onXX=function(){
+				console.log("edu-complete.js link--> onXX");
+			}
 
-        }
+        },
+		
+		controller: function fieldController($scope,Upload,FileUploader) {
+			$scope.onXX=function(){
+				console.log("edu-complete.js controller--> onXX");
+			}
+		}	
+		
     };
 });
 

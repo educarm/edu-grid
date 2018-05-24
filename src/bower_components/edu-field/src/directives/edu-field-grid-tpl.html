@@ -1,0 +1,190 @@
+<style>
+	.input-grid table {
+		border-collapse: collapse;
+	}
+
+	input-grid table, th, td {
+		border: 1px solid #DCDCDC;
+	}
+</style>
+<div class="form-group   {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}"  ng-hide="options.hidden">
+	<label for="input-grid-{{options.key}}">
+		{{options.label}}
+		{{options.required ? '*' : ''}}
+	</label>
+	
+	<div style="overflow:auto;height:{{(options.height*1+40)}}px"  ng-style="options.width?{width:options.width+px}:''" id="input-grid-{{options.key}}"  style="position:relative">
+	    
+		<scrollable-table watch="options.gridRows" >
+		<table border="1" width="100%" height="100%" class="input-grid">
+			<thead>
+				<tr>
+					<th width="60px" title="Nuevo elemento" ng-show="options.showButtons!=false">
+						<button ng-click="gridNew()" class="btn btn-sm btn-info" ng-disabled="options.state!='list'">
+							<span class="fa fa-plus">
+						</button>
+					</th>
+					<th ng-repeat="field in options.listFields" class="noFixedColumn" width="{{field.weight}}%" title="&nbsp" style="text-align: center" id="{{$index}}">
+						<span  ng-click="changeOrder(field, field.orderByValue, 'desc')" ng-show="field.order=='asc'" class="header-column"  title="Ordenar por {{field.label}}">
+							<i class="glyphicon glyphicon-sort-by-alphabet"></i>
+							<a>&nbsp{{field.label}}</a>
+					    </span>
+						<span  ng-click="changeOrder(field, field.orderByValue, 'asc')" ng-show="field.order=='desc'" class="header-column" title="Ordenar por {{field.label}}">
+							<i class="glyphicon glyphicon-sort-by-alphabet-alt"></i>
+							<a>&nbsp{{field.label}}</a>
+						</span>
+						<span ng-click="changeOrder(field, field.orderByValue, 'desc')" ng-hide="field.order.length>0" class="header-column" title="Ordenar por {{field.label}}">
+							<a>&nbsp{{field.label}}</a>
+						</span>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in gridRows" ng-click="options.gridOnRowClick(item)">
+				    <td style="white-space: nowrap"  ng-show="options.showButtons!=false">
+						<!-- form -->
+						<form  ng-show="item.$visible" class="form-buttons form-inline" shown="item.$inserted">
+							  <button ng-click="gridSave(item)" ng-disabled="item.$waiting" class="btn btn-sm btn-warning">
+								 <span class="fa fa-save">
+							  </button>
+							  <button type="button" ng-disabled="item.$waiting"  ng-click="gridCancel(item)" class="btn btn-sm btn-default">
+								 <span class="fa fa-undo">
+							  </button>
+						</form>
+						<div class="buttons" ng-show="!item.$visible">
+							  <button class="btn btn-sm btn-primary" ng-click="gridEdit(item)"> <span class="fa fa-edit"></button>
+							  <button class="btn btn-sm btn-danger" ng-click="gridDelete(item,$index)"> <span class="fa fa-remove"></button>
+						</div>  
+						
+					</td>
+					
+					<td ng-repeat="field in options.listFields" ng-click="options.gridOnRowClick()">
+					    <div ng-switch on="field.type">
+							
+							<!-- input text -->
+							<div  ng-switch-when="text" >
+								<span  ng-show="!item.$visible">
+									{{item[field.column]}}
+								</span>
+								<span ng-show="item.$visible">
+									<input style="width:100%"  type="text" ng-model="item[field.column]"  class="form-control"/>
+								</span>
+							</div>
+							
+							<!-- input number -->
+							<div ng-switch-when="number"  class="pull-right" style="margin-right:10px">
+								<span ng-show="!item.$visible">
+									{{field.renderer(item[field.column], entry, field.column,field.type)}}
+								</span>
+								<span ng-show="item.$visible">
+									<input style="width:100%"  type="text" ng-model="item[field.column]"   class="form-control"/>
+								</span>
+							</div>
+							
+							<!-- input date -->
+							<div ng-switch-when="date">
+								<span ng-show="!item.$visible">
+									{{item[field.column] | date:field.format ||'dd/MM/yyyy'}}
+								</span>
+								<span ng-show="item.$visible">
+									<input style="width:100%"  type="date" ng-model="item[field.column]"   class="form-control"/>
+								</span>
+							</div>
+							
+							
+							<!-- input currency -->
+							<div ng-switch-when="currency">
+								<span ng-show="!item.$visible">
+									{{item[field.column]  | toEuros}}
+								</span>
+								<span ng-show="item.$visible">
+									<input style="width:100%" type="text" ng-model="item[field.column]"   class="form-control"/>
+								</span>
+								
+							</div>
+							
+							<!-- input checkbox -->
+							<div ng-switch-when="checkbox">
+								<span ng-show="!item.$visible">
+									<input type="checkbox" ng-model="item[field.column]" ng-false-value="{{options.false_value}}" ng-true-value="{{options.true_value}}" onclick="javascript: return false;" >
+								</span>
+								<span ng-show="item.$visible">
+									<input style="width:100%"  type="checkbox" ng-model="item[field.column]" ng-false-value="'N'" ng-true-value="'S'" >
+								</span>
+							</div>
+							
+							<!-- input select -->
+							<div ng-switch-when="select">
+								
+								
+								<span ng-show="!item.$visible">
+									{{item.$optionSelectedName[field.column]}}
+								</span>
+								<span ng-show="item.$visible">
+									
+									<select style="width:100%"  ng-model="item[field.column]"   class="form-control"> 
+										<option></option>
+										<option ng-repeat="option in field.selectOptions" value="{{option.value}}">{{option.name}}</option>
+									</select>
+									
+								</span>
+							</div>
+							
+							<!-- input default -->
+							<div ng-switch-default>
+								<span  ng-show="!item.$visible">
+									{{item[field.column]}}
+								</span>
+								<span ng-show="item.$visible">
+									<input style="width:100%"  type="text" ng-model="item[field.column]"/>
+								</span>
+							</div>
+							
+						</div>
+						
+				    </td>
+			   </tr>
+			</tbody>
+		</table>
+		
+		</scrollable-table>
+		
+		
+			
+	
+		
+	</div>
+	<!-- overlay-grid loading -->
+	<div ng-show="options.inputGridLoading" class="overlay-edu-grid">
+		 <div class="spin centrado-edu-grid"> </div>
+	</div>
+	
+	<!-- overlay formDelete-->
+	<div name="overlay" class="overlay-edu-crud" ng-show="options.showOverlayInputGridFormDelete">
+		<div class="centrado-edu-crud">
+			<div class="panel panel-info" >
+				<div class="panel-heading" >
+					<div class="row">
+						<div class="col-md-12">
+							<h4>{{options.snippets.formDeleteTitle || 'Por favor confirme'}}</h4>
+						</div>
+					</div>
+				</div>
+				<div class="panel-body" >
+					<h4>{{options.snippets.formDeleteMessage || '¿Está seguro que quiere ELIMINAR el registro'}} {{keyRowForDelete}} ?</h4>
+				</div>
+				<div class="panel-footer" >
+				   <div class="row">
+						<div class="col-md-offset-6 col-md-6">  
+							<button ng-click="inputGridFormDeleteContinue()"  class="btn btn-sm btn-primary" >{{options.snippets.formDeleteButtonContinue || 'Continuar'}}</button> 
+							<button ng-click="inputGridFormDeleteCancel()" class="btn btn-sm">{{options.snippets.formDeleteButtonCancel || 'Cancelar'}}</button> 
+						</div> 
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+		
+</div>

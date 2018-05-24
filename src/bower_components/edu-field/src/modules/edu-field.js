@@ -6,4 +6,4 @@ var eduFieldDirectives = angular.module('edu-field.directives', []);
 var eduFieldFilters = angular.module('edu-field.filters', []);
 var eduFieldTpl=angular.module('edu-field.tpl',[]);
 // initialization of services into the main module
-angular.module('eduField', ['ngFileUpload','edu-field.services', 'edu-field.directives', 'edu-field.filters','edu-field.tpl','ngResource','textAngular','angularFileUpload','ui.bootstrap']);
+angular.module('eduField', ['ngFileUpload','edu-field.services', 'edu-field.directives', 'edu-field.filters','edu-field.tpl','ngResource','textAngular','angularFileUpload','ui.bootstrap','scrollable-table']);

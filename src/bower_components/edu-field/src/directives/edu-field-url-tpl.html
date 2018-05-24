@@ -1,4 +1,4 @@
-<div class="form-group   {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative"><!--   -->
+<div class="form-group   {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative" ng-hide="options.hidden"><!--   -->
 	<label for="{{id}}">
 		{{options.label}}
 		{{options.required ? '*' : ''}}
@@ -9,9 +9,10 @@
 		   name="name"
 		   placeholder="{{options.placeholder}}"
 		   ng-blur="onBlur()"
+		   edu-focus="options.autofocus"
 		   ng-focus="onFocus()"
 		   ng-change="onChange()"
-		   autofocus="options.autofocus"
+		   ng-focus="options.autofocus"
 		   ng-required="options.required"
 		   ng-disabled="options.disabled"
 		   ng-pattern="/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/"

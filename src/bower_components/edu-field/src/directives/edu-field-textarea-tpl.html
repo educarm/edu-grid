@@ -1,24 +1,26 @@
-<div class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
+<div class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative" ng-hide="options.hidden">
 <label for="{{id}}">
 {{options.label}}
-{{options.required ? '*' : ''}}
+{{options.required ? '*' : ''}} 
 </label>
-<textarea type="text"
-class="form-control"
-id="{{id}}"
-rows="options.rows"
-placeholder="{{options.placeholder}}"
-autofocus="options.autofocus"
-ng-required="options.required"
-ng-disabled="options.disabled"
-ng-minlength="options.minlength"
-ng-maxlength="options.maxlength"
-ng-pattern="pattern_validator"
-ng-trim="options.trim"
-ng-model="value"
-ng-blur="onBlur()"
-ng-focus="onFocus()"
-ng-change="onChange()">
+<textarea 
+	type="text"
+	class="form-control"
+	id="{{id}}"
+	rows="{{options.rows}}"
+	placeholder="{{options.placeholder}}"
+	edu-focus="options.autofocus"
+	ng-required="options.required"
+	ng-readonly="options.readonly"
+	ng-disabled="options.disabled"
+	ng-minlength="options.minlength"
+	ng-maxlength="options.maxlength"
+	ng-pattern="pattern_validator"
+	ng-trim="options.trim"
+	ng-model="value"
+	ng-blur="onBlur()"
+	ng-focus="onFocus()"
+	ng-change="onChange()">
 </textarea>
 <div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
 <small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca un valor</small>

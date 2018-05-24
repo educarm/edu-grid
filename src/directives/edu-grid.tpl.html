@@ -244,7 +244,7 @@
 									   </td>
 									   <!-- fields -->
 									   <td ng-repeat="field in options.listFields" ng-click="onRowClick()" ng-class="{'nowrap_overflow_hidden_ellipsis':options.overflow_hidden}" ng-style="entry.$styles">
-										   <div ng-if="field.type!='currency' && field.type!='number' && field.type!='date' && field.type!='date-time'  && field.type!='checkbox' && field.type!='input-text' && field.type!='input-date' && field.type!='input-select' && field.type!='input-radio'">
+										   <div ng-if="field.type!='currency' && field.type!='number' && field.type!='date' && field.type!='date-time'  && field.type!='checkbox' && field.type!='select' && field.type!='input-text' && field.type!='input-date' && field.type!='input-select' && field.type!='input-radio'">
 										   {{field.renderer(entry[field.column], entry, field.column,field.type)}}
 										   </div>
 										   <div ng-if="field.type=='number'"  class="pull-right">
@@ -257,7 +257,11 @@
 										   {{entry[field.column]  | toEuros}}
 										   </div>
 										   <div ng-if="field.type=='checkbox'"> <!--onclick="javascript: return false;"-->
-												<input type="checkbox" ng-model="entry[field.column]" ng-false-value="'N'" ng-true-value="'S'"  ng-change="onCheckboxChange(entry,field)" >
+												<input type="checkbox" ng-model="entry[field.column]" ng-false-value="'N'" ng-true-value="'S'"  ng-change="onInputEditableChange(entry,field)" ng-disabled="!field.editable" >
+										   </div>
+										   <div ng-if="field.type=='image'"> <!--onclick="javascript: return false;"-->
+												<!-- <img height="{{field.height || '40'}}px" width="{{field.width || '35'}}px" ng-src="{{entry[field.column]}}"/> -->
+												<img height="{{field.height || '40'}}px" width="{{field.width || '35'}}px" data-ng-src="data:image/png;base64,{{entry[field.column]}}" data-err-src="{{field.whenNotImg}}"/>
 										   </div>
 										   <div ng-if="field.type=='input-text'">
 												<input type="text" ng-model="entry[field.column]">
@@ -265,8 +269,22 @@
 										   <div ng-if="field.type=='input-date'">
 												<input type="date"  ng-model="entry[field.column]">
 										   </div>
-										   <div ng-if="field.type=='input-select'">
-												<select> <option>1</option><option>2</option></select>
+										   <div ng-if="field.type=='select'">
+												<select 
+														class="form-control input-{{field.inputSize}}"
+														
+														ng-change="ng-change="onInputEditableChange(entry,field)""
+														ng-model="entry[field.column]"
+														
+														
+														ng-disabled="options.disabled"
+														
+														ng-options="option.value as option.name for option in field.options">
+												>
+													 
+													<option ng-if="field.emptyOption" value="">{{field.emptyOptionText}}</option> 
+															 
+												</select>
 										   </div>
 									   </td>
 									   

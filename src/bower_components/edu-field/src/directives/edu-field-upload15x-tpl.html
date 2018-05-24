@@ -1,6 +1,6 @@
 
 	 
-<div flow-prevent-drop  class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
+<div flow-prevent-drop  class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative" ng-hide="options.hidden">
 	<label for="{{id}}">
 		{{options.label}}
 		{{options.required ? '*' : ''}}
@@ -28,7 +28,7 @@
 			<input type="text" class="form-control input-{{options.inputSize}}" aria-describedby="basic-addon1"
 				readonly 
 				ng-model="value"
-				autofocus="options.autofocus"
+				edu-focus="options.autofocus"
 				ng-required="options.required"
 				ng-disabled="options.disabled"
 				ng-blur="onBlur()"

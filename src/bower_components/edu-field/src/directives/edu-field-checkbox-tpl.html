@@ -1,21 +1,25 @@
-<div class="checkbox  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative"><!--ng-required="{{options.required}}"-->
-	<label style="margin-top:20px;margin-bottom:20px">
-		<input type="checkbox"
-			id="{{id}}"
-			name="name"
-			
-			autofocus="options.autofocus"
-			ng-false-value="'N'"
-			ng-true-value="'S'"
-			ng-disabled="options.disabled"
-			ng-model="value"
-			ng-blur="onBlur()"
-			ng-focus="onFocus()"
-			ng-change="onChange()">
-			{{options.label}}
-			{{options.required ? '*' : ''}}
+<div class="form-group   {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative"  ng-hide="options.hidden">
+	<label for="{{id}}">
+		&nbsp;
 	</label>
 	
+		<div class="form-control  input-{{options.inputSize}}" style="border:solid 0px">
+			<input  type="checkbox"
+					id="{{id}}"
+					name="{{options.name}}"
+					autofocus="options.autofocus"
+					ng-false-value="{{options.false_value}}"
+					ng-true-value="{{options.true_value}}"
+					ng-readonly="options.readonly"
+					ng-disabled="options.disabled"
+					ng-model="value"
+					ng-blur="onBlur()"
+					ng-focus="onFocus()"
+					ng-change="onChange()">
+			{{options.label}}
+			{{options.required ? '*' : ''}}
+        </div>
+		   
 	<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
 		<small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca un valor</small>
 	</div>

@@ -128,7 +128,16 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
         listFields: [
 				 {label: 'Código', column: 'vcodcen', weight: '10',type:'number'},
                  {label: 'Presupuesto', column: 'presupuesto', weight: '10',type:'currency'},
-				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',type:'checkbox','editable':true},
+				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',type:'checkbox','editable':false},
+				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',
+						type:'select',
+						options:[{'value':'S','name':'SÍ'},{'value':'N','name':'NO'}],
+				        listeners:{
+									onChange:function(row){
+														   console.log('changed:'+row);
+				                                          }
+				                   }
+				 },
                  {label: 'Denominación', column: 'vdencen', weight: '30',type:'text'},
                  {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text'},
                  {label: 'Localidad', column: 'vloccen', weight: '10',type:'text'},

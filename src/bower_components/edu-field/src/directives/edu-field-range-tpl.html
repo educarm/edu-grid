@@ -1,4 +1,4 @@
-<div class="form-group  {{options.col}}">
+<div class="form-group  {{options.col}}" ng-hide="options.hidden">
 	<label for="{{id}}">
 		{{options.label}}
 		{{options.required ? '*' : ''}} : {{value}}
@@ -22,10 +22,11 @@
 					<input type="range"
 						   id="{{id}}"
 						  
-						   autofocus="options.autofocus"
+						   edu-focus="options.autofocus"
 						   placeholder="{{options.placeholder}}"
 						   ng-required="options.required"
 						   ng-disabled="options.disabled"
+						   ng-readonly="options.readonly"
 						   min="options.min"
 						   max="options.max"
 						   ng-model="value">

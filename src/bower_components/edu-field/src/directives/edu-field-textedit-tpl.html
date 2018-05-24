@@ -1,5 +1,5 @@
-<div class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
-	<label for="{{id}}">
+<div class="form-group  {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative" ng-hide="options.hidden">
+	<label for="{{id}}" ng-click="options.readonly=true">
 		{{options.label}}
 		{{options.required ? '*' : ''}}
 	</label>
@@ -9,7 +9,8 @@
 		    name="{{name}}"
 			ta-toolbar="options.toolbar || [['h1','h2','h3'],['bold','italics']] " 
 			ng-model="value"
-			ng-required="options.required"
+			ng-required="options.required" 
+			ta-disabled="options.disabled || options.readonly"
 			autofocus="options.autofocus"
 			ng-blur="onBlur()"
 			ng-focus="onFocus()"

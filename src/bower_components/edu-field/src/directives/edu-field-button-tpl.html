@@ -1,10 +1,10 @@
-<div class="form-group   {{options.col}}" style="position:relative"  style="border-style: dotted;height:40px;vertical-align:text-bottom">
+<div title="{{options.title}}" class="form-group   {{options.col}}" style="position:relative"  style="border-style: dotted;height:40px;vertical-align:text-bottom"  ng-hide="options.hidden">
 	<label for="{{id}}">
 		{{options.labelButton}}
 		{{options.required ? '*' : ''}} 
 	</label>
 	
-	<div class="form-control" style="border: 0px solid #ccc; -webkit-box-shadow: inset 0 0px 0px rgba(0,0,0,.075); box-shadow: inset 0 0px 0px rgba(0,0,0,.075);">
+	<div  style="padding-top:10px;border: 0px solid #ccc; -webkit-box-shadow: inset 0 0px 0px rgba(0,0,0,.075); box-shadow: inset 0 0px 0px rgba(0,0,0,.075);">
 		<button  id="{{id}}" name="{{name}}" ng-click="options.onClick()" class=" btn btn-{{options.state}} btn-{{options.size}}"   ng-disabled='options.disabled'>  <i class="{{options.icon}}"></i><span>{{options.label}}</span>   </button>
 	</div>
 	

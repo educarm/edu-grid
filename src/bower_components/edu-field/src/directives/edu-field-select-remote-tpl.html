@@ -1,4 +1,4 @@
-<div class="form-group  {{options.col}}">
+<div class="form-group  {{options.col}}" ng-hide="options.hidden">
 	<label for="{{id}}">
 		{{options.label}}
 		{{options.required ? '*' : ''}}
@@ -6,9 +6,10 @@
 	<div edu-select-remote 
 	        inputclass="form-control input-{{options.inputSize}}"
 			ng-model="value"
-			autofocus="options.autofocus"
+			edu-focus="options.autofocus"
 			ng-required="options.required"
 			ng-disabled="options.disabled"
+			ng-readonly="options.readonly"
 			uri-data="options.uridata"
 			field-value="options.fieldvalue"
 			field-name="options.fieldname">

@@ -8,13 +8,14 @@
 			id="{{id}}"
 			name="{{name}}"
 			placeholder="{{options.placeholder}}"
-			autofocus="options.autofocus"
+			edu-focus="options.autofocus"
 			ng-model="value"
 			ng-blur="onBlur()"
 			ng-focus="onFocus()"
 			ng-change="onChange()"
 			ng-required="options.required"
-			ng-disabled="options.disabled">
+			ng-disabled="options.disabled"
+			ng-readonly="options.readonly">
 	<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
 		<small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca una fecha</small>
 		<small class="error" ng-show="$invalidPattern">Introduzca un fecha válida (dd-mm-aaaa)</small>

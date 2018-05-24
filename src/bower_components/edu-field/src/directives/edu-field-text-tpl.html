@@ -1,18 +1,19 @@
-<div class="form-group   {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
+<div class="form-group   {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative"  ng-hide="options.hidden">
 	<label for="{{id}}">
 		{{options.label}}
-		{{options.required ? '*' : ''}} 
+		{{options.required ? '*' : ''}}
 	</label>
 	
 		
-			<input type="text"
+			<input capitalize="{{options.uppercase}}"  type="text"
 			   class="form-control  input-{{options.inputSize}}"
 			   id="{{id}}"
 			   name="{{name}}"
 			   placeholder="{{options.placeholder}}"
-			   autofocus="options.autofocus"
+			   edu-focus="options.autofocus"
 			   ng-required="options.required"
 			   ng-disabled="options.disabled"
+			   ng-readonly="options.readonly"
 			   ng-pattern="pattern_validator"
 			   
 			   ng-minlength="options.min"
@@ -21,7 +22,8 @@
 			   ng-blur="onBlur()"
 			   ng-focus="onFocus()"
 			   ng-change="onChange()"
-			   ng-keypress="onKeypress($event)">
+			   ng-keypress="onKeypress($event)" 
+			   >
 
 		   
 	<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">

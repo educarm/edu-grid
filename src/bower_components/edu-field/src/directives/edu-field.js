@@ -15,6 +15,264 @@
         }
     };
 })*/
+
+
+eduFieldDirectives
+ /**
+ * Angularjs Module for pop up timepicker
+ */
+.factory('timepickerState', function() {
+  var pickers = [];
+  return {
+		addPicker: function(picker) {
+			pickers.push(picker);
+		},
+		closeAll: function() {
+			for (var i=0; i<pickers.length; i++) {
+				pickers[i].close();
+			}
+		}
+	};
+})
+.directive("timeFormat", function($filter) {
+  return {
+    restrict : 'A',
+    require : 'ngModel',
+    scope : {
+      showMeridian : '=',
+    },
+    link : function(scope, element, attrs, ngModel) {
+        var parseTime = function(viewValue) {
+
+        if (!viewValue) {
+          ngModel.$setValidity('time', true);
+          return null;
+        } else if (angular.isDate(viewValue) && !isNaN(viewValue)) {
+          ngModel.$setValidity('time', true);
+          return viewValue;
+        } else if (angular.isString(viewValue)) {
+          var timeRegex = /^(0?[0-9]|1[0-2]):[0-5][0-9] ?[a|p]m$/i;
+          if (!scope.showMeridian) {
+            timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+          }
+          if (!timeRegex.test(viewValue)) {
+            ngModel.$setValidity('time', false);
+            return undefined;
+          } else {
+            ngModel.$setValidity('time', true);
+            var date = new Date();
+            var sp = viewValue.split(":");
+            var apm = sp[1].match(/[a|p]m/i);
+            if (apm) {
+              sp[1] = sp[1].replace(/[a|p]m/i, '');
+              if (apm[0].toLowerCase() == 'pm') {
+                sp[0] = sp[0] + 12;
+              }
+            }
+            date.setHours(sp[0], sp[1]);
+            return date;
+          };
+        } else {
+          ngModel.$setValidity('time', false);
+          return undefined;
+        };
+      };
+
+      ngModel.$parsers.push(parseTime);
+
+      var showTime = function(data) {
+        parseTime(data);
+        var timeFormat = (!scope.showMeridian) ? "HH:mm" : "hh:mm a";
+        return $filter('date')(data, timeFormat);
+      };
+      ngModel.$formatters.push(showTime);
+      scope.$watch('showMeridian', function(value) {
+        var myTime = ngModel.$modelValue;
+        if (myTime) {
+          element.val(showTime(myTime));
+        }
+
+      });
+    }
+  };
+})
+
+.directive('timepickerPop', function($document, timepickerState) {
+      return {
+        restrict : 'E',
+        transclude : false,
+        scope : {
+          inputTime : "=",
+          showMeridian : "=",
+          disabled : "="
+        },
+        controller : function($scope, $element) {
+          $scope.isOpen = false;
+          
+          $scope.disabledInt = angular.isUndefined($scope.disabled)? false : $scope.disabled;
+
+          $scope.toggle = function() {
+        	if ($scope.isOpen) {
+        		$scope.close();
+        	} else {
+        		$scope.open();
+        	}
+          };
+        },
+        link : function(scope, element, attrs) {
+          var picker = {
+        		  open : function () {
+        			  timepickerState.closeAll();
+        			  scope.isOpen = true;
+        		  },
+        		  close: function () {
+        			  scope.isOpen = false;
+        		  }
+          		  
+          }
+          timepickerState.addPicker(picker);
+          
+          scope.open = picker.open;
+          scope.close = picker.close;
+          
+          scope.$watch("disabled", function(value) {
+            scope.disabledInt = angular.isUndefined(scope.disabled)? false : scope.disabled;
+          });
+          
+          scope.$watch("inputTime", function(value) {
+            if (!scope.inputTime) {
+              element.addClass('has-error');
+            } else {
+              element.removeClass('has-error');
+            }
+
+          });
+
+          element.bind('click', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+          });
+
+          $document.bind('click', function(event) {
+            scope.$apply(function() {
+           		scope.isOpen = false;
+            });
+          });
+
+        },
+        template : "<input type='text' class='form-control' ng-model='inputTime' ng-disabled='disabledInt' time-format show-meridian='showMeridian' ng-focus='open()' />"
+            + "  <div class='input-group-btn' ng-class='{open:isOpen}'> "
+            + "    <button type='button' ng-disabled='disabledInt' class='btn btn-default ' ng-class=\"{'btn-primary':isOpen}\" data-toggle='dropdown' ng-click='toggle()'> "
+            + "        <i class='glyphicon glyphicon-time'></i></button> "
+            + "          <div class='dropdown-menu pull-right'> "
+            + "            <timepicker ng-model='inputTime' show-meridian='showMeridian'></timepicker> "
+            + "           </div> " + "  </div>"
+      };
+});
+
+
+
+eduFieldDirectives.directive('capitalize', function() {
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attrs, modelCtrl) {
+		  if(attrs.capitalize=='true'){
+			var capitalize = function(inputValue) {
+			  if (inputValue == undefined) inputValue = '';
+			  var capitalized = inputValue.toUpperCase();
+			  if (capitalized !== inputValue) {
+				// see where the cursor is before the update so that we can set it back
+				var selection = element[0].selectionStart;
+				modelCtrl.$setViewValue(capitalized);
+				modelCtrl.$render();
+				// set back the cursor after rendering
+				element[0].selectionStart = selection;
+				element[0].selectionEnd = selection;
+			  }
+			  return capitalized;
+			}
+			modelCtrl.$parsers.push(capitalize);
+			capitalize(scope[attrs.ngModel]); // capitalize initial value
+		  }
+      }
+    };
+});
+
+eduFieldDirectives.factory('dataFactoryField', [ '$resource', function ( $resource) {
+    return function (uri,actions) {
+	    var defActions={
+						getAll: {method:'GET', params:{}, withCredentials: true, isArray:true},
+						getCount: {method:'GET', url: uri + '/count', params:{}, withCredentials: true, isArray:false},
+						get: {method:'GET', params:{}, withCredentials: true, isArray:false},
+						insert: {method:'POST', params:{}, withCredentials: true, isArray:false},
+						update: {method:'PUT', params:{}, withCredentials: true, isArray:false},
+						remove: {method:'DELETE', params:{}, withCredentials: true, isArray:false}
+						
+		};
+		
+		if (typeof actions!=='undefined' && actions!==''){
+			for(keyAction in actions){
+				for(keyDefAction in defActions){
+					if(keyAction==keyDefAction){
+						defActions[keyDefAction]=actions[keyAction];
+					}
+				}
+			}
+		}
+    	return $resource(	uri ,
+							{},
+							defActions
+		);        
+    };
+}]);
+
+eduFieldDirectives.directive('eduFocus', function($timeout) {
+    return {
+        link: function ( scope, element, attrs ) {
+            scope.$watch( attrs.eduFocus, function ( val ) {
+                if ( angular.isDefined( val ) && val ) {
+                    $timeout( function () { element[0].focus(); } );
+                }
+            }, true);
+
+            element.bind('blur', function () {
+                if ( angular.isDefined( attrs.ngFocusLost ) ) {
+                    scope.$apply( attrs.ngFocusLost );
+
+                }
+            });
+        }
+    };
+});
+
+eduFieldDirectives.directive('datepickerLocaldate', ['$parse', function ($parse) {
+    var directive = {
+        restrict: 'A',
+        require: ['ngModel'],
+        link: link
+    };
+    return directive;
+
+    function link(scope, element, attr, ctrls) {
+        var ngModelController = ctrls[0];
+
+        // called with a JavaScript Date object when picked from the datepicker
+        ngModelController.$parsers.push(function (viewValue) {
+            // undo the timezone adjustment we did during the formatting----
+			if(viewValue!=null){
+				var minutes=viewValue.getMinutes();
+				if(typeof(minutes)!='undefined'){
+					viewValue.setMinutes(minutes - viewValue.getTimezoneOffset());
+				}
+				// we just want a local date in ISO format
+				return viewValue.toISOString().substring(0, 10);
+			}else{
+				return viewValue;
+			}
+        });
+    }
+}]);
+
 eduFieldDirectives.directive("validateIban",function($compile){
 		return {
 			restrict:"A",
@@ -91,84 +349,7 @@ eduFieldDirectives.directive("validateIban",function($compile){
 				}
 				ctrl.$parsers.push(myValidation);
 				
-			 /* ctrl.$validators.validateIban = function(modelValue, viewValue) {
-				 if(modelValue && viewValue){ 
-				  
-				  var prefId=attrs.id.substring(0,attrs.id.indexOf("-"));
-				  
-				  var pais=angular.element("input#"+prefId+"-pais");
-				  var entidad=angular.element("input#"+prefId+"-entidad");
-				  var oficina=angular.element("input#"+prefId+"-oficina");
-				  var control2=angular.element("input#"+prefId+"-control2");
-				  var cuenta=angular.element("input#"+prefId+"-cuenta");
-				  
-				  var iban=pais.val()+entidad.val()+oficina.val()+control2.val()+cuenta.val();
-				  
-				  
-				  var valid=IBAN.isValid(iban);
-				  
-				  if(!pais.attr('class') && !entidad.attr('class') && !oficina.attr('class') && !control2.attr('class') && !cuenta.attr('class')){
-					valid=true;  
-				  } 
-				  var a=pais.attr('class');
-				  console.log(prefId + " class:" +a);
-				  
-				  if(attrs.name==pais.attr("name")){
-					if (valid) {
-						//scope.border={"border-color":"#3c763d"};  
-					}else{
-						//scope.border={"border-color":"#a94442"};
-					}
-					if(pais.val().length==pais.attr("maxlength")){
-						entidad.focus();
-					}
-				  }else if(attrs.name==entidad.attr("name")){
-					if (valid) {
-						//scope.border={"border-color":"#3c763d"};  
-					}else{
-						//scope.border={"border-color":"#a94442"};
-					}
-					if(entidad.val().length==entidad.attr("maxlength")){
-						oficina.focus();
-					}
-					  
-				  }else if(attrs.name==oficina.attr("name")){
-					if (valid) {
-						//scope.border={"border-color":"#3c763d"};  
-					}else{
-						//scope.border={"border-color":"#a94442"};
-					}
-					if(oficina.val().length==oficina.attr("maxlength")){
-						control2.focus();
-					}
-					  
-				  }else if(attrs.name==control2.attr("name")){
-					if(control2.val().length==control2.attr("maxlength")){
-						  cuenta.focus();
-					}
-					if (valid) {
-						//scope.border={"border-color":"#3c763d"};  
-					}else{
-						//scope.border={"border-color":"#a94442"};
-					}
-					  
-				  }else if(attrs.name==cuenta.attr("name")){
-					  if(cuenta.val().length==cuenta.attr("maxlength")){
-						if (valid) {
-							//scope.border={"border-color":"#3c763d"};  
-						}else{
-							//scope.border={"border-color":"#a94442"};
-						}
-					  }
-				  }
-				  
-				//scope.border={"border-color":"#66afe9"};  
-				//return true;
-				return valid; 
-
-			  };
-			 }
-			 */
+			
 			}
 		};
 	});
@@ -203,6 +384,31 @@ eduFieldDirectives.directive(
                 },
             };
     });
+	
+	eduFieldDirectives.directive(
+        'replaceBlank',
+        function() {
+            return {
+                require: 'ngModel',
+                link: function(scope, elm, attrs, ngModelCtrl) {
+                    ngModelCtrl.$formatters.unshift(function (modelValue) {
+						if(typeof(modelValue)!='undefined'){
+							return modelValue.replace(new RegExp(' ', 'g'), 'aeiou');
+						}else{
+							return modelValue
+						}
+                    });
+                    
+                    ngModelCtrl.$parsers.unshift(function(viewValue) {
+						if(typeof(viewValue)!='undefined'){
+							return viewValue.replace(new RegExp('aeiou', 'g'), ' ');
+						}else{
+							return viewValue
+						}
+                    });
+                },
+            };
+    });
 	eduFieldDirectives.directive(
         'dateTimeInput',
         function(dateFilter) {
@@ -221,7 +427,86 @@ eduFieldDirectives.directive(
                 },
             };
     });
+    
+	eduFieldDirectives
+	 .filter('toEuros', function() {
+	  return function(input,fractionDigit) {
+		var fractD=fractionDigit?fractionDigit:2;
+		var amount= Number(input).toLocaleString("es-ES", {minimumFractionDigits: fractD}) + ' €';
+		if(amount=='0,00 €' || amount=='NaN €'){
+		//if(amount=='NaN €'){
+			return; 
+		}else{
+			return amount;
+		}  
+		
+	  };
+	});
+	
+	eduFieldDirectives.directive('currency', ['$filter', function ($filter) {
+    return {
+        require: '?ngModel',
+        link: function (scope, elem, attrs, ctrl) {
+            if (!ctrl) return;
 
+            ctrl.$formatters.unshift(function (a) {
+				
+				if(ctrl.$modelValue){
+					return $filter('toEuros')(ctrl.$modelValue.toString().replace(',','.'));
+				}else{
+					return $filter('toEuros')('');
+				}
+				
+            });
+			
+			elem.bind('keydown', function(event) {
+				
+				if (event.which==188 || event.keyCode==188 ){
+					return false;
+				}
+				
+			});	
+
+            elem.bind('blur', function(event) {
+				var arrPartsNumber;
+				// La primera vez que se introduce un valor en el input no puede contener coma porque el evento 'keydown' no lo permite.
+				
+				
+				// si lleva coma es porque ya ha sido procesada la entrada por el input currency y entonces puede llevar también puntos de miles.
+				// Por eso quitamos todos los puntos y el simbolo del euro
+				if(elem.val().indexOf(',')>=0){
+					var pureNumber=elem.val().replace('€','').replace(/\./g, '');
+					var arrPartsNumber=pureNumber.split(',');
+				}
+				// si no lleva coma es porque la entrada es nueva  y no ha sido procesado por el input currency.
+				// Puede llevar puntos
+				else{ 
+					var pureNumber=elem.val().replace('€','');
+					var arrPartsNumber=pureNumber.split('.');
+				}
+				
+				elem.val($filter('toEuros')(arrPartsNumber.join('.')));
+				
+				//var partEntera='';
+				//var partDecimal='';
+				
+				//if(arrPartsNumber[0] && arrPartsNumber[1]){
+					//partEntera=arrPartsNumber[0];
+					//elem.val($filter('toEuros')(partEntera+'.'+partDecimal));
+				//}
+				
+				//if(arrPartsNumber[1]){
+					//partDecimal=arrPartsNumber[1];
+				//}
+				
+                // var plainNumber = elem.val().replace(/[^\d|\-+|\.+]/g, '').replace('€','');
+			    //var plainPartEntera=partEntera.replace(/[^\d|\-+|\.+]/g, '');
+				//var plainPartDecimal=partDecimal.replace(/[^\d|\-+|\.+]/g, '');
+			    //elem.val($filter('toEuros')(partEntera+'.'+partDecimal));
+            });
+        }
+    };
+}]);
 
 
 eduFieldDirectives.directive('eduField', function formField($http, $compile, $templateCache,$timeout) {
@@ -230,11 +515,20 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 		var templateUrl = '';
 
 		switch(type) {
+			case 'tritoggle':
+				templateUrl = 'directives/edu-field-tritoggle-tpl.html';
+				break;
+			case 'image':
+				templateUrl = 'directives/edu-field-image-tpl.html';
+				break;
 		    case 'textbutton':
 				templateUrl = 'directives/edu-field-textbutton-tpl.html';
 				break;
 			case 'button':
 				templateUrl = 'directives/edu-field-button-tpl.html';
+				break;
+			case 'currency':
+				templateUrl = 'directives/edu-field-currency-tpl.html';
 				break;
 			case 'hidden':
 				templateUrl = 'directives/edu-field-hidden-tpl.html';
@@ -250,6 +544,9 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				break;
 		    case 'nifniecif':
 				templateUrl = 'directives/edu-field-nifniecif-tpl.html';
+				break;
+			case 'grid':
+				templateUrl = 'directives/edu-field-grid-tpl.html';
 				break;
 			case 'iban':
 				templateUrl = 'directives/edu-field-iban-tpl.html';
@@ -325,10 +622,12 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 		var stringPattern = '';
 
 		switch(type) {
+			case 'image':
 		    case 'textbutton':
+			case 'button':
 				stringPattern = '';
 				break;
-			case 'button':
+			case 'currency':
 				stringPattern = '';
 				break;
 			case 'hidden':
@@ -344,6 +643,9 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				stringPattern = '';
 				break;
 		    case 'nifniecif':
+				stringPattern = '';
+				break;
+			case 'grid':
 				stringPattern = '';
 				break;
 			case 'iban':
@@ -429,6 +731,8 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 		
 		link: function fieldLink($scope, $element, $attr) {
 			
+			
+			
 			if (!$scope.hasOwnProperty('options')) {
 				throw new Error('options are required!');
             }
@@ -457,7 +761,14 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 			$scope.$invalidMaxlength=false;
 			$scope.$invalidMin=false;
 			$scope.$invalidMax=false;
-		  
+			
+			if($scope.options.type=='grid'){
+				//height scrollable-table
+				$timeout(function () {
+					$("#input-grid-"+ $scope.options.key +" .scrollableContainer").css("height",$scope.options.height+'px');
+				});
+				
+		    }
 			
 			// ---
 			// CALLBACKS
@@ -467,8 +778,8 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 					$scope.options.fieldListeners.onClick($scope.value);
 				}
 			}
+			
 			$scope.onChange=function(subitem) {
-				
 				
 				if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChange == 'function'){
 					var item={};
@@ -485,8 +796,15 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 						value=$scope.value[subitem];
 						item=subitem;
 						
-					}
-					$scope.options.fieldListeners.onChange(value,item);
+					}else if($scope.options.type=='autocomplete'){
+						value=$scope.value;
+						item=subitem;
+					
+				    }else{
+						value=$scope.value;	
+				    }
+					
+					$scope.options.fieldListeners.onChange(value,item,$scope.options.showPopupCalendar);
 				}
 			}
 			
@@ -555,7 +873,7 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 						value=($scope.value)?$scope.value:'';
 					}
 					
-					$scope.options.fieldListeners.onBlur(value,item);
+					$scope.options.fieldListeners.onBlur(value,$scope.options.showPopupCalendar);
 				}
 				
 			}	
@@ -569,7 +887,7 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 		
 		
 		
-		controller: function fieldController($scope,Upload,FileUploader) {
+		controller: function fieldController($scope,$http, Upload,FileUploader,dataFactoryField) {
 			
 			// component control
 			$scope.options.fieldControl={};
@@ -611,6 +929,12 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				if($scope.options.type=="select"){
 					$scope.refreshSelect(value);
 				}
+				if($scope.options.type=="grid"){
+					if(value){
+						$scope.options.valueFk=value;
+					}
+					$scope.refreshGrid();
+				}
 			}
 			
 			$scope.internalControl.clean = function(value) {
@@ -641,11 +965,321 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				return regexp;
 			})();
 			
+			
+			
+			
+			$scope.onChange=function(subitem) {
+				
+				
+				if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChange == 'function'){
+					var item={};
+					var value="";
+					
+					
+					
+					
+					if($scope.options.type=='select'){
+						for(var i=0;i<$scope.optionsSelect.length;i++){
+							if($scope.optionsSelect[i][$scope.options.optionvalue]==$scope.value){
+								item=$scope.optionsSelect[i];
+								value=$scope.value;
+								break;
+							}
+						}
+					}else if($scope.options.type=='iban2'){
+						value=$scope.value[subitem];
+						item=subitem;
+						
+					}else if($scope.options.type=='autocomplete'){
+						value=$scope.value;
+						item=subitem;
+					    console.log('onChange()- edu-field.js -- subitem:'+subitem);
+					
+				    }
+					$scope.options.fieldListeners.onChange(value,item);
+				}
+			}
+			
+			// ----------------------------------------------------------//
+			// CONTROL TYPE= checkbox
+		    // ----------------------------------------------------------//
+			if($scope.options.type=='checkbox'){
+				if(!$scope.options.false_value){
+					$scope.options.false_value="'N'";
+				}
+				if(!$scope.options.true_value){
+					$scope.options.true_value="'S'";
+				}
+			}
+			
+			//-----------------------------------------------------------//
+			// CONTROL TYPE= grid
+			//-----------------------------------------------------------//
+			if($scope.options.type=='grid'){
+				$scope.options.state='list';
+				function configField(){
+					$scope.field=null;
+					for(var k=0,field;field=$scope.options.listFields[k];k++){
+						$scope.field=field;
+						//for transform content input before render
+						for (var property in field) {
+							if (typeof field.renderer !== 'function') {
+								field.orderByValue = field.column;
+								field.renderer = function (input, row, column,type) {
+									return input;
+								};
+							}
+						}
+							
+						// if item in listField is checkbox, by default, false and true value are 'N' and 'S'
+						if(field.type=='checkbox'){
+							if(!field.false_value){
+								field.false_value="'N'";
+							}
+							if(!field.true_value){
+								field.true_value="'S'";
+							}
+						}
+						
+						if(field.type=='select'){
+							if(field.selecttypesource=='url'){
+								if(field.hasOwnProperty('selectsource') && field.selectsource!=''){
+								//****************************************************************************
+									$http.get(field.selectsource).success(function (data, status, headers, config) {
+										$scope.field.selectOptions = data;
+										
+										//for each option, adjust properties value an name
+										for (var i = 0,option; option=$scope.field.selectOptions[i]; i++) {
+													  
+											if (!option.hasOwnProperty('value')) {
+												option.value= option[$scope.field.optionvalue];
+											}
+											
+											if (!option.hasOwnProperty('name')) {
+												if ($scope.field.selectconcatvaluename) {
+													option.name = option[$scope.field.optionvalue] + ' - ' + option[$scope.field.optionname];
+												} else {
+													option.name = option[$scope.field.optionname];
+												}
+												
+											} else {
+												if ($scope.field.selectconcatvaluename) {
+													option.name = option['value'] + ' - ' + option['name'];
+												} else {
+													option.name = option[$scope.field.optionname];
+												}
+											}
+										}
+										
+										//guarda la descripción de la opción del select correspondiente con el código en select.option.value
+										//para poder mostarla cuando la fila esté en edición
+										if($scope.gridRows){
+											for(var i=0,row;row=$scope.gridRows[i];i++){
+												row.$optionSelectedName={};
+												for(var key in row){
+													if(key==$scope.field.column){
+														row.$optionSelectedName[key]=_.find($scope.field.selectOptions,{'value':row[key]}).name;
+													}
+													
+												}
+												
+											}
+										}
+										
+									}).error(function (data, status, headers, config) {
+										  console.log("Error getting options select:" + data);
+									}); 
+
+
+								//****************************************************************************
+								}
+							}
+						}	
+						
+					}
+				}
+				
+				
+				
+				var apiField=null;
+				
+            	if( typeof $scope.options.uri!=='undefined' && $scope.options.uri!==''){
+					apiField=dataFactoryField($scope.options.uri,(typeof $scope.options.actions!=='undefined'?$scope.options.actions:''));
+            	};
+				
+				$scope.refreshGrid=function(){
+					//get all element with foreing key like  fieldFk
+					$scope.options.loading=true;
+					
+					var filterFK='';
+					var oParamGrid={};
+					if($scope.options.valueFk!=''){
+						if($scope.options.hasOwnProperty("fieldFk") && typeof $scope.options.fieldFk!=undefined && $scope.options.hasOwnProperty("valueFk") && typeof $scope.options.valueFk!=undefined){
+							filterFK= '[' + $scope.options.fieldFk + ']=' + $scope.options.valueFk;
+							oParamGrid.filter=filterFK;
+						}
+								
+						apiField.getAll(oParamGrid,function (data) {  
+							$scope.options.loading=false;
+							$scope.gridRows=data
+							
+							configField();
+							
+						},function(data){
+							$scope.options.loading=false;
+							$scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
+						});
+					}
+				}
+				
+			
+				
+				// get one element for edit
+				$scope.gridEdit=function(item){
+					var dataCopy={};
+					angular.copy(item,dataCopy);
+					item.$dataCopy=dataCopy;
+					
+					item.$visible=true;
+					item.$inserted=false;
+					if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChangeState == 'function'){
+						$scope.options.fieldListeners.onChangeState($scope.options.state,'edit');
+						$scope.options.state='edit';
+					}else{
+						$scope.options.state='edit';
+					}
+				}	
+				
+				// button grid cancel
+				$scope.gridCancel=function(item){
+					angular.extend(item, item.$dataCopy)
+					item.$visible=false;
+					item.$inserted=false;
+					if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChangeState == 'function'){
+						$scope.options.fieldListeners.onChangeState($scope.options.state,'list');
+						$scope.options.state='list';
+					}else{
+						$scope.options.state='list';
+					}
+				}
+				
+				// button grid delete
+				$scope.gridDelete=function(item,index){
+					$scope.options.showOverlayInputGridFormDelete=true;
+					$scope.itemForDelete={item:item,index:index};
+					if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChangeState == 'function'){
+						$scope.options.fieldListeners.onChangeState($scope.options.state,'list');
+						$scope.options.state='list';
+					}else{
+						$scope.options.state='list';
+					}
+				}
+				
+				// button grid add new
+				$scope.gridNew=function(){
+					var newItem={};
+					for( var i=0; i<$scope.options.listFields.length;i++){
+						newItem[$scope.options.listFields[i].column]='';
+					}
+					$scope.gridRows.unshift(newItem);
+					
+					newItem.$visible=true;
+					newItem.$inserted=true;
+					
+					if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChangeState == 'function'){
+						$scope.options.fieldListeners.onChangeState($scope.options.state,'new');
+						$scope.options.state='new';
+					}else{
+						$scope.options.state='new';
+					}
+					
+				}
+				
+				// button grid save
+				$scope.gridSave=function(item){
+					console.log('gridLocalSave: '+angular.toJson(item));
+					var dataTemp={};
+					angular.copy(item,dataTemp);
+					delete dataTemp.$optionSelectedName;
+					delete dataTemp.$dataCopy;
+					delete dataTemp.$visible;
+					delete dataTemp.$inserted;
+					
+					if(item.$inserted){
+						dataTemp[$scope.options.fieldFk]=$scope.options.valueFk;
+						apiField.insert(dataTemp,function (data) { 
+                            item.$visible=false;
+							if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onSaveSuccess == 'function'){
+								$scope.options.fieldListeners.onSaveSuccess(data);
+							}
+							if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChangeState == 'function'){
+								$scope.options.fieldListeners.onChangeState($scope.options.state,'list');
+								$scope.options.state='list';
+							}else{
+								$scope.options.state='list';
+							}
+							$scope.refreshGrid();		
+            	        },function(data){
+						   //$scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
+						});
+					}else{
+						var oId = getOid(dataTemp);
+						
+						apiField.update(oId,dataTemp,function (data) {  
+                            item.$visible=false;
+							if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onUpdateSuccess == 'function'){
+								$scope.options.fieldListeners.onUpdateSuccess(data);
+							}
+							if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChangeState == 'function'){
+								$scope.options.fieldListeners.onChangeState($scope.options.state,'list');
+								$scope.options.state='list';
+							}else{
+								$scope.options.state='list';
+							}
+            	        },function(data){
+							//$scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
+						});
+					}
+					
+				}
+				
+				$scope.inputGridFormDeleteContinue=function(){
+					
+					
+					var oId={};
+					oId.id=$scope.itemForDelete.item[$scope.options.fieldKey];
+					
+					apiField.delete(oId,function (data) { 
+                            $scope.gridRows.splice($scope.itemForDelete.index, 1);
+					},function(data){
+					  // $scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
+					});
+					
+					$scope.options.showOverlayInputGridFormDelete=false;
+				}
+				
+				$scope.inputGridFormDeleteCancel=function(){
+					$scope.options.showOverlayInputGridFormDelete=false;
+				}
+		    
+				function getOid(row){
+					var vid=row[$scope.options.fieldKey];
+					var oId={};
+					oId['id']=vid;
+			   
+					return oId;
+				}
+				
+				
+			}
+			
+			
+			
 			//Especific validator
 			
-			// ---
+			// ----------------------------------------------------------//
 			// CONTROL TYPE= date
-		    // ---
+		    // ----------------------------------------------------------//
 			if($scope.options.type=='date'){
 				$scope.options.dateOptions= {
 										"startingDay": 1,
@@ -659,11 +1293,9 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				};
 			}
 			
-			
-			
-			// ---
+			// ----------------------------------------------------------//
 			// CONTROL TYPE= iban
-		    // ---
+		    // ----------------------------------------------------------//
 			$scope.ibanValidator = (function() {
 				return {
 					test: function(value) {
@@ -672,9 +1304,9 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				};
 			})();
 			
-			// ---
+			// ----------------------------------------------------------//
 			// CONTROL TYPE= nif nie cif
-		    // ---
+		    // ----------------------------------------------------------//
 		    $scope.nifniecifValidator = (function() {
 				return {
 					test: function(value) {
@@ -686,7 +1318,6 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				};
 			})();
 
-			
 			// ---
 			// CONTROL TYPE= ss
 		    // ---
@@ -709,8 +1340,8 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				if(file){
 					$scope.value=file.$ngfName || file.name;
 					if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onAfterAddingFile == 'function'){
-					$scope.options.fieldListeners.onAfterAddingFile(file);
-			  }
+						$scope.options.fieldListeners.onAfterAddingFile(file);
+					}
 				}
 			}
 			$scope.uploading=false;
@@ -738,7 +1369,19 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 					});
 				}
 			}
-			
+			// ---
+			// CONTROL TYPE= grid
+		    // ---
+			 if ($scope.options.type == 'grid') {
+				if ($scope.options.selecttypesource == 'url' && (typeof $scope.options.autoload == 'undefined' || $scope.options.autoload == true)) {
+					var sUrl = $scope.options.selectsource;
+					if ($scope.options.loadOnInit) {
+						$http.get(sUrl).success(function (data, status, headers, config) {
+						  $scope.optionsSelect = data;
+						});
+					}
+				}
+			 }
 			
 			// ---
 			// CONTROL TYPE= uploader
@@ -827,14 +1470,20 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
               if (typeof value != 'undefined') {
                 sUrl = sUrl + '&' + value;
               }
-            
+              $scope.options.loading=true;
               $http.get(sUrl).success(function (data, status, headers, config) {
                 $scope.optionsSelect = data;
                 for (var i = 0; i < $scope.optionsSelect.length; i++) {
 				 			  
-                  if (!$scope.optionsSelect[i].hasOwnProperty('value')) {
-                    $scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
-                  }
+					if (!$scope.optionsSelect[i].hasOwnProperty('value')) {
+						var val= $scope.optionsSelect[i][$scope.options.optionvalue];
+						//if(typeof(val)=='string'){
+						//	$scope.optionsSelect[i].value=val.replace(new RegExp(' ', 'g'), 'aeiou');
+						//}else{
+							$scope.optionsSelect[i].value=val;
+						//}
+						//$scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue].replace(' ','|');
+					}
                   if (!$scope.optionsSelect[i].hasOwnProperty('name')) {
                     if ($scope.options.selectconcatvaluename) {
                       $scope.optionsSelect[i].name = $scope.optionsSelect[i][$scope.options.optionvalue] + ' - ' + $scope.optionsSelect[i][$scope.options.optionname];
@@ -852,7 +1501,9 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
                   }
                 }
                 $scope.onInit();
+				$scope.options.loading=false;
               }).error(function (data, status, headers, config) {
+				  $scope.options.loading=false;
               }); 
             } else if ($scope.options.selecttypesource == 'array') {
               $scope.optionsSelect = $scope.options.selectsource;
@@ -860,7 +1511,13 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
                 if (typeof $scope.optionsSelect != 'undefined') {
                   for (var i = 0; i < $scope.optionsSelect.length; i++) {
 				    if (!$scope.optionsSelect[i].hasOwnProperty('value')) {
-                        $scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
+						var val= $scope.optionsSelect[i][$scope.options.optionvalue];
+						//if(typeof(val)=='string'){
+						//	$scope.optionsSelect[i].value=val.replace(new RegExp(' ', 'g'), 'aeiou');
+						//}else{
+							$scope.optionsSelect[i].value=val;
+						//}
+                        //$scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue].replace(' ','|');
                     }
 					if (!$scope.optionsSelect[i].hasOwnProperty('name')) {
 						if ($scope.options.selectconcatvaluename) {
@@ -883,11 +1540,18 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
             if ($scope.options.selecttypesource == 'url' && (typeof $scope.options.autoload == 'undefined' || $scope.options.autoload == true)) {
               var sUrl = $scope.options.selectsource;
               if ($scope.options.loadOnInit) {
+				$scope.options.loading=true;
                 $http.get(sUrl).success(function (data, status, headers, config) {
                   $scope.optionsSelect = data;
                   for (var i = 0; i < $scope.optionsSelect.length; i++) {
                     if (!$scope.optionsSelect[i].hasOwnProperty('value')) {
-                      $scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
+						var val= $scope.optionsSelect[i][$scope.options.optionvalue];
+						//if(typeof(val)=='string'){
+						//	$scope.optionsSelect[i].value=val.replace(new RegExp(' ', 'g'), 'aeiou');
+						//}else{
+							$scope.optionsSelect[i].value=val;
+						//}
+						//$scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue].replace(' ','|');
                     }
                     if (!$scope.optionsSelect[i].hasOwnProperty('name')) {
                       if ($scope.options.selectconcatvaluename) {
@@ -906,7 +1570,9 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
                     }
                   }
                   $scope.onInit();
+				  $scope.options.loading=false;
                 }).error(function (data, status, headers, config) {
+					$scope.options.loading=false;
                 });
               }
             } else if ($scope.options.selecttypesource == 'array') {
@@ -915,7 +1581,13 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
                 if (typeof $scope.optionsSelect != 'undefined' && !$scope.optionsSelect[0].hasOwnProperty('value')) {
                   for (var i = 0; i < $scope.optionsSelect.length; i++) {
 				    if (!$scope.optionsSelect[i].hasOwnProperty('value')) {
-                        $scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue];
+						var val= $scope.optionsSelect[i][$scope.options.optionvalue];
+						//if(typeof(val)=='string'){
+						//	$scope.optionsSelect[i].value=val.replace(new RegExp(' ', 'g'), 'aeiou');
+						//}else{
+							$scope.optionsSelect[i].value=val;
+						//}
+                        //$scope.optionsSelect[i].value = $scope.optionsSelect[i][$scope.options.optionvalue].replace(' ','|');
                     }
 					if (!$scope.optionsSelect[i].hasOwnProperty('name')) {
 						if ($scope.options.selectconcatvaluename) {

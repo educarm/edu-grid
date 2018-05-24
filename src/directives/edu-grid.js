@@ -788,7 +788,7 @@
 						return oId;
 				}
 				
-				$scope.onCheckboxChange=function(row,options){
+				$scope.onInputEditableChange=function(row,options){
 					console.log('checkbox changed value:'+row[options.column]);
 					if(options.editable){
 					    console.log('checkbox editable:'+row);
@@ -812,6 +812,8 @@
 					
 					}
 				}
+				
+				
                 
                 $scope.refresh=function(cleanFilters){
 					var oParams={};

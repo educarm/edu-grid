@@ -1,4 +1,4 @@
-<div class="form-group   {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative">
+<div class="form-group   {{options.col}}" ng-class="{'has-error':  $invalid, 'has-success': !$invalid && $dirty}" style="position:relative" ng-hide="options.hidden">
 	<label for="{{id}}">
 		{{options.label}}
 		{{options.required ? '*' : ''}}
