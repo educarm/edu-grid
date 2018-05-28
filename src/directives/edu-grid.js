@@ -767,7 +767,7 @@
 							$scope.options.showOverlayLoadingGrid=false;
 						}
 	                },function(data){
-						$scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
+						$scope.internalControl.showOverlayFormSuccessError('0',data.data || data.message,20005);
 					});
                 };
 				/**
@@ -799,7 +799,11 @@
 								if ($scope.options.gridListeners.hasOwnProperty('onAfterSave')&& typeof($scope.options.gridListeners.onAfterSave)=='function') {
 									$scope.options.gridListeners.onAfterSave(data);
 								}
-							}								
+							}
+								
+							if(!data.success){
+								$scope.options.gridControl.showOverlayFormSuccessError('0',data.message,20000);
+							}
 							
             	        },function(data){
 							if ($scope.options.hasOwnProperty('gridListeners')){
@@ -807,7 +811,7 @@
 									$scope.options.gridListeners.onAfterSave(data);
 								}
 							}		
-							$scope.options.gridControl.showOverlayFormSuccessError('0',data.data,20000);
+							$scope.options.gridControl.showOverlayFormSuccessError('0',data.data || data.message,20000);
 						});
 					
 					}
@@ -1012,7 +1016,7 @@
 								$scope.getData(oParams);
 						},function(data){ 
 
-								$scope.internalControl.showOverlayFormSuccessError('0',data.data,20000);
+								$scope.internalControl.showOverlayFormSuccessError('0',data.data || data.message,20000);
 						});
 					}
 					else{
