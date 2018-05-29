@@ -692,6 +692,8 @@ eduGridDirectives.filter('toEuros', function () {
               }
               if (data.hasOwnProperty('success') && data.success == false) {
                 $scope.options.gridControl.showOverlayFormSuccessError('0', data.message, 20000);
+              } else {
+                $scope.refresh(false);
               }
             }, function (data) {
               if ($scope.options.hasOwnProperty('gridListeners')) {
