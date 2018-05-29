@@ -801,7 +801,7 @@
 								}
 							}
 								
-							if(!data.success){
+							if(data.hasOwnProperty('success') && data.success==false){
 								$scope.options.gridControl.showOverlayFormSuccessError('0',data.message,20000);
 							}
 							

@@ -690,7 +690,7 @@ eduGridDirectives.filter('toEuros', function () {
                   $scope.options.gridListeners.onAfterSave(data);
                 }
               }
-              if (!data.success) {
+              if (data.hasOwnProperty('success') && data.success == false) {
                 $scope.options.gridControl.showOverlayFormSuccessError('0', data.message, 20000);
               }
             }, function (data) {
