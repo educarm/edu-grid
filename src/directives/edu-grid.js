@@ -120,6 +120,7 @@
 				$scope.options.table_layout_fixed=false
 				
 				
+				$scope.dragAndDropColumn=(typeof $scope.options.dragAndDropColumn==='undefined')?true:$scope.options.dragAndDropColumn;
 				
 				//set id of current object edu-grid to object position in page
 				if($scope.options.metaData && !$scope.options.metaData.id){
@@ -281,48 +282,49 @@
 					//*
 					// column reorder
 					//*
-					
-					var origin=null;
-					angular.element('.dragtarget').on("dragstart", function (event) {
-							var dt = event.originalEvent.dataTransfer;
-							dt.setData('Text', $(this).attr('id'));
-							origin=$(this).attr('id');
-					});
-						
-					
-					angular.element('#' + $scope.options.metaData.id+'  .scrollArea thead tr th.noFixedColumn').on("dragenter dragover dragend dragleave drop ", function (event) {	
-		
-						event.preventDefault();
-						
-						if (event.type === 'dragover') {
+					if($scope.dragAndDropColumn){
+						var origin=null;
+						angular.element('.dragtarget').on("dragstart", function (event) {
+								var dt = event.originalEvent.dataTransfer;
+								dt.setData('Text', $(this).attr('id'));
+								origin=$(this).attr('id');
+						});
 							
-							if (origin !='' && origin!=null &&   origin!= event.currentTarget.id ) {
+						
+						angular.element('#' + $scope.options.metaData.id+'  .scrollArea thead tr th.noFixedColumn').on("dragenter dragover dragend dragleave drop ", function (event) {	
+			
+							event.preventDefault();
+							
+							if (event.type === 'dragover') {
+								
+								if (origin !='' && origin!=null &&   origin!= event.currentTarget.id ) {
+									if ( event.target.className == "box" || event.target.nodeName == "TD"  || event.target.nodeName == "SPAN" || event.target.nodeName == "A") {
+										angular.element('#' + $scope.options.metaData.id+'  .scrollArea thead tr th#'+event.currentTarget.id+'.noFixedColumn div.th-inner').css('border', '3px dotted #dddddd');
+									}
+								}	
+							}
+							
+							if (event.type === 'dragleave') {
 								if ( event.target.className == "box" || event.target.nodeName == "TD"  || event.target.nodeName == "SPAN" || event.target.nodeName == "A") {
-									angular.element('#' + $scope.options.metaData.id+'  .scrollArea thead tr th#'+event.currentTarget.id+'.noFixedColumn div.th-inner').css('border', '3px dotted #dddddd');
+									angular.element('#' + $scope.options.metaData.id+'  .scrollArea thead tr th#'+event.currentTarget.id+'.noFixedColumn div.th-inner').css('border', '');
 								}
-							}	
-						}
-						
-						if (event.type === 'dragleave') {
-							if ( event.target.className == "box" || event.target.nodeName == "TD"  || event.target.nodeName == "SPAN" || event.target.nodeName == "A") {
-								angular.element('#' + $scope.options.metaData.id+'  .scrollArea thead tr th#'+event.currentTarget.id+'.noFixedColumn div.th-inner').css('border', '');
 							}
-						}
-						
-						if (event.type === 'drop') {
-							if(event.currentTarget.className.indexOf('noFixedColumn')>=0){
-								angular.element('#' + $scope.options.metaData.id+'  .scrollArea thead tr th#'+event.currentTarget.id+'.noFixedColumn div.th-inner').css('border', '');
-								
-								var dest=event.currentTarget.id;
-								//var orig=event.originalEvent.dataTransfer.getData('Text', $(this).attr('id'));
-								
-								$scope.$apply(function () {
-									$scope.changeColumnOrder(dest*1, origin);
-								})
-							}
-						};
-					    
-					});
+							
+							if (event.type === 'drop') {
+								if(event.currentTarget.className.indexOf('noFixedColumn')>=0){
+									angular.element('#' + $scope.options.metaData.id+'  .scrollArea thead tr th#'+event.currentTarget.id+'.noFixedColumn div.th-inner').css('border', '');
+									
+									var dest=event.currentTarget.id;
+									//var orig=event.originalEvent.dataTransfer.getData('Text', $(this).attr('id'));
+									
+									$scope.$apply(function () {
+										$scope.changeColumnOrder(dest*1, origin);
+									})
+								}
+							};
+							
+						});
+				    }
 
 					
 				});
@@ -476,8 +478,13 @@
 					$scope.options.showPagination=true;
 				}else{
 					if($scope.options.showPagination){
-						$scope.options.showItemsPerPage=true;
-						$scope.options.showMetaData=true;
+						//$scope.options.showItemsPerPage=true;
+						//$scope.options.showMetaData=true;
+						
+						$scope.options.showMetaData=(typeof $scope.options.showMetaData==='undefined')?true:$scope.options.showMetaData;
+						$scope.options.showItemsPerPage=(typeof $scope.options.showItemsPerPage==='undefined')?true:$scope.options.showItemsPerPage;
+						
+						
 						$scope.options.paginationWidth= 3;
 					}else{
 						$scope.options.showItemsPerPage=false;
@@ -538,7 +545,23 @@
 					$scope.showOverlayFormAvancedSearch=bShow;  
 				}
 				
-				$scope.internalControl.showOverlayFormSuccessError = function(type,text,duration) {
+				$scope.internalControl.showOverlayFormSuccessError = function(type,text,duration,preHook) {
+				    
+				    if (typeof preHook == 'function'){
+					    
+						var parameters={'type':type,'text':text,'duration':duration};
+						
+						var result=preHook(parameters);
+						
+						if(typeof result!='undefined'){
+							type=(typeof result.type==='undefined')?type:result.type;
+							text=(typeof result.text==='undefined')?text:result.text;
+							duration=(typeof result.duration==='undefined')?duration:result.duration;
+						}
+					}
+					
+					
+				
 				
 					$scope.options.overlayFormSuccessErrorGrid={};
 					$scope.options.overlayFormSuccessErrorGrid.show=true;

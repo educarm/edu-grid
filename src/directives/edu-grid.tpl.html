@@ -149,7 +149,7 @@
 													<tr>
 														
 														<td width="13px">
-														   <span class="header-column" title="Mover columna a la izquierda">
+														   <span class="header-column" ng-show="dragAndDropColumn" title="Mover columna a la izquierda">
 															   <a ng-click="changeColumnOrder($index-1, $index)"><i class="glyphicon glyphicon-chevron-left"></i></a>
 														   </span>
 														</td>
@@ -174,7 +174,7 @@
 														   </span>
 														</td>
 														<td  width="15px">
-														   <span class="header-column" title="Mover columna a la derecha">
+														   <span class="header-column"  ng-show="dragAndDropColumn" title="Mover columna a la derecha">
 															   <a ng-click="changeColumnOrder($index+1, $index)"><i class="glyphicon glyphicon-chevron-right"></i></a>
 														   </span>
 														</td>

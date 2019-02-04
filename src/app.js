@@ -75,11 +75,15 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		showExtraButtonTopRight:true,
 		iconExtraButtonTopLeft:'pencil', //default 'plus-sing
 		iconExtraButtonTopRight:'file',
-        showPagination: false,  //default true
+        
+		showPagination: true,  //default true
+		
+		dragAndDropColumn:false, // default true
+		
 		
 		
 		showSearch: true, //default true
-		allFieldsGlobalSearch:true, //default true. Esta y la siguiente son excluyentes. Si la propiedad allFieldsGlobalSearch está definida ignora la propiedad fieldsGlobalSearch
+		allFieldsGlobalSearch:true, //default true. Esta y la siguiente son excluyentes. Si la propiedad allFieldsGlobalSearch está definida, ignora la propiedad fieldsGlobalSearch
 		fieldsGlobalSearch:['vdencen','vdomcen'],
 		
 		showTopSearch: true, //default true. Lugar donde se situa el input par introducir el texto a buscar en todos los campos
@@ -100,7 +104,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		tableBordered:true, //default false
 		mode:'normal', //default 'normal', ('normal' | 'genericRest')
 		
-        showItemsPerPage: true,
+       
         paginationWidth: 3,
 		
 		showButtonsGridUserPre:true,
