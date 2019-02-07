@@ -317,26 +317,26 @@
 						   <div class="row">
 							   <div class="col-md-4">
 								   <ul ng-show="options.showPagination" class="pagination pagination col" style="margin: 0px 0px; font-weight: bold;">
-									   <li ng-class="{'disabled':isOnFirstPage()}">
+									   <li ng-class="{'disabled':isOnFirstPage() || list.length==0}">
 										   <a ng-show="isOnFirstPage()" class="glyphicon glyphicon-step-backward btn-xs"> </a>
 										   <a ng-show="!isOnFirstPage()" class="glyphicon glyphicon-step-backward  btn-xs" ng-click="setFirstPage()"> </a>
 									   </li>
-									   <li ng-class="{'disabled':isOnFirstPage()}">
+									   <li ng-class="{'disabled':isOnFirstPage() || list.length==0}">
 										   <a ng-show="isOnFirstPage()" class="glyphicon glyphicon-fast-backward btn-xs"> </a>
 										   <a ng-show="!isOnFirstPage()"class="glyphicon glyphicon-backward btn-xs" ng-click="setPreviousPage()"> </a>
 									   </li>
 									   
-									   <li data-ng-repeat="page in pages"  ng-class="{'disabled':currentPage.label == page.label}" >
+									   <li data-ng-repeat="page in pages"  ng-class="{'disabled':currentPage.label == page.label || list.length==0}" >
 										   
 										   <a ng-show="currentPage.label != page.label" ng-click="setPage(page)" class="btn-xs" >{{page.label}}</a>
 										   <a ng-show="currentPage.label == page.label"  class="btn-xs" >{{page.label}}</a>
 									   </li>
 									   
-									   <li ng-class="{'disabled':isOnLastPage()}">
+									   <li ng-class="{'disabled':isOnLastPage() || list.length==0}">
 										   <a ng-show="isOnLastPage()" class="glyphicon glyphicon-fast-forward btn-xs"> </a>
 										   <a ng-show="!isOnLastPage()" class="glyphicon glyphicon-forward btn-xs" ng-click="setNextPage()"> </a>
 									   </li>
-									   <li ng-class="{'disabled':isOnLastPage()}">
+									   <li ng-class="{'disabled':isOnLastPage() || list.length==0}">
 										   <a ng-show="isOnLastPage()" class="glyphicon glyphicon-step-forward btn-xs"> </a>
 										   <a ng-show="!isOnLastPage()" class="glyphicon glyphicon-step-forward btn-xs" ng-click="setLastPage()"> </a>
 									   </li>

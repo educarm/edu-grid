@@ -854,7 +854,24 @@
 						 $scope.searchQuery="";;
 						
 						//advanced search
-						$scope.options.formAvancedSearchResult={};
+						
+						//delete only filter without property disabled or with property disabled equal to false
+						if($scope.options.hasOwnProperty("formAvancedSearch") && $scope.options.formAvancedSearch.hasOwnProperty("fields") && $scope.options.formAvancedSearch.fields!=undefined && typeof $scope.options.formAvancedSearchResult!=undefined){
+							
+							$scope.options.formAvancedSearch.fields.forEach(function(v,i){
+								if ($scope.options.formAvancedSearchResult.hasOwnProperty(v.key)){			
+									if (v.hasOwnProperty('disabled')){
+										if(v.disabled===false){
+											delete $scope.options.formAvancedSearchResult[v.key];
+										}
+									}else{
+										delete $scope.options.formAvancedSearchResult[v.key];
+									}
+								}
+                            })
+                        }							
+						
+						
 						//color button advanced search to blue
 						$scope.listFiltered=false;
 						//clean array seleccion rows
