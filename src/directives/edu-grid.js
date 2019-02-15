@@ -878,6 +878,23 @@
 						$scope.options.selectionRows=[];
 					}
 					
+					//delete input with attribute 'required' equals to true and with value equal to 'undefined' or blank 
+					if($scope.options.hasOwnProperty("formAvancedSearch") && $scope.options.formAvancedSearch.hasOwnProperty("fields") && $scope.options.formAvancedSearch.fields!=undefined && typeof $scope.options.formAvancedSearchResult!=undefined){
+							
+						$scope.options.formAvancedSearch.fields.forEach(function(v,i){
+							if ($scope.options.formAvancedSearchResult.hasOwnProperty(v.key)){			
+								if (v.hasOwnProperty('required')){
+									if(v.required===true){
+										if(typeof $scope.options.formAvancedSearchResult[v.key]=='undefined' || $scope.options.formAvancedSearchResult[v.key]==''){
+											delete $scope.options.formAvancedSearchResult[v.key];
+										}
+									}
+								}
+							}
+						})
+					}		
+					
+					
 					
 					// for compatibility with genericRest
 					if($scope.options.hasOwnProperty("mode") && $scope.options.mode=='genericRest'){
@@ -1159,6 +1176,9 @@
 								break;
 							}
 						}
+					}
+					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onChangeSelectionRows == 'function'){
+                       $scope.options.listListeners.onChangeSelectionRows(selectionRows);
 					}
 				}
 				

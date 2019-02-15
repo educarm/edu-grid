@@ -84,8 +84,8 @@
 								</div>
 							</div>
 						   
-						   
-						   <div ng-if="options.showAdvancedSearchInHeader" class="row">
+						 <form ng-if="options.showAdvancedSearchInHeader" role="form" novalidate autocomplete="off" name="{{options.metaData.id}}_advancedSearch">  
+						   <div  class="row">
 							
 								<fieldset class="avancedSearch">
 									<legend class="avancedSearch">  
@@ -101,12 +101,13 @@
 								</fieldset>	
 						   </div>
 						   <div ng-if="options.showAdvancedSearchInHeader" class="row">
-								<div class="col-md-offset-9 col-md-3  col-sm-offset-9 col-sm-3">  
-									<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="formAvancedSearch.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Buscar'}}</button> 
+								<div class="col-md-offset-9 col-md-3  col-sm-offset-9 col-sm-3"> 				
+									<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="{{options.metaData.id}}_advancedSearch.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Buscar'}}</button> 
 									<!--<button ng-click="formAvancedSearchEventsCancel()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || 'Cancelar'}}</button> -->
 									<button ng-click="formAvancedSearchEventsClean()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || 'Limpiar'}}</button>
 								</div> 
 							</div>
+						</form>	
 						   
 					    </div>
 					    <div class="panel-body" >
@@ -379,7 +380,7 @@
 						<h4 >{{options.snippets.formAvancedSearchTitle || "B&uacute;squeda Avanzada"}}</h4>									
 					</div>
 					<div class="panel-body" >
-						<form name="formAvancedSearchFieldsFormG" novalidate>
+						<form name="{{options.metaData.id}}_advancedSearchModal" novalidate>
 							<h4>{{options.snippets.formAvancedSearchMessage}}</h4>
 								<div class="" ng-repeat="field in options.formAvancedSearch.fields">
 									<!--<div class="form-group  {{field.col}}" >
@@ -396,7 +397,7 @@
 					<div class="panel-footer" >
 					   <div class="row">
 							<div class="col-md-offset-3 col-md-9">  
-								<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="formAvancedSearch.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Aceptar'}}</button> 
+								<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="{{options.metaData.id}}_advancedSearchModal.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Aceptar'}}</button> 
 								<button ng-click="formAvancedSearchEventsCancel()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || 'Cancelar'}}</button> 
 								<button ng-click="formAvancedSearchEventsClean()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || 'Limpiar'}}</button>
 							</div> 
