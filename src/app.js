@@ -126,7 +126,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		//valueFk:'30000018',
         fieldKey:'vcodcen',
 		fieldKeyLabel:'código',
-        height:150,
+        height:550,
 		mode:'genericRest',
 		
         listFields: [
@@ -155,6 +155,10 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 			order:'asc'
         },
         listListeners: {
+			onChangeSelectionRows:function(rows){
+				console.log('SelectionRows:'+rows.length );
+			},
+			
 			onExtraButtonRightClick:function(){
 				alert('button right clicked');
 			},
@@ -170,7 +174,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
             	//console.log('onPageLoadComplete rows:'+angular.toJson(rows));
             },
             onRowClick:function(row){
-            	console.log('click row:'+angular.toJson(row));
+            	//console.log('click row:'+angular.toJson(row));
             },onExtraButtonClick:function(){
             	console.log('click extra button:');
             },transformParams:function(oParams){

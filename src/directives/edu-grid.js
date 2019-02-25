@@ -774,7 +774,7 @@
 						for( var i=0;i< $scope.list.length;i++){
 							var bExists=false;
 							for( var j=0;j< $scope.options.selectionRows.length;j++){
-								if($scope.options.selectionRows[j]==$scope.list[i][$scope.options.fieldKey]){
+								if($scope.options.selectionRows[j][$scope.options.fieldKey]==$scope.list[i][$scope.options.fieldKey]){
 									$scope.list[i].selected=true;
 									bExists=true;
 									break;
@@ -878,18 +878,16 @@
 						$scope.options.selectionRows=[];
 					}
 					
-					//delete input with attribute 'required' equals to true and with value equal to 'undefined' or blank 
+					//delete from formAvancedSearchResult input with value equal to 'undefined' or blank 
 					if($scope.options.hasOwnProperty("formAvancedSearch") && $scope.options.formAvancedSearch.hasOwnProperty("fields") && $scope.options.formAvancedSearch.fields!=undefined && typeof $scope.options.formAvancedSearchResult!=undefined){
 							
 						$scope.options.formAvancedSearch.fields.forEach(function(v,i){
 							if ($scope.options.formAvancedSearchResult.hasOwnProperty(v.key)){			
-								if (v.hasOwnProperty('required')){
-									if(v.required===true){
-										if(typeof $scope.options.formAvancedSearchResult[v.key]=='undefined' || $scope.options.formAvancedSearchResult[v.key]==''){
-											delete $scope.options.formAvancedSearchResult[v.key];
-										}
-									}
+								
+								if(typeof $scope.options.formAvancedSearchResult[v.key]=='undefined' || $scope.options.formAvancedSearchResult[v.key]==''){
+									delete $scope.options.formAvancedSearchResult[v.key];
 								}
+								
 							}
 						})
 					}		
@@ -1178,7 +1176,7 @@
 						}
 					}
 					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onChangeSelectionRows == 'function'){
-                       $scope.options.listListeners.onChangeSelectionRows(selectionRows);
+                       $scope.options.listListeners.onChangeSelectionRows($scope.options.selectionRows);
 					}
 				}
 				
