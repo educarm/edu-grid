@@ -1033,6 +1033,7 @@ eduGridDirectives.filter('toEuros', function () {
         $scope.onChangeSearchQuery = function () {
           clearInterval(timerOnChangeSearchQuery);
           timerOnChangeSearchQuery = setInterval(function () {
+            $scope.internalControl.clearSelection();
             $scope.refresh();
             $scope.setFirstPage();
             clearInterval(timerOnChangeSearchQuery);
@@ -1049,6 +1050,7 @@ eduGridDirectives.filter('toEuros', function () {
         // ON CONTINUE BUTTON FORM AVANCED SEARCH
         // ---	
         $scope.formAvancedSearchEventsContinue = function () {
+          $scope.internalControl.clearSelection();
           $scope.refresh();
           $scope.showOverlayFormAvancedSearch = false;
           // for Backwards compatibility

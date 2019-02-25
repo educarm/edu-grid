@@ -1239,6 +1239,7 @@
                  $scope.onChangeSearchQuery=function(){
 					clearInterval(timerOnChangeSearchQuery);
 					timerOnChangeSearchQuery = setInterval(function(){
+					$scope.internalControl.clearSelection();
 					$scope.refresh();
 					$scope.setFirstPage();
 					clearInterval(timerOnChangeSearchQuery)
@@ -1259,6 +1260,7 @@
                 // ON CONTINUE BUTTON FORM AVANCED SEARCH
                 // ---	
 				 $scope.formAvancedSearchEventsContinue=function(){
+					$scope.internalControl.clearSelection();
 					$scope.refresh();
 					$scope.showOverlayFormAvancedSearch=false;
 					
