@@ -167,7 +167,7 @@ eduGridDirectives.filter('toEuros', function () {
           if ($scope.options.hasOwnProperty('showGroupColumns') && $scope.options.showGroupColumns) {
             $timeout(function () {
               //Aumenta la altura de la cabecera de la tabla
-              $('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacerGroup').css('height', '36px');
+              $('#' + $scope.options.metaData.id + ' .scrollableContainer').prepend('<div class="headerSpacerGroup" style="height:36px"></div>');
               $('#' + $scope.options.metaData.id + ' .scrollArea table .th-inner').css('top', '36px');
               $('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacer').css('height', '72px');
               //get columns data width
