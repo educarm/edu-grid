@@ -5,6 +5,25 @@
 }
 */
 
+.groupColumn{
+    border-bottom:1px solid #DDDDDD;
+	border-left:1px solid #DDDDDD;
+	font-weight:bold;
+    text-align: center; 
+    vertical-align: middle;
+	color: #428bca;
+}
+
+.th-inner-group {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: absolute;
+    top: 0;
+    height: 36px;
+    line-height: 36px;
+}
+
 .preFixedcolumn{
 	         background-color: #efefef !important;
 			 

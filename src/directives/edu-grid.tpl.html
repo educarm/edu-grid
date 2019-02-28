@@ -115,10 +115,18 @@
 					    <!-- grid --> 
 						<!-- <div  style="overflow-x:scroll;" id="{{idGrid}}-table-edu-grid" class="wrapper-table-edu-grid">  -->
 						<div  style="overflow-x:scroll;" id={{options.metaData.id}} class="wrapper-table-edu-grid">
+	<!-- ------------------------>
+	
+
+
+   <!---------------------------->	
+						
 						
 						<scrollable-table watch="list">
 						   <table id="table-grid" class="table table-condensed table-hover table-striped"   ng-class="{'table-bordered':options.tableBordered,'table_layout_fixed':options.table_layout_fixed, 'table_layout_auto':!options.table_layout_fixed}" >
 							   <thead>
+							   
+							     
 								   <tr> 
 									   <!-- space row number-->	
 									   <th ng-if="options.showRowNumber" width="5" title="&nbsp" class="preFixedColumn">
@@ -139,7 +147,7 @@
 											<input type="checkbox" name="selectAll" ng-change="changeSelectAllRows(valueCheckSelectAll)" ng-model="valueCheckSelectAll"  />    
 										  --> 
 									   </th>
-									   <th ng-repeat="field in options.listFields" class="noFixedColumn droptarget " width="{{field.weight}}%" title="&nbsp" style="text-align: center" id="{{$index}}">
+									   <th ng-repeat="field in options.listFields" name="{{field.column}}" class="noFixedColumn droptarget " width="{{field.weight}}%" title="&nbsp" style="text-align: center" id="{{$index}}">
 									         
 										<!--div class="box" -->	   
 										 <div class="col-resizable">

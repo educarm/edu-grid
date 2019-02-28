@@ -10,6 +10,7 @@
           sortFn: '='
         },
         template: '<div class="scrollableContainer">' +
+		             '<div class="headerSpacerGroup"></div>' +
                     '<div class="headerSpacer"></div>' +
                     '<div class="scrollArea" ng-transclude></div>' +
                   '</div>',

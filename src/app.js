@@ -128,11 +128,11 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		fieldKeyLabel:'código',
         height:550,
 		mode:'genericRest',
-		
+		showGroupColumns:true,
         listFields: [
-				 {label: 'Código', column: 'vcodcen', weight: '10',type:'number'},
-                 {label: 'Presupuesto', column: 'presupuesto', weight: '10',type:'currency'},
-				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',type:'checkbox','editable':false},
+				 {label: 'Código', column: 'vcodcen', weight: '10',type:'number',group:'Grupo 2',styleGroup:['color:white','background-color:blue']},
+                 {label: 'Presupuesto', column: 'presupuesto', weight: '10',type:'currency',group:'Grupo 2'},
+				 {label: 'email', column: 'vemail', weight: '10',type:'checkbox','editable':false,group:'Grupo 2'},
 				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',
 						type:'select',
 						options:[{'value':'S','name':'SÍ'},{'value':'N','name':'NO'}],
@@ -141,10 +141,10 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 														   console.log('changed:'+row);
 				                                          }
 				                   }
-				 },
-                 {label: 'Denominación', column: 'vdencen', weight: '30',type:'text'},
-                 {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text'},
-                 {label: 'Localidad', column: 'vloccen', weight: '10',type:'text'},
+				 ,group:'Grupo 2'},
+                 {label: 'Denominación', column: 'vdencen', weight: '30',type:'text',group:'Grupo 4'},
+                 {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text',group:'Grupo 3',styleGroup:['color:green','background-color:yellow']},
+                 {label: 'Localidad', column: 'vloccen', weight: '10',type:'text',group:'Grupo 3'},
                  {label: 'Municipio', column: 'vmuncen', weight: '20',type:'text',notOrder:true}
 				 
         ],

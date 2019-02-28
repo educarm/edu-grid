@@ -127,11 +127,86 @@
 					$scope.options.metaData.id='grid'+ Math.floor((Math.random() * 100000) + 1);	
 				}
 				
-				
+				function setWidth(column){
+					for(var listColumn, j=0;listColumn=$scope.options.listFields[j];j++){
+						if(listColumn.column==column){
+							
+						}
+					}				
+				}
 				
 				$timeout(function() {
 					//height for plugin angular-scrollable-table
 					$("#"+$scope.options.metaData.id+" .scrollableContainer").css("height",$scope.options.height+'px');
+					
+					if($scope.options.hasOwnProperty('showGroupColumns') && $scope.options.showGroupColumns){
+						$timeout(function() {
+							//Aumenta la altura de la cabecera de la tabla
+							$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacerGroup").css("height",'36px');
+							$("#"+$scope.options.metaData.id+" .scrollArea table .th-inner").css("top", "36px");
+							$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer").css("height", "72px");
+							
+							//get columns data width
+							var widthPrefixedColumns=0;
+							var nPrefixedColumns=0;
+							var columnsGroupsHtml='';
+							var columnsGroups=[];
+							var currentGroup='';
+							
+							
+							//Por cada columna de la tabla, crea una columna con el mismo ancho en la tabla que colocaremos encima
+							$("#"+$scope.options.metaData.id+" .scrollArea table .th-inner").each(function(i) {
+								
+								if($(this).parent().hasClass('preFixedColumn')){
+									widthPrefixedColumns+=$(this).innerWidth();
+									nPrefixedColumns++;
+								}else{
+									//guarda el ancho que tiene cada columna en el rendererizado actual
+									var column=$(this).parent().attr('name');
+									for(var listColumn, j=0;listColumn=$scope.options.listFields[j];j++){
+										if(listColumn.column==column){
+											listColumn.width=$(this).innerWidth();
+											listColumn.left=$(this).position().left-1;
+										}
+									}		
+								}
+							});
+							
+							for(var column,j=0;column=$scope.options.listFields[j];j++){
+								if(column.hasOwnProperty('group')) {
+									if(column.group!=currentGroup){
+										currentGroup=column.group;
+										columnsGroups.push(column);
+									}else{
+										columnsGroups[columnsGroups.length-1].width=columnsGroups[columnsGroups.length-1].width+column.width;
+										if(column.hasOwnProperty('styleGroup')){
+											columnsGroups[columnsGroups.length-1].styleGroup=column.styleGroup;
+										}
+										
+									}
+								}else{
+									
+									column.group='';
+									currentGroup=column.group;
+									columnsGroups.push(column);
+								}
+							}	
+							
+							for(var group, j=0;group=columnsGroups[j];j++){
+								var styleGroup='';
+								if(group.hasOwnProperty('styleGroup')){
+									styleGroup=group.styleGroup.join(';');
+								}
+								columnsGroupsHtml+='<div class="groupColumn th-inner-group"  style="width:'+group.width+'px;left:'+group.left+'px;'+styleGroup+'"><span class="header-column">'+group.group+'</span></div>'
+							}	
+							var tableGroupColumns=columnsGroupsHtml;
+							
+							//Crea la tabla con las columnas de agrupación y la coloca encima de la tabla con las filas
+							$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer").append(columnsGroupsHtml);
+							
+							
+						},1000);
+					}
 					
 						
 					//*
