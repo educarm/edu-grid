@@ -202,6 +202,9 @@ eduGridDirectives.filter('toEuros', function () {
                     if (column.hasOwnProperty('styleGroup')) {
                       columnsGroups[columnsGroups.length - 1].styleGroup = column.styleGroup;
                     }
+                    if (column.hasOwnProperty('textGroup')) {
+                      columnsGroups[columnsGroups.length - 1].textGroup = column.textGroup;
+                    }
                   }
                 } else {
                   column.group = '';
@@ -214,7 +217,10 @@ eduGridDirectives.filter('toEuros', function () {
                 if (group.hasOwnProperty('styleGroup')) {
                   styleGroup = group.styleGroup.join(';');
                 }
-                columnsGroupsHtml += '<div class="groupColumn th-inner-group"  style="width:' + group.width + 'px;left:' + group.left + 'px;' + styleGroup + '"><span class="header-column">' + group.group + '</span></div>';
+                if (!group.hasOwnProperty('textGroup')) {
+                  group.textGroup = '';
+                }
+                columnsGroupsHtml += '<div class="groupColumn th-inner-group"  style="width:' + group.width + 'px;left:' + group.left + 'px;' + styleGroup + '"><span class="header-column">' + group.textGroup + '</span></div>';
               }
               var tableGroupColumns = columnsGroupsHtml;
               //Crea la tabla con las columnas de agrupación y la coloca encima de la tabla con las filas
