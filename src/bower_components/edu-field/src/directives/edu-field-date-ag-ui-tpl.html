@@ -9,16 +9,26 @@
 		datepicker-localdate
 		ng-click="(options.disabled || options.readonly)?angular.noop():internalControl.showCalendar($event)"
 		datepicker-popup="{{options.format || 'dd-MM-yyyy'}}"
+		
+		min-date='options.minDateObj'
+		max-date='options.maxDateObj'
+		
+		datepicker-options="options.dateOptions"
+		
 		ng-blur="onBlur()"
 		ng-focus="onFocus()"
 		ng-change="onChange()"
 		ng-keypress="onKeypress($event)" 
 		ng-model="value"
+		
 		ng-required="options.required"
 		ng-disabled="options.disabled"
 		ng-readonly="options.readonly"
 		is-open="options.showPopupCalendar"
-		datepicker-options="options.dateOptions"
+		
+		
+		
+		
 		edu-focus="options.autofocus"
 		current-text="Hoy"
 		clear-text="Borrar"

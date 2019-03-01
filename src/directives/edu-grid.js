@@ -1,5 +1,10 @@
 
  eduGridDirectives
+/**************************/
+/*angular-scrollable-table*/
+/**************************/
+// angular.module('scrollable-table', [])
+   
  .filter('toEuros', function() {
   return function(input,fractionDigit) {
 	var fractD=fractionDigit?fractionDigit:2;
@@ -135,87 +140,267 @@
 					}				
 				}
 				
-				$timeout(function() {
-					//height for plugin angular-scrollable-table
-					$("#"+$scope.options.metaData.id+" .scrollableContainer").css("height",$scope.options.height+'px');
-					
+				//ajusta el ancho y la posición de las columnas de grupo cada vez que hay cambios en el grid
+				$scope.changesOnGrid=function(){
 					if($scope.options.hasOwnProperty('showGroupColumns') && $scope.options.showGroupColumns){
-						$timeout(function() {
-							//Aumenta la altura de la cabecera de la tabla
+						
+						//get columns data width
+						var widthPrefixedColumns=0;
+						var nPrefixedColumns=0;
+						var columnsGroupsHtml='';
+						var columnsGroupsHtmlL2='';
+						var columnsGroups=[];
+						var columnsGroupsL2=[];
+						var currentGroup='';
+						var currentGroupL2='';
+						
+						//Crea la cabecera de agrupacion de las columnas del grid
+						$("#"+$scope.options.metaData.id+" .scrollArea table .th-inner").each(function(i) {
 							
-							$("#"+$scope.options.metaData.id+" .scrollableContainer").prepend('<div class="headerSpacerGroup" style="height:36px"></div>'); 
-							
-							$("#"+$scope.options.metaData.id+" .scrollArea table .th-inner").css("top", "36px");
-							$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer").css("height", "72px");
-							
-							//get columns data width
-							var widthPrefixedColumns=0;
-							var nPrefixedColumns=0;
-							var columnsGroupsHtml='';
-							var columnsGroups=[];
-							var currentGroup='';
-							
-							
-							//Por cada columna de la tabla, crea una columna con el mismo ancho en la tabla que colocaremos encima
-							$("#"+$scope.options.metaData.id+" .scrollArea table .th-inner").each(function(i) {
-								
-								if($(this).parent().hasClass('preFixedColumn')){
-									widthPrefixedColumns+=$(this).innerWidth();
-									nPrefixedColumns++;
+							if($(this).parent().hasClass('preFixedColumn')){
+								widthPrefixedColumns+=$(this).innerWidth();
+								nPrefixedColumns++;
+							}else{
+								//guarda el ancho que tiene cada columna en el rendererizado actual
+								var column=$(this).parent().attr('name');
+								for(var listColumn, j=0;listColumn=$scope.options.listFields[j];j++){
+									if(listColumn.column==column){
+										listColumn.width=$(this).innerWidth();
+										listColumn.left=$(this).position().left-1;
+									}
+								}		
+							}
+						});
+						
+						for(var column,j=0;column=$scope.options.listFields[j];j++){
+							if(column.hasOwnProperty('group')) {
+								if(column.group!=currentGroup){
+									currentGroup=column.group;
+									columnsGroups.push(angular.copy(column));
 								}else{
-									//guarda el ancho que tiene cada columna en el rendererizado actual
-									var column=$(this).parent().attr('name');
-									for(var listColumn, j=0;listColumn=$scope.options.listFields[j];j++){
-										if(listColumn.column==column){
-											listColumn.width=$(this).innerWidth();
-											listColumn.left=$(this).position().left-1;
-										}
-									}		
+									columnsGroups[columnsGroups.length-1].width=columnsGroups[columnsGroups.length-1].width+column.width;
+									if(column.hasOwnProperty('styleGroup')){
+										columnsGroups[columnsGroups.length-1].styleGroup=column.styleGroup;
+									}
+									if(column.hasOwnProperty('textGroup')){
+										columnsGroups[columnsGroups.length-1].textGroup=column.textGroup;
+									}
+									
 								}
-							});
-							
-							for(var column,j=0;column=$scope.options.listFields[j];j++){
-								if(column.hasOwnProperty('group')) {
-									if(column.group!=currentGroup){
-										currentGroup=column.group;
-										columnsGroups.push(column);
+							}else{
+								
+								column.group='';
+								currentGroup=column.group;
+								columnsGroups.push(angular.copy(column));
+							}
+						}	
+						
+						// Datos grupos nivel 2
+						if($scope.options.hasOwnProperty('showGroupColumnsL2') && $scope.options.showGroupColumnsL2){
+							for(var column,j=0;column=columnsGroups[j];j++){
+								if(column.hasOwnProperty('groupL2')) {
+									if(column.groupL2!=currentGroupL2){
+										currentGroupL2=column.groupL2;
+										columnsGroupsL2.push(angular.copy(column));
 									}else{
-										columnsGroups[columnsGroups.length-1].width=columnsGroups[columnsGroups.length-1].width+column.width;
-										if(column.hasOwnProperty('styleGroup')){
-											columnsGroups[columnsGroups.length-1].styleGroup=column.styleGroup;
+										columnsGroupsL2[columnsGroupsL2.length-1].width=columnsGroupsL2[columnsGroupsL2.length-1].width+column.width;
+										if(column.hasOwnProperty('styleGroupL2')){
+											columnsGroupsL2[columnsGroupsL2.length-1].styleGroupL2=column.styleGroupL2;
 										}
-										if(column.hasOwnProperty('textGroup')){
-											columnsGroups[columnsGroups.length-1].textGroup=column.textGroup;
+										if(column.hasOwnProperty('textGroupL2')){
+											columnsGroupsL2[columnsGroupsL2.length-1].textGroupL2=column.textGroupL2;
 										}
 										
 									}
 								}else{
 									
-									column.group='';
-									currentGroup=column.group;
-									columnsGroups.push(column);
+									column.groupL2='';
+									currentGroupL2=column.groupL2;
+									columnsGroupsL2.push(angular.copy(column));
 								}
 							}	
-							
-							for(var group, j=0;group=columnsGroups[j];j++){
-								var styleGroup='';
-								if(group.hasOwnProperty('styleGroup')){
-									styleGroup=group.styleGroup.join(';');
+						}
+						
+						//actualiza el ancho y la posición de los grupos nivel 1
+						for(var group, j=0;group=columnsGroups[j];j++){
+							$('#'+$scope.options.metaData.id+' .scrollableContainer .headerSpacer .th-inner-group[name="'+group.column+'"]').width(group.width).css('left', group.left)	;	
+						}	
+						
+						//Crea las columnas nivel 2 de agrupación y las coloca encima de las columnas del grid
+						if($scope.options.hasOwnProperty('showGroupColumnsL2') && $scope.options.showGroupColumnsL2){
+							for(var group, j=0;group=columnsGroupsL2[j];j++){
+								var styleGroupL2='';
+								if(group.hasOwnProperty('styleGroupL2')){
+									styleGroupL2=group.styleGroupL2.join(';');
 								}
-								if(!group.hasOwnProperty('textGroup')){
-									group.textGroup=''
+								if(!group.hasOwnProperty('textGroupL2')){
+									group.textGroupL2=''
 								}
-								columnsGroupsHtml+='<div class="groupColumn th-inner-group"  style="width:'+group.width+'px;left:'+group.left+'px;'+styleGroup+'"><span class="header-column">'+group.textGroup+'</span></div>'
-							}	
-							var tableGroupColumns=columnsGroupsHtml;
-							
-							//Crea la tabla con las columnas de agrupación y la coloca encima de la tabla con las filas
-							$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer").append(columnsGroupsHtml);
-							
-							
+								var varGroupColumnEndRow='';
+								if(j==columnsGroupsL2.length-1){
+									varGroupColumnEndRow='groupColumnEndRow';
+								}
+								//columnsGroupsHtmlL2+='<div class="'+varGroupColumnEndRow+' groupColumn th-inner-group"  name="'+group.column+'" style="top:'+topL2+'px;width:'+group.width+'px;left:'+group.left+'px;'+styleGroupL2+'"><span class="header-column">'+group.textGroupL2+'</span></div>'
+							}
+							//$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer").prepend(columnsGroupsHtmlL2);   //'<div class="groupColumn th-inner-group" style="width:100%">asdfasfaf</div>');
+						    //actualiza el ancho y la posición de los grupos nivel 1
+							for(var group, j=0;group=columnsGroupsL2[j];j++){
+								$('#'+$scope.options.metaData.id+' .scrollableContainer .headerSpacer .groupColumn.level2.th-inner-group[name="'+group.column+'"]').width(group.width).css('left', group.left)	;	
+							}
+						
+						}	
+						
+						
+					}
+				}
+				
+				$timeout(function() {
+					//height for plugin angular-scrollable-table
+					$("#"+$scope.options.metaData.id+" .scrollableContainer").css("height",$scope.options.height+'px');
+					
+					//Crea la cabecera de agrupacion de las columnas del grid
+					if($scope.options.hasOwnProperty('showGroupColumns') && $scope.options.showGroupColumns){
+						$timeout(function() {	
+                                var topL1=0;
+                                 var topL2=0;						
+								$("#"+$scope.options.metaData.id+" .scrollableContainer").prepend('<div class="headerSpacerGroup" style="min-height:36px"></div>'); 
+								
+								$("#"+$scope.options.metaData.id+" .scrollArea table .th-inner").css("top", "36px");
+								$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer").css("min-height", "72px");
+								
+								if($scope.options.hasOwnProperty('showGroupColumnsL2') && $scope.options.showGroupColumnsL2){
+									$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacerGroup").height(72);
+									$("#"+$scope.options.metaData.id+" .scrollArea table .th-inner").css("top", "72px");
+									$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer").css("min-height", "108px");
+									topL1=36;
+								}
+								
+								//para colocar en la cabecera fija el checkbox select all rows
+								var objOrigen=$("#"+$scope.options.metaData.id+" .scrollArea table .th-inner input[name='selectAll']").parent().parent();
+								var position=$(objOrigen).position();
+								if(typeof position!='undefined'){
+									$(objOrigen).css({position: "absolute",top:position.top,left:position.left,border:"1px solid #ddd"}).css('padding','5px');
+									$(objOrigen).prependTo("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer");
+								}
+								
+								//get columns data width
+								var widthPrefixedColumns=0;
+								var nPrefixedColumns=0;
+								var columnsGroupsHtml='';
+								columnsGroupsHtmlL2='';
+								var columnsGroups=[];
+								var columnsGroupsL2=[];
+								var currentGroup='';
+								var currentGroupL2='';
+								
+								
+								//Por cada columna de la tabla, crea una columna con el mismo ancho en la tabla que colocaremos encima
+								$("#"+$scope.options.metaData.id+" .scrollArea table .th-inner").each(function(i) {
+									
+									if($(this).parent().hasClass('preFixedColumn')){
+										widthPrefixedColumns+=$(this).innerWidth();
+										nPrefixedColumns++;
+									}else{
+										//guarda el ancho que tiene cada columna en el rendererizado actual
+										var column=$(this).parent().attr('name');
+										for(var listColumn, j=0;listColumn=$scope.options.listFields[j];j++){
+											if(listColumn.column==column){
+												listColumn.width=$(this).innerWidth();
+												listColumn.left=$(this).position().left-1;
+											}
+										}		
+									}
+								});
+								
+								//Datos grupos nivel 1
+								for(var column,j=0;column=$scope.options.listFields[j];j++){
+									if(column.hasOwnProperty('group')) {
+										if(column.group!=currentGroup){
+											currentGroup=column.group;
+											columnsGroups.push(angular.copy(column));
+										}else{
+											columnsGroups[columnsGroups.length-1].width=columnsGroups[columnsGroups.length-1].width+column.width;
+											if(column.hasOwnProperty('styleGroup')){
+												columnsGroups[columnsGroups.length-1].styleGroup=column.styleGroup;
+											}
+											if(column.hasOwnProperty('textGroup')){
+												columnsGroups[columnsGroups.length-1].textGroup=column.textGroup;
+											}
+										}
+									}else{
+										
+										column.group='';
+										currentGroup=column.group;
+										columnsGroups.push(angular.copy(column));
+									}
+								}	
+								
+								// Datos grupos nivel 2
+								if($scope.options.hasOwnProperty('showGroupColumnsL2') && $scope.options.showGroupColumnsL2){
+									for(var column,j=0;column=columnsGroups[j];j++){
+										if(column.hasOwnProperty('groupL2')) {
+											if(column.groupL2!=currentGroupL2){
+												currentGroupL2=column.groupL2;
+												columnsGroupsL2.push(angular.copy(column));
+											}else{
+												columnsGroupsL2[columnsGroupsL2.length-1].width=columnsGroupsL2[columnsGroupsL2.length-1].width+column.width;
+												if(column.hasOwnProperty('styleGroupL2')){
+													columnsGroupsL2[columnsGroupsL2.length-1].styleGroupL2=column.styleGroupL2;
+												}
+												if(column.hasOwnProperty('textGroupL2')){
+													columnsGroupsL2[columnsGroupsL2.length-1].textGroupL2=column.textGroupL2;
+												}
+												
+											}
+										}else{
+											
+											column.groupL2='';
+											currentGroupL2=column.groupL2;
+											columnsGroupsL2.push(angular.copy(column));
+										}
+									}	
+								}
+								
+								
+								
+								//Crea las columnas nivel 1 de agrupación y las coloca encima de las columnas del grid
+								for(var group, j=0;group=columnsGroups[j];j++){
+									var styleGroup='';
+									if(group.hasOwnProperty('styleGroup')){
+										styleGroup=group.styleGroup.join(';');
+									}
+									if(!group.hasOwnProperty('textGroup')){
+										group.textGroup=''
+									}
+									var varGroupColumnEndRow='';
+									if(j==columnsGroups.length-1){
+										varGroupColumnEndRow='groupColumnEndRow';
+									}
+									columnsGroupsHtml+='<div  class="'+varGroupColumnEndRow+' groupColumn th-inner-group"  name="'+group.column+'" style="top:'+topL1+'px;width:'+group.width+'px;left:'+group.left+'px;'+styleGroup+'"><span class="header-column">'+group.textGroup+'</span></div>'
+								}
+								
+								$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer").append(columnsGroupsHtml);
+								
+								//Crea las columnas nivel 2 de agrupación y las coloca encima de las columnas del grid
+								if($scope.options.hasOwnProperty('showGroupColumnsL2') && $scope.options.showGroupColumnsL2){
+									for(var group, j=0;group=columnsGroupsL2[j];j++){
+										var styleGroupL2='';
+										if(group.hasOwnProperty('styleGroupL2')){
+											styleGroupL2=group.styleGroupL2.join(';');
+										}
+										if(!group.hasOwnProperty('textGroupL2')){
+											group.textGroupL2=''
+										}
+										var varGroupColumnEndRow='';
+										if(j==columnsGroupsL2.length-1){
+											varGroupColumnEndRow='groupColumnEndRow';
+										}
+										columnsGroupsHtmlL2+='<div class="'+varGroupColumnEndRow+' groupColumn level2 th-inner-group"  name="'+group.column+'" style="top:'+topL2+'px;width:'+group.width+'px;left:'+group.left+'px;'+styleGroupL2+'"><span class="header-column">'+group.textGroupL2+'</span></div>'
+									}
+									$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer").prepend(columnsGroupsHtmlL2);   //'<div class="groupColumn th-inner-group" style="width:100%">asdfasfaf</div>');
+								}	
 						},1000);
 					}
-					
 						
 					//*
 					// resize columns
@@ -1222,13 +1407,16 @@
 					}
 				}
 				
+				$scope.checkAllRowsSelected=false;
                 // ON CLICK SELECT ALL ROWS CHECKBOX
 				$scope.changeSelectAllRows=function(value){
 					if (value){
+						$scope.checkAllRowsSelected=true;
 						for( var i=0;i< $scope.list.length;i++){
 							$scope.list[i].selected=true;
 						}
 					}else{
+						$scope.checkAllRowsSelected=false;
 						for( var i=0;i< $scope.list.length;i++){
 							$scope.list[i].selected=false;
 						}
@@ -1237,6 +1425,12 @@
 				
                 // ON CLICK SELECT ROWS CHECKBOX
 				$scope.checkSelectRow=function(row){
+					// $timeout(
+						
+							// $scope.valueCheckSelectAll=false
+						
+					// ,100);
+					
 					if(row.selected){
 						var bExists=false;
 						for( var i=0;i< $scope.options.selectionRows.length;i++){

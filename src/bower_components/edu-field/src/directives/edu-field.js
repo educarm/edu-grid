@@ -34,6 +34,207 @@ eduFieldDirectives
 		}
 	};
 })
+ .directive('scrollableTable', ['$timeout', '$q', '$parse', function ($timeout, $q, $parse) {
+      return {
+        transclude: true,
+        restrict: 'E',
+        scope: {
+          rows: '=watch',
+          sortFn: '=',
+		  changes:'='
+        },
+        template: '<div class="scrollableContainer">' +
+                    '<div class="headerSpacer"></div>' +
+                    '<div class="scrollArea" ng-transclude></div>' +
+                  '</div>',
+        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
+          // define an API for child directives to view and modify sorting parameters
+          this.getSortExpr = function () {
+            return $scope.sortExpr;
+          };
+          this.isAsc = function () {
+            return $scope.asc;
+          };
+          this.setSortExpr = function (exp) {
+            $scope.asc = true;
+            $scope.sortExpr = exp;
+          };
+          this.toggleSort = function () {
+            $scope.asc = !$scope.asc;
+          };
+
+          this.doSort = function (comparatorFn) {
+            if (comparatorFn) {
+              $scope.rows.sort(function (r1, r2) {
+                var compared = comparatorFn(r1, r2);
+                return $scope.asc ? compared : compared * -1;
+              });
+            } else {
+              $scope.rows.sort(function (r1, r2) {
+                var compared = defaultCompare(r1, r2);
+                return $scope.asc ? compared : compared * -1;
+              });
+            }
+          };
+
+          this.renderTalble = function (){
+            return waitForRender().then(fixHeaderWidths);
+          };
+
+          this.getTableElement = function (){
+            return $element;
+          };
+
+          /**
+           * append handle function to execute after table header resize.
+           */
+          this.appendTableResizingHandler = function (handler){
+            var handlerSequence = $scope.headerResizeHanlers || [];
+            for(var i = 0;i < handlerSequence.length;i++){
+              if(handlerSequence[i].name === handler.name){
+                return;
+              }
+            }
+            handlerSequence.push(handler);
+            $scope.headerResizeHanlers = handlerSequence;
+          };
+
+          function defaultCompare(row1, row2) {
+            var exprParts = $scope.sortExpr.match(/(.+)\s+as\s+(.+)/);
+            var scope = {};
+            scope[exprParts[1]] = row1;
+            var x = $parse(exprParts[2])(scope);
+
+            scope[exprParts[1]] = row2;
+            var y = $parse(exprParts[2])(scope);
+
+            if (x === y) return 0;
+            return x > y ? 1 : -1;
+          }
+
+          function scrollToRow(row) {
+            var offset = $element.find(".headerSpacer").height();
+            var currentScrollTop = $element.find(".scrollArea").scrollTop();
+            $element.find(".scrollArea").scrollTop(currentScrollTop + row.position().top - offset);
+          }
+
+          $scope.$on('rowSelected', function (event, rowId) {
+            var row = $element.find(".scrollArea table tr[row-id='" + rowId + "']");
+            if (row.length === 1) {
+              // Ensure that the headers have been fixed before scrolling, to ensure accurate
+              // position calculations
+              $q.all([waitForRender(), headersAreFixed.promise]).then(function () {
+                scrollToRow(row);
+              });
+            }
+          });
+
+          // Set fixed widths for the table headers in case the text overflows.
+          // There's no callback for when rendering is complete, so check the visibility of the table
+          // periodically -- see http://stackoverflow.com/questions/11125078
+          function waitForRender() {
+            var deferredRender = $q.defer();
+            function wait() {
+              if ($element.find("table:visible").length === 0) {
+                $timeout(wait, 100);
+              } else {
+                deferredRender.resolve();
+              }
+            }
+
+            $timeout(wait);
+            return deferredRender.promise;
+          }
+
+          var headersAreFixed = $q.defer();
+
+          function fixHeaderWidths() {
+            if (!$element.find("thead th .th-inner").length) {
+              $element.find("thead th").wrapInner('<div class="th-inner"></div>');
+            }
+            if($element.find("thead th .th-inner:not(:has(.box))").length) {
+              $element.find("thead th .th-inner:not(:has(.box))").wrapInner('<div class="box"></div>');
+            }
+
+            $element.find("table th .th-inner:visible").each(function (index, el) {
+              el = angular.element(el);
+              var width = el.parent().width(),
+                lastCol = $element.find("table th:visible:last"),
+                headerWidth = width;
+              if (lastCol.css("text-align") !== "center") {
+                var hasScrollbar = $element.find(".scrollArea").height() < $element.find("table").height();
+                if (lastCol[0] == el.parent()[0] && hasScrollbar) {
+                  headerWidth += $element.find(".scrollArea").width() - $element.find("tbody tr").width();
+                  headerWidth = Math.max(headerWidth, width);
+                }
+              }
+              var minWidth = _getScale(el.parent().css('min-width')),
+                title = el.parent().attr("title");
+              headerWidth = Math.max(minWidth, headerWidth);
+              el.css("width", headerWidth);
+              if (!title) {
+                // ordinary column(not sortableHeader) has box child div element that contained title string.
+                title = el.find(".title .ng-scope").html() || el.find(".box").html();
+              }
+              el.attr("title", title.trim());
+            });
+		//------------------------------------------------	
+			if(typeof $scope.changes=='function'){
+				$scope.changes();
+			}
+		//------------------------------------------------	
+            headersAreFixed.resolve();
+          }
+
+          // when the data model changes, fix the header widths.  See the comments here:
+          // http://docs.angularjs.org/api/ng.$timeout
+          $scope.$watch('rows', function (newValue, oldValue) {
+            if (newValue) {
+              renderChains($element.find('.scrollArea').width());
+              // clean sort status and scroll to top of table once records replaced.
+              $scope.sortExpr = null;
+              // FIXME what is the reason here must scroll to top? This may cause confusing if using scrolling to implement pagination.
+              $element.find('.scrollArea').scrollTop(0);
+            }
+          });
+
+          $scope.asc = !$attrs.hasOwnProperty("desc");
+          $scope.sortAttr = $attrs.sortAttr;
+
+          $element.find(".scrollArea").scroll(function (event) {
+            $element.find("thead th .th-inner").css('margin-left', 0 - event.target.scrollLeft);
+          });
+
+          $scope.$on("renderScrollableTable", function() {
+            renderChains($element.find('.scrollArea').width());
+          });
+
+          angular.element(window).on('resize', function(){
+            $scope.$apply();
+          });
+          $scope.$watch(function(){
+            return $element.find('.scrollArea').width();
+          }, function(newWidth, oldWidth){
+            if(newWidth * oldWidth <= 0){
+              return;
+            }
+            renderChains();
+          });
+
+          function renderChains(){
+            var resizeQueue = waitForRender().then(fixHeaderWidths),
+              customHandlers = $scope.headerResizeHanlers || [];
+            for(var i = 0;i < customHandlers.length;i++){
+              resizeQueue = resizeQueue.then(customHandlers[i]);
+            }
+            return resizeQueue;
+          }
+        }]
+      };
+	  function _getScale(sizeCss){
+		return parseInt(sizeCss.replace(/px|%/, ''), 10);
+	  }
+   }])
 .directive("timeFormat", function($filter) {
   return {
     restrict : 'A',
@@ -431,33 +632,37 @@ eduFieldDirectives.directive(
 	eduFieldDirectives
 	 .filter('toEuros', function() {
 	  return function(input,fractionDigit) {
+		
 		var fractD=fractionDigit?fractionDigit:2;
 		var amount= Number(input).toLocaleString("es-ES", {minimumFractionDigits: fractD}) + ' €';
 		if(amount=='0,00 €' || amount=='NaN €'){
 		//if(amount=='NaN €'){
 			return; 
 		}else{
+			console.log('toEuros2:'+amount);
 			return amount;
 		}  
-		
 	  };
 	});
 	
 	eduFieldDirectives.directive('currency', ['$filter', function ($filter) {
+		
     return {
         require: '?ngModel',
         link: function (scope, elem, attrs, ctrl) {
             if (!ctrl) return;
-
+			
             ctrl.$formatters.unshift(function (a) {
-				
 				if(ctrl.$modelValue){
-					return $filter('toEuros')(ctrl.$modelValue.toString().replace(',','.'));
+					return function(){
+						return $filter('toEuros')(ctrl.$modelValue.toString().replace(',','.'));
+					}
 				}else{
 					return $filter('toEuros')('');
-				}
-				
+				}	
             });
+			
+			
 			
 			elem.bind('keydown', function(event) {
 				
@@ -1016,6 +1221,10 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 			// CONTROL TYPE= grid
 			//-----------------------------------------------------------//
 			if($scope.options.type=='grid'){
+				//si se define la opción width, ajusta el ancho de la tabla a él
+				$scope.widthTableGrid={'width':$scope.options.width?$scope.options.width+'px':'100%'};
+				 
+				// por defecto, en modo listado 
 				$scope.options.state='list';
 				function configField(){
 					$scope.field=null;
@@ -1096,6 +1305,61 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 							}
 						}	
 						
+						if(field.type=='autocomplete'){
+							
+							if(field.hasOwnProperty('autocurldata') && field.autocurldata!=''){
+							//****************************************************************************
+								$http.get(field.autocurldata).success(function (data, status, headers, config) {
+									$scope.field.selectOptions = data;
+									
+									//for each option, adjust properties value an name
+									for (var i = 0,option; option=$scope.field.selectOptions[i]; i++) {
+												  
+										if (!option.hasOwnProperty('value')) {
+											option.value= option[$scope.field.optionvalue];
+										}
+										
+										if (!option.hasOwnProperty('name')) {
+											if ($scope.field.selectconcatvaluename) {
+												option.name = option[$scope.field.optionvalue] + ' - ' + option[$scope.field.optionname];
+											} else {
+												option.name = option[$scope.field.optionname];
+											}
+											
+										} else {
+											if ($scope.field.selectconcatvaluename) {
+												option.name = option['value'] + ' - ' + option['name'];
+											} else {
+												option.name = option[$scope.field.optionname];
+											}
+										}
+									}
+									
+									//guarda la descripción de la opción del select correspondiente con el código en select.option.value
+									//para poder mostarla cuando la fila esté en edición
+									if($scope.gridRows){
+										for(var i=0,row;row=$scope.gridRows[i];i++){
+											row.$optionSelectedName={};
+											for(var key in row){
+												if(key==$scope.field.column){
+													row.$optionSelectedName[key]=_.find($scope.field.selectOptions,{'value':row[key]}).name;
+												}
+												
+											}
+											
+										}
+									}
+									
+								}).error(function (data, status, headers, config) {
+									  console.log("Error getting options select:" + data);
+								}); 
+
+
+							//****************************************************************************
+							}
+							
+						}
+						
 					}
 				}
 				
@@ -1121,13 +1385,13 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 								
 						apiField.getAll(oParamGrid,function (data) {  
 							$scope.options.loading=false;
-							$scope.gridRows=data
-							
+							$scope.gridRows=data;
+							$scope.options.gridRows=$scope.gridRows;
 							configField();
 							
 						},function(data){
 							$scope.options.loading=false;
-							$scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
+							//$scope.internalControl.showOverlayFormSuccessError('0',data.data || data.message,20005);
 						});
 					}
 				}
@@ -1148,6 +1412,7 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 					}else{
 						$scope.options.state='edit';
 					}
+					
 				}	
 				
 				// button grid cancel
@@ -1165,14 +1430,20 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 				
 				// button grid delete
 				$scope.gridDelete=function(item,index){
-					$scope.options.showOverlayInputGridFormDelete=true;
-					$scope.itemForDelete={item:item,index:index};
-					if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChangeState == 'function'){
-						$scope.options.fieldListeners.onChangeState($scope.options.state,'list');
-						$scope.options.state='list';
+					//if state is equal to new, delete register only of local data
+					if($scope.options.state=='new'){
+						$scope.gridRows.splice(index, 1);
 					}else{
-						$scope.options.state='list';
+						$scope.options.showOverlayInputGridFormDelete=true;
+						$scope.itemForDelete={item:item,index:index};
 					}
+						if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onChangeState == 'function'){
+							$scope.options.fieldListeners.onChangeState($scope.options.state,'list');
+							$scope.options.state='list';
+						}else{
+							$scope.options.state='list';
+						}
+					
 				}
 				
 				// button grid add new
@@ -1207,8 +1478,18 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 					
 					if(item.$inserted){
 						dataTemp[$scope.options.fieldFk]=$scope.options.valueFk;
+						
+						if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onBeforeSave == 'function'){
+							dataTemp=$scope.options.fieldListeners.onBeforeSave(dataTemp,true);
+						}
+						
 						apiField.insert(dataTemp,function (data) { 
                             item.$visible=false;
+							
+							if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onAfterSave == 'function'){
+								$scope.options.fieldListeners.onAfterSave(dataTemp,true);
+							}
+							
 							if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onSaveSuccess == 'function'){
 								$scope.options.fieldListeners.onSaveSuccess(data);
 							}
@@ -1224,9 +1505,16 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 						});
 					}else{
 						var oId = getOid(dataTemp);
-						
+						if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onBeforeSave == 'function'){
+								$scope.options.fieldListeners.onBeforeSave(dataTemp,false);
+						}
 						apiField.update(oId,dataTemp,function (data) {  
                             item.$visible=false;
+							
+							if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onAfterSave == 'function'){
+								$scope.options.fieldListeners.onAfterSave(dataTemp,false);
+							}
+							
 							if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onUpdateSuccess == 'function'){
 								$scope.options.fieldListeners.onUpdateSuccess(data);
 							}
@@ -1236,6 +1524,9 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 							}else{
 								$scope.options.state='list';
 							}
+							
+							updateElementInArray($scope.gridRows,dataTemp);
+							
             	        },function(data){
 							//$scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
 						});
@@ -1249,11 +1540,19 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 					var oId={};
 					oId.id=$scope.itemForDelete.item[$scope.options.fieldKey];
 					
-					apiField.delete(oId,function (data) { 
-                            $scope.gridRows.splice($scope.itemForDelete.index, 1);
-					},function(data){
-					  // $scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
-					});
+					if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onBeforeDelete == 'function'){
+						$scope.options.fieldListeners.onBeforeDelete(oId.id);
+					}else{
+						apiField.delete(oId,function (data) { 
+								$scope.gridRows.splice($scope.itemForDelete.index, 1);
+						},function(data){
+						  // $scope.internalControl.showOverlayFormSuccessError('0',data.data,20005);
+						});
+					}
+					
+					if ($scope.options.hasOwnProperty('fieldListeners') && typeof $scope.options.fieldListeners.onAfterDelete == 'function'){
+						$scope.options.fieldListeners.onAfterDelete(oId.id);
+					}
 					
 					$scope.options.showOverlayInputGridFormDelete=false;
 				}
@@ -1268,6 +1567,16 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 					oId['id']=vid;
 			   
 					return oId;
+				}
+				
+				function updateElementInArray(rows,item){
+					for(var i=0;i<rows.length;i++){
+						var vid=rows[i][$scope.options.fieldKey];
+						if (vid==item[$scope.options.fieldKey]){
+							$scope.gridRows.splice(i, 1,item);							
+							break;
+						}
+					}
 				}
 				
 				
@@ -1291,6 +1600,14 @@ eduFieldDirectives.directive('eduField', function formField($http, $compile, $te
 					$event.stopPropagation();
 					$scope.options.showPopupCalendar=true;
 				};
+				
+				if(typeof $scope.options.minDate){
+					$scope.options.minDateObj=new Date($scope.options.minDate)
+				}
+				
+				if(typeof $scope.options.maxDate){
+					$scope.options.maxDateObj=new Date($scope.options.maxDate)
+				}
 			}
 			
 			// ----------------------------------------------------------//

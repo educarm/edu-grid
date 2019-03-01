@@ -122,7 +122,7 @@
    <!---------------------------->	
 						
 						
-						<scrollable-table watch="list">
+						<scrollable-table watch="list" changes="changesOnGrid">
 						   <table id="table-grid" class="table table-condensed table-hover table-striped"   ng-class="{'table-bordered':options.tableBordered,'table_layout_fixed':options.table_layout_fixed, 'table_layout_auto':!options.table_layout_fixed}" >
 							   <thead>
 							   
@@ -139,13 +139,14 @@
 									   </th>
 									   
 									   <!-- check select all -->    
-									   <th ng-if="options.showSelectRow"  width="5" title="&nbsp" class="preFixedColumn">
+									   <th ng-if="options.showSelectRow"  width="5" title="&nbsp" class="preFixedColumn ">
 										   <!--
 											<label for="selectAll"  style="align:left">
 														{{options.snippets.selectAll || 'Todos'}} 
 											</label>
+											
 											<input type="checkbox" name="selectAll" ng-change="changeSelectAllRows(valueCheckSelectAll)" ng-model="valueCheckSelectAll"  />    
-										  --> 
+										   -->
 									   </th>
 									   <th ng-repeat="field in options.listFields" name="{{field.column}}" class="noFixedColumn droptarget " width="{{field.weight}}%" title="&nbsp" style="text-align: center" id="{{$index}}">
 									         

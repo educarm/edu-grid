@@ -12,8 +12,7 @@ angular.module('eduGrid', [
   'edu-grid.tpl',
   'ngResource',
   'ui.bootstrap',
-  'eduField',
-  'scrollable-table'
+  'eduField'
 ]);
 eduGridServices.factory('dataFactoryGrid', [
   '$resource',
@@ -161,21 +160,142 @@ eduGridDirectives.filter('toEuros', function () {
             }
           }
         }
+        //ajusta el ancho y la posición de las columnas de grupo cada vez que hay cambios en el grid
+        $scope.changesOnGrid = function () {
+          if ($scope.options.hasOwnProperty('showGroupColumns') && $scope.options.showGroupColumns) {
+            //get columns data width
+            var widthPrefixedColumns = 0;
+            var nPrefixedColumns = 0;
+            var columnsGroupsHtml = '';
+            var columnsGroupsHtmlL2 = '';
+            var columnsGroups = [];
+            var columnsGroupsL2 = [];
+            var currentGroup = '';
+            var currentGroupL2 = '';
+            //Crea la cabecera de agrupacion de las columnas del grid
+            $('#' + $scope.options.metaData.id + ' .scrollArea table .th-inner').each(function (i) {
+              if ($(this).parent().hasClass('preFixedColumn')) {
+                widthPrefixedColumns += $(this).innerWidth();
+                nPrefixedColumns++;
+              } else {
+                //guarda el ancho que tiene cada columna en el rendererizado actual
+                var column = $(this).parent().attr('name');
+                for (var listColumn, j = 0; listColumn = $scope.options.listFields[j]; j++) {
+                  if (listColumn.column == column) {
+                    listColumn.width = $(this).innerWidth();
+                    listColumn.left = $(this).position().left - 1;
+                  }
+                }
+              }
+            });
+            for (var column, j = 0; column = $scope.options.listFields[j]; j++) {
+              if (column.hasOwnProperty('group')) {
+                if (column.group != currentGroup) {
+                  currentGroup = column.group;
+                  columnsGroups.push(angular.copy(column));
+                } else {
+                  columnsGroups[columnsGroups.length - 1].width = columnsGroups[columnsGroups.length - 1].width + column.width;
+                  if (column.hasOwnProperty('styleGroup')) {
+                    columnsGroups[columnsGroups.length - 1].styleGroup = column.styleGroup;
+                  }
+                  if (column.hasOwnProperty('textGroup')) {
+                    columnsGroups[columnsGroups.length - 1].textGroup = column.textGroup;
+                  }
+                }
+              } else {
+                column.group = '';
+                currentGroup = column.group;
+                columnsGroups.push(angular.copy(column));
+              }
+            }
+            // Datos grupos nivel 2
+            if ($scope.options.hasOwnProperty('showGroupColumnsL2') && $scope.options.showGroupColumnsL2) {
+              for (var column, j = 0; column = columnsGroups[j]; j++) {
+                if (column.hasOwnProperty('groupL2')) {
+                  if (column.groupL2 != currentGroupL2) {
+                    currentGroupL2 = column.groupL2;
+                    columnsGroupsL2.push(angular.copy(column));
+                  } else {
+                    columnsGroupsL2[columnsGroupsL2.length - 1].width = columnsGroupsL2[columnsGroupsL2.length - 1].width + column.width;
+                    if (column.hasOwnProperty('styleGroupL2')) {
+                      columnsGroupsL2[columnsGroupsL2.length - 1].styleGroupL2 = column.styleGroupL2;
+                    }
+                    if (column.hasOwnProperty('textGroupL2')) {
+                      columnsGroupsL2[columnsGroupsL2.length - 1].textGroupL2 = column.textGroupL2;
+                    }
+                  }
+                } else {
+                  column.groupL2 = '';
+                  currentGroupL2 = column.groupL2;
+                  columnsGroupsL2.push(angular.copy(column));
+                }
+              }
+            }
+            //actualiza el ancho y la posición de los grupos nivel 1
+            for (var group, j = 0; group = columnsGroups[j]; j++) {
+              $('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacer .th-inner-group[name="' + group.column + '"]').width(group.width).css('left', group.left);
+            }
+            //Crea las columnas nivel 2 de agrupación y las coloca encima de las columnas del grid
+            if ($scope.options.hasOwnProperty('showGroupColumnsL2') && $scope.options.showGroupColumnsL2) {
+              for (var group, j = 0; group = columnsGroupsL2[j]; j++) {
+                var styleGroupL2 = '';
+                if (group.hasOwnProperty('styleGroupL2')) {
+                  styleGroupL2 = group.styleGroupL2.join(';');
+                }
+                if (!group.hasOwnProperty('textGroupL2')) {
+                  group.textGroupL2 = '';
+                }
+                var varGroupColumnEndRow = '';
+                if (j == columnsGroupsL2.length - 1) {
+                  varGroupColumnEndRow = 'groupColumnEndRow';
+                }  //columnsGroupsHtmlL2+='<div class="'+varGroupColumnEndRow+' groupColumn th-inner-group"  name="'+group.column+'" style="top:'+topL2+'px;width:'+group.width+'px;left:'+group.left+'px;'+styleGroupL2+'"><span class="header-column">'+group.textGroupL2+'</span></div>'
+              }
+              //$("#"+$scope.options.metaData.id+" .scrollableContainer .headerSpacer").prepend(columnsGroupsHtmlL2);   //'<div class="groupColumn th-inner-group" style="width:100%">asdfasfaf</div>');
+              //actualiza el ancho y la posición de los grupos nivel 1
+              for (var group, j = 0; group = columnsGroupsL2[j]; j++) {
+                $('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacer .groupColumn.level2.th-inner-group[name="' + group.column + '"]').width(group.width).css('left', group.left);
+              }
+            }
+          }
+        };
         $timeout(function () {
           //height for plugin angular-scrollable-table
           $('#' + $scope.options.metaData.id + ' .scrollableContainer').css('height', $scope.options.height + 'px');
+          //Crea la cabecera de agrupacion de las columnas del grid
           if ($scope.options.hasOwnProperty('showGroupColumns') && $scope.options.showGroupColumns) {
             $timeout(function () {
-              //Aumenta la altura de la cabecera de la tabla
-              $('#' + $scope.options.metaData.id + ' .scrollableContainer').prepend('<div class="headerSpacerGroup" style="height:36px"></div>');
+              var topL1 = 0;
+              var topL2 = 0;
+              $('#' + $scope.options.metaData.id + ' .scrollableContainer').prepend('<div class="headerSpacerGroup" style="min-height:36px"></div>');
               $('#' + $scope.options.metaData.id + ' .scrollArea table .th-inner').css('top', '36px');
-              $('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacer').css('height', '72px');
+              $('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacer').css('min-height', '72px');
+              if ($scope.options.hasOwnProperty('showGroupColumnsL2') && $scope.options.showGroupColumnsL2) {
+                $('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacerGroup').height(72);
+                $('#' + $scope.options.metaData.id + ' .scrollArea table .th-inner').css('top', '72px');
+                $('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacer').css('min-height', '108px');
+                topL1 = 36;
+              }
+              //para colocar en la cabecera fija el checkbox select all rows
+              var objOrigen = $('#' + $scope.options.metaData.id + ' .scrollArea table .th-inner input[name=\'selectAll\']').parent().parent();
+              var position = $(objOrigen).position();
+              if (typeof position != 'undefined') {
+                $(objOrigen).css({
+                  position: 'absolute',
+                  top: position.top,
+                  left: position.left,
+                  border: '1px solid #ddd'
+                }).css('padding', '5px');
+                $(objOrigen).prependTo('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacer');
+              }
               //get columns data width
               var widthPrefixedColumns = 0;
               var nPrefixedColumns = 0;
               var columnsGroupsHtml = '';
+              columnsGroupsHtmlL2 = '';
               var columnsGroups = [];
+              var columnsGroupsL2 = [];
               var currentGroup = '';
+              var currentGroupL2 = '';
               //Por cada columna de la tabla, crea una columna con el mismo ancho en la tabla que colocaremos encima
               $('#' + $scope.options.metaData.id + ' .scrollArea table .th-inner').each(function (i) {
                 if ($(this).parent().hasClass('preFixedColumn')) {
@@ -192,11 +312,12 @@ eduGridDirectives.filter('toEuros', function () {
                   }
                 }
               });
+              //Datos grupos nivel 1
               for (var column, j = 0; column = $scope.options.listFields[j]; j++) {
                 if (column.hasOwnProperty('group')) {
                   if (column.group != currentGroup) {
                     currentGroup = column.group;
-                    columnsGroups.push(column);
+                    columnsGroups.push(angular.copy(column));
                   } else {
                     columnsGroups[columnsGroups.length - 1].width = columnsGroups[columnsGroups.length - 1].width + column.width;
                     if (column.hasOwnProperty('styleGroup')) {
@@ -209,9 +330,33 @@ eduGridDirectives.filter('toEuros', function () {
                 } else {
                   column.group = '';
                   currentGroup = column.group;
-                  columnsGroups.push(column);
+                  columnsGroups.push(angular.copy(column));
                 }
               }
+              // Datos grupos nivel 2
+              if ($scope.options.hasOwnProperty('showGroupColumnsL2') && $scope.options.showGroupColumnsL2) {
+                for (var column, j = 0; column = columnsGroups[j]; j++) {
+                  if (column.hasOwnProperty('groupL2')) {
+                    if (column.groupL2 != currentGroupL2) {
+                      currentGroupL2 = column.groupL2;
+                      columnsGroupsL2.push(angular.copy(column));
+                    } else {
+                      columnsGroupsL2[columnsGroupsL2.length - 1].width = columnsGroupsL2[columnsGroupsL2.length - 1].width + column.width;
+                      if (column.hasOwnProperty('styleGroupL2')) {
+                        columnsGroupsL2[columnsGroupsL2.length - 1].styleGroupL2 = column.styleGroupL2;
+                      }
+                      if (column.hasOwnProperty('textGroupL2')) {
+                        columnsGroupsL2[columnsGroupsL2.length - 1].textGroupL2 = column.textGroupL2;
+                      }
+                    }
+                  } else {
+                    column.groupL2 = '';
+                    currentGroupL2 = column.groupL2;
+                    columnsGroupsL2.push(angular.copy(column));
+                  }
+                }
+              }
+              //Crea las columnas nivel 1 de agrupación y las coloca encima de las columnas del grid
               for (var group, j = 0; group = columnsGroups[j]; j++) {
                 var styleGroup = '';
                 if (group.hasOwnProperty('styleGroup')) {
@@ -220,11 +365,31 @@ eduGridDirectives.filter('toEuros', function () {
                 if (!group.hasOwnProperty('textGroup')) {
                   group.textGroup = '';
                 }
-                columnsGroupsHtml += '<div class="groupColumn th-inner-group"  style="width:' + group.width + 'px;left:' + group.left + 'px;' + styleGroup + '"><span class="header-column">' + group.textGroup + '</span></div>';
+                var varGroupColumnEndRow = '';
+                if (j == columnsGroups.length - 1) {
+                  varGroupColumnEndRow = 'groupColumnEndRow';
+                }
+                columnsGroupsHtml += '<div  class="' + varGroupColumnEndRow + ' groupColumn th-inner-group"  name="' + group.column + '" style="top:' + topL1 + 'px;width:' + group.width + 'px;left:' + group.left + 'px;' + styleGroup + '"><span class="header-column">' + group.textGroup + '</span></div>';
               }
-              var tableGroupColumns = columnsGroupsHtml;
-              //Crea la tabla con las columnas de agrupación y la coloca encima de la tabla con las filas
               $('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacer').append(columnsGroupsHtml);
+              //Crea las columnas nivel 2 de agrupación y las coloca encima de las columnas del grid
+              if ($scope.options.hasOwnProperty('showGroupColumnsL2') && $scope.options.showGroupColumnsL2) {
+                for (var group, j = 0; group = columnsGroupsL2[j]; j++) {
+                  var styleGroupL2 = '';
+                  if (group.hasOwnProperty('styleGroupL2')) {
+                    styleGroupL2 = group.styleGroupL2.join(';');
+                  }
+                  if (!group.hasOwnProperty('textGroupL2')) {
+                    group.textGroupL2 = '';
+                  }
+                  var varGroupColumnEndRow = '';
+                  if (j == columnsGroupsL2.length - 1) {
+                    varGroupColumnEndRow = 'groupColumnEndRow';
+                  }
+                  columnsGroupsHtmlL2 += '<div class="' + varGroupColumnEndRow + ' groupColumn level2 th-inner-group"  name="' + group.column + '" style="top:' + topL2 + 'px;width:' + group.width + 'px;left:' + group.left + 'px;' + styleGroupL2 + '"><span class="header-column">' + group.textGroupL2 + '</span></div>';
+                }
+                $('#' + $scope.options.metaData.id + ' .scrollableContainer .headerSpacer').prepend(columnsGroupsHtmlL2);  //'<div class="groupColumn th-inner-group" style="width:100%">asdfasfaf</div>');
+              }
             }, 1000);
           }
           //*
@@ -1011,13 +1176,16 @@ eduGridDirectives.filter('toEuros', function () {
             $scope.options.listListeners.onExtraButtonRightClick();
           }
         };
+        $scope.checkAllRowsSelected = false;
         // ON CLICK SELECT ALL ROWS CHECKBOX
         $scope.changeSelectAllRows = function (value) {
           if (value) {
+            $scope.checkAllRowsSelected = true;
             for (var i = 0; i < $scope.list.length; i++) {
               $scope.list[i].selected = true;
             }
           } else {
+            $scope.checkAllRowsSelected = false;
             for (var i = 0; i < $scope.list.length; i++) {
               $scope.list[i].selected = false;
             }
@@ -1025,6 +1193,9 @@ eduGridDirectives.filter('toEuros', function () {
         };
         // ON CLICK SELECT ROWS CHECKBOX
         $scope.checkSelectRow = function (row) {
+          // $timeout(
+          // $scope.valueCheckSelectAll=false
+          // ,100);
           if (row.selected) {
             var bExists = false;
             for (var i = 0; i < $scope.options.selectionRows.length; i++) {
@@ -1167,6 +1338,6 @@ angular.module('edu-grid.tpl').run([
   '$templateCache',
   function ($templateCache) {
     'use strict';
-    $templateCache.put('directives/edu-grid.tpl.html', '<div><style>.nowrap_overflow_hidden_ellipsis{\r' + '\n' + '\t\twhite-space: nowrap;\r' + '\n' + '        overflow: hidden;\r' + '\n' + '\t\ttext-overflow: ellipsis;\r' + '\n' + '\t}\r' + '\n' + '\t\r' + '\n' + '\t.table_layout_fixed{\r' + '\n' + '\t\ttable-layout:fixed;\r' + '\n' + '\t}\r' + '\n' + '\t\r' + '\n' + '\t.table_layout_auto{\r' + '\n' + '\t\ttable-layout:auto;\r' + '\n' + '\t}\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-triangle-bottom {\r' + '\n' + '\t\tfont-size: 8px;\r' + '\n' + '    }\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-triangle-top {\r' + '\n' + '\t\tfont-size: 8px;\r' + '\n' + '    }\r' + '\n' + '\t\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-chevron-left {\r' + '\n' + '\t\tfont-size: 8px;\r' + '\n' + '    }\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-chevron-right {\r' + '\n' + '\t\tfont-size: 8px;\r' + '\n' + '    }\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-sort-by-alphabet {\r' + '\n' + '\t\tfont-size: 12px;\r' + '\n' + '    }\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-sort-by-alphabet-alt {\r' + '\n' + '\t\tfont-size: 12px;\r' + '\n' + '    }\r' + '\n' + '\t\r' + '\n' + '\t.scrollArea table th .box {\r' + '\n' + '\t\tpadding: 0 0px;\r' + '\n' + '\t\tpadding-right: 0px;\r' + '\n' + '\t\tborder-left: 1px solid #ddd;\r' + '\n' + '\t\t\r' + '\n' + '    }</style><div class=box-edu-grid><div class="panel panel-{{options.metaData.panelType}}"><div class=panel-heading ng-show=showHeadingBar><div class=row><div class="col-md-12 col-sm-12"><strong>{{options.heading}}</strong></div></div><div class=row><div class="col-md-3 col-sm-3"><a href="" class="btn btn-primary btn-xs" ng-show=options.showExtraButtonTopLeft ng-click=clickExtraButton()><span class="glyphicon glyphicon-{{options.iconExtraButtonTopLeft || \'plus-sign\'}}"></span> {{options.snippets.extraButtonTop || \'Nuevo\'}}</a></div><div class="col-md-2 col-sm-2"><span ng-show=options.showMetaData>{{options.snippets.showingItems || \'Filas\'}} {{options.metaData.offset+1}} - {{(options.metaData.offset+options.metaData.limit > options.metaData.total) ? (options.metaData.total) : (options.metaData.offset + options.metaData.limit)}} {{options.snippets.of || \'de\'}} {{options.metaData.total}}</span></div><div class="col-md-3 col-sm-2"><div ng-show="options.showSearch && options.showTopSearch"><label for=ag_search>{{options.snippets.search || \'Buscar:\'}}</label><input class=form-inline ng-model=searchQuery ng-change="onChangeSearchQuery()"></div></div><div class="col-md-2 col-sm-2"><div ng-show="options.showAvancedSearch && options.showTopAdvancedSearch && !options.showAdvancedSearchInHeader"><a class="btn btn-sm" ng-class="{\'btn-primary\':!listFiltered,\'btn-danger\':listFiltered}" ng-click=onClickAvancedSearch()><i class="glyphicon glyphicon-search"></i> {{options.snippets.avancedSearch || \' Avanzada\'}}</a></div></div><div class="col-md-2 col-sm-2"><span class="btn btn-xs" ng-show=options.showRefreshButton ng-click=refresh(true)><i class="glyphicon glyphicon-refresh"></i></span> <a href="" title={{options.snippets.titleExtraButtonTopRight}} class="btn btn-primary btn-xs" ng-show=options.showExtraButtonTopRight ng-click=clickExtraButtonRight()><span class="glyphicon glyphicon-{{options.iconExtraButtonTopRight || \'plus-sign\'}}"></span> {{options.snippets.extraButtonTopRight}}</a></div></div><form ng-if=options.showAdvancedSearchInHeader role=form novalidate autocomplete=off name={{options.metaData.id}}_advancedSearch><div class=row><fieldset class=avancedSearch><legend class=avancedSearch><i class="fa fa-search"></i> <span style=font-size:1.2em;font-weight:normal>{{options.snippets.formAvancedSearchTitle}}</span></legend><div class=control-group><div ng-repeat="field in options.formAvancedSearch.fields"><div edu-field options=field value=options.formAvancedSearchResult[field.key]></div></div></div></fieldset></div><div ng-if=options.showAdvancedSearchInHeader class=row><div class="col-md-offset-9 col-md-3 col-sm-offset-9 col-sm-3"><button ng-click=formAvancedSearchEventsContinue() ng-disabled={{options.metaData.id}}_advancedSearch.$invalid class="btn btn-sm btn-primary">{{options.snippets.formAvancedSearchButtonContinue || \'Buscar\'}}</button> <button ng-click=formAvancedSearchEventsClean() class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || \'Limpiar\'}}</button></div></div></form></div><div class=panel-body><div style=overflow-x:scroll id={{options.metaData.id}} class=wrapper-table-edu-grid><scrollable-table watch=list><table id=table-grid class="table table-condensed table-hover table-striped" ng-class="{\'table-bordered\':options.tableBordered,\'table_layout_fixed\':options.table_layout_fixed, \'table_layout_auto\':!options.table_layout_fixed}"><thead><tr><th ng-if=options.showRowNumber width=5 title=&nbsp class=preFixedColumn></th><th ng-if=options.showButtonsGridUserPre ng-repeat="button in options.buttonsUserPre" width=5 title=&nbsp class=preFixedColumn></th><th ng-if=options.showSelectRow width=5 title=&nbsp class=preFixedColumn></th><th ng-repeat="field in options.listFields" name={{field.column}} class="noFixedColumn droptarget" width={{field.weight}}% title=&nbsp style="text-align: center" id={{$index}}><div class=col-resizable><table width=100%><tr><td><table width=100% border=0 class=dragtarget id={{$index}} draggable=true><tr><td width=13px><span class=header-column ng-show=dragAndDropColumn title="Mover columna a la izquierda"><a ng-click="changeColumnOrder($index-1, $index)"><i class="glyphicon glyphicon-chevron-left"></i></a></span></td><td ng-if="field.notOrder==true"><span class=header-column><a>&nbsp{{field.label}}</a></span></td><td ng-if=!field.notOrder style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis"><span ng-click="changeOrder(field, field.orderByValue, \'desc\')" ng-show="field.order==\'asc\'" class=header-column title="Ordenar por {{field.label}}"><i class="glyphicon glyphicon-sort-by-alphabet"></i> <a>&nbsp{{field.label}}</a></span> <span ng-click="changeOrder(field, field.orderByValue, \'asc\')" ng-show="field.order==\'desc\'" class=header-column title="Ordenar por {{field.label}}"><i class="glyphicon glyphicon-sort-by-alphabet-alt"></i> <a>&nbsp{{field.label}}</a></span> <span ng-click="changeOrder(field, field.orderByValue, \'desc\')" ng-hide="field.order.length>0" class=header-column title="Ordenar por {{field.label}}"><a>&nbsp{{field.label}}</a></span></td><td width=15px><span class=header-column ng-show=dragAndDropColumn title="Mover columna a la derecha"><a ng-click="changeColumnOrder($index+1, $index)"><i class="glyphicon glyphicon-chevron-right"></i></a></span></td></tr></table></td><td width=0px><table><tr><td class=resizable id={{$index}} style="height:30px;border: 0px solid #ddd;cursor: col-resize;background-color:#ddd"></td></tr></table></td></tr></table></div></th><th ng-if=options.showButtonsGridUserPost ng-repeat="button in options.buttonsUserPost" width=5></th></tr></thead><tbody><tr ng-show="list.length < 1"><td colspan={{options.listFields.length+options.buttons.length}}><span class="glyphicon glyphicon-info-sign"></span> <span>{{options.snippets.emptyGridText || \'No hay datos\'}}</span></td></tr><tr ng-repeat="entry in list" ng-click=onRowClick(entry)><td ng-if=options.showRowNumber class=preFixedColumn><button ng-show=entry.clicked type=button class="btn btn-success btn-xs">{{options.metaData.offset+1+$index}}</button> <button ng-show=!entry.clicked type=button class="btn btn-primary btn-xs">{{options.metaData.offset+1+$index}}</button></td><td ng-if=options.showButtonsGridUserPre ng-repeat="button in options.buttonsUserPre" class=preFixedColumn><div ng-if=!button.button ng-show=!button.hidden(entry)><div ng-if="button.glyphicon.length>0"><a class="btn btn-xs" ng-click="handleButtonClick(button.onclick, entry)" ng-disabled=button.disabled(entry)><i class="glyphicon glyphicon-{{button.glyphicon}}" title={{button.label}}></i></a></div><div ng-if="button.iconPath.length>0"><img ng-src=button.iconPath alt="{{button.label}}"></div></div><button ng-if=button.button ng-show=!button.hidden(entry) ng-click="handleButtonClick(button.onclick, entry)" ng-disabled=button.disabled(entry)><i ng-if="button.glyphicon.length>0" class="glyphicon glyphicon-{{button.glyphicon}}" title={{button.label}}></i> <img ng-if="button.iconPath.length>0" ng-src=button.iconPath alt="{{button.label}}">{{button.label}}</button></td><td ng-if=options.showSelectRow class=preFixedColumn><input type=checkbox ng-click=checkSelectRow(entry) ng-model="entry.selected"></td><td ng-repeat="field in options.listFields" ng-click=onRowClick() ng-class="{\'nowrap_overflow_hidden_ellipsis\':options.overflow_hidden}" ng-style=entry.$styles><div ng-if="field.type!=\'currency\' && field.type!=\'number\' && field.type!=\'date\' && field.type!=\'date-time\'  && field.type!=\'checkbox\' && field.type!=\'select\' && field.type!=\'input-text\' && field.type!=\'input-date\' && field.type!=\'input-select\' && field.type!=\'input-radio\'">{{field.renderer(entry[field.column], entry, field.column,field.type)}}</div><div ng-if="field.type==\'number\'" class=pull-right>{{field.renderer(entry[field.column], entry, field.column,field.type)}}</div><div ng-if="field.type==\'date\'">{{entry[field.column] | date:field.format ||\'dd/MM/yyyy\'}}</div><div ng-if="field.type==\'currency\'">{{entry[field.column] | toEuros}}</div><div ng-if="field.type==\'checkbox\'"><input type=checkbox ng-model=entry[field.column] ng-false-value="\'N\'" ng-true-value="\'S\'" ng-change=onInputEditableChange(entry,field) ng-disabled=!field.editable></div><div ng-if="field.type==\'image\'"><img height="{{field.height || \'40\'}}px" width="{{field.width || \'35\'}}px" data-ng-src=data:image/png;base64,{{entry[field.column]}} data-err-src="{{field.whenNotImg}}"></div><div ng-if="field.type==\'input-text\'"><input ng-model=entry[field.column]></div><div ng-if="field.type==\'input-date\'"><input type=date ng-model=entry[field.column]></div><div ng-if="field.type==\'select\'"><select class="form-control input-{{field.inputSize}}" ng-change=onInputEditableChange(entry,field) ng-model=entry[field.column] ng-disabled=options.disabled ng-options="option.value as option.name for option in field.options">><option ng-if=field.emptyOption value="">{{field.emptyOptionText}}</option></select></div></td><td ng-if=options.showButtonsGridUserPost ng-repeat="button in options.buttonsUserPost"><div ng-if=!button.button><div ng-if="button.glyphicon.length>0"><a class="btn btn-xs" ng-click="handleButtonClick(button.onclick, entry)" ng-disabled=button.disabled(entry)><i class="glyphicon glyphicon-{{button.glyphicon}}" title={{button.label}}></i></a></div><div ng-if="button.iconPath.length>0"><img ng-src=button.iconPath alt="{{button.label}}"></div></div><button ng-if=button.button ng-click="handleButtonClick(button.onclick, entry)" ng-disabled=button.disabled(entry)><i ng-if="button.glyphicon.length>0" class="glyphicon glyphicon-{{button.glyphicon}}" title={{button.label}}></i> <img ng-if="button.iconPath.length>0" ng-src=button.iconPath alt="{{button.label}}">{{button.label}}</button></td></tr></tbody></table></scrollable-table></div></div><div class=panel-footer ng-show=showFooterBar><div class=row><div class=col-md-4><ul ng-show=options.showPagination class="pagination pagination col" style="margin: 0px 0px; font-weight: bold"><li ng-class="{\'disabled\':isOnFirstPage() || list.length==0}"><a ng-show=isOnFirstPage() class="glyphicon glyphicon-step-backward btn-xs"></a> <a ng-show=!isOnFirstPage() class="glyphicon glyphicon-step-backward btn-xs" ng-click=setFirstPage()></a></li><li ng-class="{\'disabled\':isOnFirstPage() || list.length==0}"><a ng-show=isOnFirstPage() class="glyphicon glyphicon-fast-backward btn-xs"></a> <a ng-show=!isOnFirstPage() class="glyphicon glyphicon-backward btn-xs" ng-click=setPreviousPage()></a></li><li data-ng-repeat="page in pages" ng-class="{\'disabled\':currentPage.label == page.label || list.length==0}"><a ng-show="currentPage.label != page.label" ng-click=setPage(page) class=btn-xs>{{page.label}}</a> <a ng-show="currentPage.label == page.label" class=btn-xs>{{page.label}}</a></li><li ng-class="{\'disabled\':isOnLastPage() || list.length==0}"><a ng-show=isOnLastPage() class="glyphicon glyphicon-fast-forward btn-xs"></a> <a ng-show=!isOnLastPage() class="glyphicon glyphicon-forward btn-xs" ng-click=setNextPage()></a></li><li ng-class="{\'disabled\':isOnLastPage() || list.length==0}"><a ng-show=isOnLastPage() class="glyphicon glyphicon-step-forward btn-xs"></a> <a ng-show=!isOnLastPage() class="glyphicon glyphicon-step-forward btn-xs" ng-click=setLastPage()></a></li></ul></div><div class=col-md-3><div ng-show=options.showItemsPerPage><label for=ag_itemsperpage>{{options.snippets.itemsPerPage || \'Items por p&aacute;gina:\'}}</label><input id=ag_itemsperpage class=form-inline type=number ng-model=options.metaData.limit ng-change=onChangeItemsPerPage() style="width: 50px"> <a class="glyphicon glyphicon-list-alt btn-xs"></a></div></div><div class=col-md-3 ng-show="options.showSearch && options.showBottomSearch"><div><label for=ag_search>{{options.snippets.search || \'Buscar:\'}}</label><input class=form-inline ng-model=searchQuery ng-change="onChangeSearchQuery()"></div></div><div class=col-md-2 ng-show="options.showAvancedSearch && options.showBottomAdvancedSearch && !options.showAdvancedSearchInHeader"><div><a class="glyphicon glyphicon-search btn btn-primary btn-sm" ng-class="{\'btn-primary\':!listFiltered,\'btn-danger\':listFiltered}" ng-click=onClickAvancedSearch()>{{options.snippets.avancedSearch || \' Avanzada\'}}</a></div></div></div></div></div><div ng-show=options.showOverlayLoadingGrid class=overlay-edu-grid><div class="spin centrado-edu-grid"></div></div><div class=overlay-edu-grid ng-if=showOverlayFormAvancedSearch><div class="panel panel-default centrado-edu-grid" style=width:{{options.formAvancedSearch.width||500}}px><div class=panel-heading><h4>{{options.snippets.formAvancedSearchTitle || "B&uacute;squeda Avanzada"}}</h4></div><div class=panel-body><form name={{options.metaData.id}}_advancedSearchModal novalidate><h4>{{options.snippets.formAvancedSearchMessage}}</h4><div ng-repeat="field in options.formAvancedSearch.fields"><div edu-field options=field value=options.formAvancedSearchResult[field.key]></div></div><div><h5>{{options.snippets.formAvancedSearchNota}}</h5></div></form></div><div class=panel-footer><div class=row><div class="col-md-offset-3 col-md-9"><button ng-click=formAvancedSearchEventsContinue() ng-disabled={{options.metaData.id}}_advancedSearchModal.$invalid class="btn btn-sm btn-primary">{{options.snippets.formAvancedSearchButtonContinue || \'Aceptar\'}}</button> <button ng-click=formAvancedSearchEventsCancel() class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || \'Cancelar\'}}</button> <button ng-click=formAvancedSearchEventsClean() class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || \'Limpiar\'}}</button></div></div></div></div></div><div class=overlay-edu-grid ng-show=options.showOverlayFormUser><div class="panel panel-default centrado-edu-grid" style=width:{{options.formUser.width}}><div class=panel-heading><h4>{{options.snippets.formUserTitle}}</h4></div><div class=panel-body><form name=formUser novalidate><h4>{{options.snippets.formUserMessage}}</h4><div class="form-group {{field.col}}" ng-repeat="field in options.formUser.fields"><label for={{field.key}} class=ng-binding style=align:left>{{field.label}} {{field.required ? \'*\' : \'\'}}</label><input class=form-control id={{field.key}} name={{field.key}} ng-model=options.formUser.result[field.key] placeholder={{field.placeholder}} ng-required=field.required ng-disabled=field.disabled></div><div><h5>{{options.snippets.formUserNota}}</h5></div></form></div><div class=panel-footer><div class=row><div class="col-md-offset-3 col-md-9"><button ng-click=formUserOnContinue(options.formUser.result) ng-disabled=formUser.$invalid class="btn btn-sm btn-primary">{{options.snippets.formUserButtonContinue || \'Aceptar\'}}</button> <button ng-click=formUserOnCancel() class="btn btn-sm">{{options.snippets.formUserButtonCancel || \'Cancelar\'}}</button></div></div></div></div></div><div class=overlay-edu-grid ng-show=options.overlayFormSuccessErrorGrid.show><div class="panel panel-{{options.overlayFormSuccessErrorGrid.type|| \'info\'}} centrado-edu-grid" style=min-width:{{options.overlayFormSuccessErrorGrid.width||200}}px><div class=panel-heading><span ng-if="options.overlayFormSuccessErrorGrid.type==\'success\'" class="glyphicon glyphicon-ok pull-right"></span> <span ng-if="options.overlayFormSuccessErrorGrid.type==\'danger\'" class="glyphicon glyphicon-remove pull-right"></span><br></div><div class=panel-body><h4>{{options.overlayFormSuccessErrorGrid.message}}</h4></div><div class=panel-footer><div class=row><div class="col-md-offset-3 col-md-9"><button ng-click="options.overlayFormSuccessErrorGrid.show=false" class="btn btn-sm btn-primary">{{options.snippets.overlayFormSuccessErrorGrid || \'Aceptar\'}}</button></div></div></div></div></div></div></div>');
+    $templateCache.put('directives/edu-grid.tpl.html', '<div><style>.nowrap_overflow_hidden_ellipsis{\r' + '\n' + '\t\twhite-space: nowrap;\r' + '\n' + '        overflow: hidden;\r' + '\n' + '\t\ttext-overflow: ellipsis;\r' + '\n' + '\t}\r' + '\n' + '\t\r' + '\n' + '\t.table_layout_fixed{\r' + '\n' + '\t\ttable-layout:fixed;\r' + '\n' + '\t}\r' + '\n' + '\t\r' + '\n' + '\t.table_layout_auto{\r' + '\n' + '\t\ttable-layout:auto;\r' + '\n' + '\t}\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-triangle-bottom {\r' + '\n' + '\t\tfont-size: 8px;\r' + '\n' + '    }\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-triangle-top {\r' + '\n' + '\t\tfont-size: 8px;\r' + '\n' + '    }\r' + '\n' + '\t\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-chevron-left {\r' + '\n' + '\t\tfont-size: 8px;\r' + '\n' + '    }\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-chevron-right {\r' + '\n' + '\t\tfont-size: 8px;\r' + '\n' + '    }\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-sort-by-alphabet {\r' + '\n' + '\t\tfont-size: 12px;\r' + '\n' + '    }\r' + '\n' + '\t.wrapper-table-edu-grid .glyphicon.glyphicon-sort-by-alphabet-alt {\r' + '\n' + '\t\tfont-size: 12px;\r' + '\n' + '    }\r' + '\n' + '\t\r' + '\n' + '\t.scrollArea table th .box {\r' + '\n' + '\t\tpadding: 0 0px;\r' + '\n' + '\t\tpadding-right: 0px;\r' + '\n' + '\t\tborder-left: 1px solid #ddd;\r' + '\n' + '\t\t\r' + '\n' + '    }</style><div class=box-edu-grid><div class="panel panel-{{options.metaData.panelType}}"><div class=panel-heading ng-show=showHeadingBar><div class=row><div class="col-md-12 col-sm-12"><strong>{{options.heading}}</strong></div></div><div class=row><div class="col-md-3 col-sm-3"><a href="" class="btn btn-primary btn-xs" ng-show=options.showExtraButtonTopLeft ng-click=clickExtraButton()><span class="glyphicon glyphicon-{{options.iconExtraButtonTopLeft || \'plus-sign\'}}"></span> {{options.snippets.extraButtonTop || \'Nuevo\'}}</a></div><div class="col-md-2 col-sm-2"><span ng-show=options.showMetaData>{{options.snippets.showingItems || \'Filas\'}} {{options.metaData.offset+1}} - {{(options.metaData.offset+options.metaData.limit > options.metaData.total) ? (options.metaData.total) : (options.metaData.offset + options.metaData.limit)}} {{options.snippets.of || \'de\'}} {{options.metaData.total}}</span></div><div class="col-md-3 col-sm-2"><div ng-show="options.showSearch && options.showTopSearch"><label for=ag_search>{{options.snippets.search || \'Buscar:\'}}</label><input class=form-inline ng-model=searchQuery ng-change="onChangeSearchQuery()"></div></div><div class="col-md-2 col-sm-2"><div ng-show="options.showAvancedSearch && options.showTopAdvancedSearch && !options.showAdvancedSearchInHeader"><a class="btn btn-sm" ng-class="{\'btn-primary\':!listFiltered,\'btn-danger\':listFiltered}" ng-click=onClickAvancedSearch()><i class="glyphicon glyphicon-search"></i> {{options.snippets.avancedSearch || \' Avanzada\'}}</a></div></div><div class="col-md-2 col-sm-2"><span class="btn btn-xs" ng-show=options.showRefreshButton ng-click=refresh(true)><i class="glyphicon glyphicon-refresh"></i></span> <a href="" title={{options.snippets.titleExtraButtonTopRight}} class="btn btn-primary btn-xs" ng-show=options.showExtraButtonTopRight ng-click=clickExtraButtonRight()><span class="glyphicon glyphicon-{{options.iconExtraButtonTopRight || \'plus-sign\'}}"></span> {{options.snippets.extraButtonTopRight}}</a></div></div><form ng-if=options.showAdvancedSearchInHeader role=form novalidate autocomplete=off name={{options.metaData.id}}_advancedSearch><div class=row><fieldset class=avancedSearch><legend class=avancedSearch><i class="fa fa-search"></i> <span style=font-size:1.2em;font-weight:normal>{{options.snippets.formAvancedSearchTitle}}</span></legend><div class=control-group><div ng-repeat="field in options.formAvancedSearch.fields"><div edu-field options=field value=options.formAvancedSearchResult[field.key]></div></div></div></fieldset></div><div ng-if=options.showAdvancedSearchInHeader class=row><div class="col-md-offset-9 col-md-3 col-sm-offset-9 col-sm-3"><button ng-click=formAvancedSearchEventsContinue() ng-disabled={{options.metaData.id}}_advancedSearch.$invalid class="btn btn-sm btn-primary">{{options.snippets.formAvancedSearchButtonContinue || \'Buscar\'}}</button> <button ng-click=formAvancedSearchEventsClean() class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || \'Limpiar\'}}</button></div></div></form></div><div class=panel-body><div style=overflow-x:scroll id={{options.metaData.id}} class=wrapper-table-edu-grid><scrollable-table watch=list changes=changesOnGrid><table id=table-grid class="table table-condensed table-hover table-striped" ng-class="{\'table-bordered\':options.tableBordered,\'table_layout_fixed\':options.table_layout_fixed, \'table_layout_auto\':!options.table_layout_fixed}"><thead><tr><th ng-if=options.showRowNumber width=5 title=&nbsp class=preFixedColumn></th><th ng-if=options.showButtonsGridUserPre ng-repeat="button in options.buttonsUserPre" width=5 title=&nbsp class=preFixedColumn></th><th ng-if=options.showSelectRow width=5 title=&nbsp class=preFixedColumn></th><th ng-repeat="field in options.listFields" name={{field.column}} class="noFixedColumn droptarget" width={{field.weight}}% title=&nbsp style="text-align: center" id={{$index}}><div class=col-resizable><table width=100%><tr><td><table width=100% border=0 class=dragtarget id={{$index}} draggable=true><tr><td width=13px><span class=header-column ng-show=dragAndDropColumn title="Mover columna a la izquierda"><a ng-click="changeColumnOrder($index-1, $index)"><i class="glyphicon glyphicon-chevron-left"></i></a></span></td><td ng-if="field.notOrder==true"><span class=header-column><a>&nbsp{{field.label}}</a></span></td><td ng-if=!field.notOrder style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis"><span ng-click="changeOrder(field, field.orderByValue, \'desc\')" ng-show="field.order==\'asc\'" class=header-column title="Ordenar por {{field.label}}"><i class="glyphicon glyphicon-sort-by-alphabet"></i> <a>&nbsp{{field.label}}</a></span> <span ng-click="changeOrder(field, field.orderByValue, \'asc\')" ng-show="field.order==\'desc\'" class=header-column title="Ordenar por {{field.label}}"><i class="glyphicon glyphicon-sort-by-alphabet-alt"></i> <a>&nbsp{{field.label}}</a></span> <span ng-click="changeOrder(field, field.orderByValue, \'desc\')" ng-hide="field.order.length>0" class=header-column title="Ordenar por {{field.label}}"><a>&nbsp{{field.label}}</a></span></td><td width=15px><span class=header-column ng-show=dragAndDropColumn title="Mover columna a la derecha"><a ng-click="changeColumnOrder($index+1, $index)"><i class="glyphicon glyphicon-chevron-right"></i></a></span></td></tr></table></td><td width=0px><table><tr><td class=resizable id={{$index}} style="height:30px;border: 0px solid #ddd;cursor: col-resize;background-color:#ddd"></td></tr></table></td></tr></table></div></th><th ng-if=options.showButtonsGridUserPost ng-repeat="button in options.buttonsUserPost" width=5></th></tr></thead><tbody><tr ng-show="list.length < 1"><td colspan={{options.listFields.length+options.buttons.length}}><span class="glyphicon glyphicon-info-sign"></span> <span>{{options.snippets.emptyGridText || \'No hay datos\'}}</span></td></tr><tr ng-repeat="entry in list" ng-click=onRowClick(entry)><td ng-if=options.showRowNumber class=preFixedColumn><button ng-show=entry.clicked type=button class="btn btn-success btn-xs">{{options.metaData.offset+1+$index}}</button> <button ng-show=!entry.clicked type=button class="btn btn-primary btn-xs">{{options.metaData.offset+1+$index}}</button></td><td ng-if=options.showButtonsGridUserPre ng-repeat="button in options.buttonsUserPre" class=preFixedColumn><div ng-if=!button.button ng-show=!button.hidden(entry)><div ng-if="button.glyphicon.length>0"><a class="btn btn-xs" ng-click="handleButtonClick(button.onclick, entry)" ng-disabled=button.disabled(entry)><i class="glyphicon glyphicon-{{button.glyphicon}}" title={{button.label}}></i></a></div><div ng-if="button.iconPath.length>0"><img ng-src=button.iconPath alt="{{button.label}}"></div></div><button ng-if=button.button ng-show=!button.hidden(entry) ng-click="handleButtonClick(button.onclick, entry)" ng-disabled=button.disabled(entry)><i ng-if="button.glyphicon.length>0" class="glyphicon glyphicon-{{button.glyphicon}}" title={{button.label}}></i> <img ng-if="button.iconPath.length>0" ng-src=button.iconPath alt="{{button.label}}">{{button.label}}</button></td><td ng-if=options.showSelectRow class=preFixedColumn><input type=checkbox ng-click=checkSelectRow(entry) ng-model="entry.selected"></td><td ng-repeat="field in options.listFields" ng-click=onRowClick() ng-class="{\'nowrap_overflow_hidden_ellipsis\':options.overflow_hidden}" ng-style=entry.$styles><div ng-if="field.type!=\'currency\' && field.type!=\'number\' && field.type!=\'date\' && field.type!=\'date-time\'  && field.type!=\'checkbox\' && field.type!=\'select\' && field.type!=\'input-text\' && field.type!=\'input-date\' && field.type!=\'input-select\' && field.type!=\'input-radio\'">{{field.renderer(entry[field.column], entry, field.column,field.type)}}</div><div ng-if="field.type==\'number\'" class=pull-right>{{field.renderer(entry[field.column], entry, field.column,field.type)}}</div><div ng-if="field.type==\'date\'">{{entry[field.column] | date:field.format ||\'dd/MM/yyyy\'}}</div><div ng-if="field.type==\'currency\'">{{entry[field.column] | toEuros}}</div><div ng-if="field.type==\'checkbox\'"><input type=checkbox ng-model=entry[field.column] ng-false-value="\'N\'" ng-true-value="\'S\'" ng-change=onInputEditableChange(entry,field) ng-disabled=!field.editable></div><div ng-if="field.type==\'image\'"><img height="{{field.height || \'40\'}}px" width="{{field.width || \'35\'}}px" data-ng-src=data:image/png;base64,{{entry[field.column]}} data-err-src="{{field.whenNotImg}}"></div><div ng-if="field.type==\'input-text\'"><input ng-model=entry[field.column]></div><div ng-if="field.type==\'input-date\'"><input type=date ng-model=entry[field.column]></div><div ng-if="field.type==\'select\'"><select class="form-control input-{{field.inputSize}}" ng-change=onInputEditableChange(entry,field) ng-model=entry[field.column] ng-disabled=options.disabled ng-options="option.value as option.name for option in field.options">><option ng-if=field.emptyOption value="">{{field.emptyOptionText}}</option></select></div></td><td ng-if=options.showButtonsGridUserPost ng-repeat="button in options.buttonsUserPost"><div ng-if=!button.button><div ng-if="button.glyphicon.length>0"><a class="btn btn-xs" ng-click="handleButtonClick(button.onclick, entry)" ng-disabled=button.disabled(entry)><i class="glyphicon glyphicon-{{button.glyphicon}}" title={{button.label}}></i></a></div><div ng-if="button.iconPath.length>0"><img ng-src=button.iconPath alt="{{button.label}}"></div></div><button ng-if=button.button ng-click="handleButtonClick(button.onclick, entry)" ng-disabled=button.disabled(entry)><i ng-if="button.glyphicon.length>0" class="glyphicon glyphicon-{{button.glyphicon}}" title={{button.label}}></i> <img ng-if="button.iconPath.length>0" ng-src=button.iconPath alt="{{button.label}}">{{button.label}}</button></td></tr></tbody></table></scrollable-table></div></div><div class=panel-footer ng-show=showFooterBar><div class=row><div class=col-md-4><ul ng-show=options.showPagination class="pagination pagination col" style="margin: 0px 0px; font-weight: bold"><li ng-class="{\'disabled\':isOnFirstPage() || list.length==0}"><a ng-show=isOnFirstPage() class="glyphicon glyphicon-step-backward btn-xs"></a> <a ng-show=!isOnFirstPage() class="glyphicon glyphicon-step-backward btn-xs" ng-click=setFirstPage()></a></li><li ng-class="{\'disabled\':isOnFirstPage() || list.length==0}"><a ng-show=isOnFirstPage() class="glyphicon glyphicon-fast-backward btn-xs"></a> <a ng-show=!isOnFirstPage() class="glyphicon glyphicon-backward btn-xs" ng-click=setPreviousPage()></a></li><li data-ng-repeat="page in pages" ng-class="{\'disabled\':currentPage.label == page.label || list.length==0}"><a ng-show="currentPage.label != page.label" ng-click=setPage(page) class=btn-xs>{{page.label}}</a> <a ng-show="currentPage.label == page.label" class=btn-xs>{{page.label}}</a></li><li ng-class="{\'disabled\':isOnLastPage() || list.length==0}"><a ng-show=isOnLastPage() class="glyphicon glyphicon-fast-forward btn-xs"></a> <a ng-show=!isOnLastPage() class="glyphicon glyphicon-forward btn-xs" ng-click=setNextPage()></a></li><li ng-class="{\'disabled\':isOnLastPage() || list.length==0}"><a ng-show=isOnLastPage() class="glyphicon glyphicon-step-forward btn-xs"></a> <a ng-show=!isOnLastPage() class="glyphicon glyphicon-step-forward btn-xs" ng-click=setLastPage()></a></li></ul></div><div class=col-md-3><div ng-show=options.showItemsPerPage><label for=ag_itemsperpage>{{options.snippets.itemsPerPage || \'Items por p&aacute;gina:\'}}</label><input id=ag_itemsperpage class=form-inline type=number ng-model=options.metaData.limit ng-change=onChangeItemsPerPage() style="width: 50px"> <a class="glyphicon glyphicon-list-alt btn-xs"></a></div></div><div class=col-md-3 ng-show="options.showSearch && options.showBottomSearch"><div><label for=ag_search>{{options.snippets.search || \'Buscar:\'}}</label><input class=form-inline ng-model=searchQuery ng-change="onChangeSearchQuery()"></div></div><div class=col-md-2 ng-show="options.showAvancedSearch && options.showBottomAdvancedSearch && !options.showAdvancedSearchInHeader"><div><a class="glyphicon glyphicon-search btn btn-primary btn-sm" ng-class="{\'btn-primary\':!listFiltered,\'btn-danger\':listFiltered}" ng-click=onClickAvancedSearch()>{{options.snippets.avancedSearch || \' Avanzada\'}}</a></div></div></div></div></div><div ng-show=options.showOverlayLoadingGrid class=overlay-edu-grid><div class="spin centrado-edu-grid"></div></div><div class=overlay-edu-grid ng-if=showOverlayFormAvancedSearch><div class="panel panel-default centrado-edu-grid" style=width:{{options.formAvancedSearch.width||500}}px><div class=panel-heading><h4>{{options.snippets.formAvancedSearchTitle || "B&uacute;squeda Avanzada"}}</h4></div><div class=panel-body><form name={{options.metaData.id}}_advancedSearchModal novalidate><h4>{{options.snippets.formAvancedSearchMessage}}</h4><div ng-repeat="field in options.formAvancedSearch.fields"><div edu-field options=field value=options.formAvancedSearchResult[field.key]></div></div><div><h5>{{options.snippets.formAvancedSearchNota}}</h5></div></form></div><div class=panel-footer><div class=row><div class="col-md-offset-3 col-md-9"><button ng-click=formAvancedSearchEventsContinue() ng-disabled={{options.metaData.id}}_advancedSearchModal.$invalid class="btn btn-sm btn-primary">{{options.snippets.formAvancedSearchButtonContinue || \'Aceptar\'}}</button> <button ng-click=formAvancedSearchEventsCancel() class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || \'Cancelar\'}}</button> <button ng-click=formAvancedSearchEventsClean() class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || \'Limpiar\'}}</button></div></div></div></div></div><div class=overlay-edu-grid ng-show=options.showOverlayFormUser><div class="panel panel-default centrado-edu-grid" style=width:{{options.formUser.width}}><div class=panel-heading><h4>{{options.snippets.formUserTitle}}</h4></div><div class=panel-body><form name=formUser novalidate><h4>{{options.snippets.formUserMessage}}</h4><div class="form-group {{field.col}}" ng-repeat="field in options.formUser.fields"><label for={{field.key}} class=ng-binding style=align:left>{{field.label}} {{field.required ? \'*\' : \'\'}}</label><input class=form-control id={{field.key}} name={{field.key}} ng-model=options.formUser.result[field.key] placeholder={{field.placeholder}} ng-required=field.required ng-disabled=field.disabled></div><div><h5>{{options.snippets.formUserNota}}</h5></div></form></div><div class=panel-footer><div class=row><div class="col-md-offset-3 col-md-9"><button ng-click=formUserOnContinue(options.formUser.result) ng-disabled=formUser.$invalid class="btn btn-sm btn-primary">{{options.snippets.formUserButtonContinue || \'Aceptar\'}}</button> <button ng-click=formUserOnCancel() class="btn btn-sm">{{options.snippets.formUserButtonCancel || \'Cancelar\'}}</button></div></div></div></div></div><div class=overlay-edu-grid ng-show=options.overlayFormSuccessErrorGrid.show><div class="panel panel-{{options.overlayFormSuccessErrorGrid.type|| \'info\'}} centrado-edu-grid" style=min-width:{{options.overlayFormSuccessErrorGrid.width||200}}px><div class=panel-heading><span ng-if="options.overlayFormSuccessErrorGrid.type==\'success\'" class="glyphicon glyphicon-ok pull-right"></span> <span ng-if="options.overlayFormSuccessErrorGrid.type==\'danger\'" class="glyphicon glyphicon-remove pull-right"></span><br></div><div class=panel-body><h4>{{options.overlayFormSuccessErrorGrid.message}}</h4></div><div class=panel-footer><div class=row><div class="col-md-offset-3 col-md-9"><button ng-click="options.overlayFormSuccessErrorGrid.show=false" class="btn btn-sm btn-primary">{{options.snippets.overlayFormSuccessErrorGrid || \'Aceptar\'}}</button></div></div></div></div></div></div></div>');
   }
 ]);

@@ -51,6 +51,9 @@ app.controller('appController', ['$scope','$http', function ($scope,$http) {
         ]	
 				
      $scope.fields=[ 
+					{key: 'selectremotoxx', type: 'select',col:'col-md-4',required:true,multiple:true,label: 'Select datos remotos',emptyOptionText:'',selecttypesource:'url',selectsource: 'api/v1/municipios',optionname:"name",optionvalue:"value",selectconcatvaluename:true},
+					
+					
 					 {key: 'ckeckbox2',name:'checkbox2',type: 'checkbox',inputSize:"md",col:'col-md-2',label: 'Checkbox',placeholder: 'Checkbox',autofocus:false,disabled:false,required: true,default:'N'},
 					
 					{key: 'areatexto2',type: 'textarea',col:'col-md-6',rows: 5,label: 'Área de texto',placeholder: 'Área de texto',autofocus:false,required: true,minlength:5,maxlength:100,disabled:false,readonly:false	},
@@ -144,7 +147,7 @@ app.controller('appController', ['$scope','$http', function ($scope,$http) {
 	 
 	                  //row one
 					  {key: 'texto61',name:'texto61',type: 'text',default:'texto por defecto',col:'col-md-4',label: 'Texto2',placeholder: 'Texto',autofocus:false,required:false,readonly:false },
-					  {key: 'xxselectremoto1',name:'xxselectremoto1', type: 'select',col:'col-md-12',required:true,label: 'Select datos remotos',emptyOptionText:'Seleccione una opción',selecttypesource:'url',selectsource: 'api/v1/municipios',optionname:"name",optionvalue:"value",selectconcatvaluename:true},
+					  //{key: 'xxselectremoto1',name:'xxselectremoto1', type: 'select',col:'col-md-12',required:true,label: 'Select datos remotos',emptyOptionText:'Seleccione una opción',selecttypesource:'url',selectsource: 'api/v1/municipios',optionname:"name",optionvalue:"value",selectconcatvaluename:true},
 				      
 					  //row two
 					  {key: 'texto6',name:'texto6',type: 'text',default:'texto por defecto',
@@ -169,26 +172,45 @@ app.controller('appController', ['$scope','$http', function ($scope,$http) {
 					  {key: 'texto4',type: 'text',default:'texto por defecto',col:'col-md-4',label: 'Texto4',placeholder: 'Texto',autofocus:false,required:false,readonly:false },
 					  
 					  //row five
-					  {key: 'grid',type: 'grid',height:'180',col:'col-md-12',label: 'Grid1',readonly:false,'showButtons':false,
+					  {key: 'grid',type: 'grid',height:'180',width:'2500',col:'col-md-4',label: 'Grid1',readonly:false,'showButtons':true,
+					    buttonSaveDisabled:true,
+						//buttonUndoDisabled:false,
+						buttonDeleteDisabled:true,
+						buttonEditDisabled:false,
+						buttonNewDisabled:true,
 					    fieldKey:'vcodcen',
-						uri:'api\/v1\/instalaciones/:id',
+						uri:'api/v1/centros/:id',
 						fieldFk:'codcen',
 		                valueFk:'30000018',
-						//gridRows:itemsG,
 						listFields:[
-									{label: 'Código', column: 'codigo', weight: '20',type:'text'},
-									 {label: 'Descripción', column: 'descripcion', weight: '60',type:'text'},
-									 {label: 'Localidad', column: 'vloccen', weight: '20',type:'select',options:[
-																													{value:'ABANILLA',descripcion:'Abanilla'},
-																													{value:'CARAVACA DE LA CRUZ',descripcion:'Caravaca de la Cruz'},
-																													{value:'CEHEGIN',descripcion:'Cehegín'},
-																													{value:'LORCA',descripcion:'Lorca'},
-																													{value:'CARTAGENA',descripcion:'Cartagena'},
-																													{value:'CIEZA',descripcion:'Cieza'},
-																													{value:'JUMILLA',descripcion:'Jumilla'},
-																													{value:'TOTANA',descripcion:'Totana'},
-									 ]}
-								]
+										
+									{label: 'vcodcen', column: 'vcodcen', weight: '20',type:'text',disabled:true},
+									{label: 'vdencen', column: 'vdencen', weight: '60',type:'text',disabled:true},
+									{label: 'vdomcen', column: 'vdomcen', weight: '20',type:'text'},
+									{label: 'vloccen', column: 'vloccen', weight: '20',type:'text'},
+									{label: 'vmuncen', column: 'vloccen', weight: '20',type:'text'},
+									{label: 'vcpcen', column: 'vloccen', weight: '20',type:'text'},
+									{label: 'vtelcen', column: 'vtelcen', weight: '20',type:'text'},
+									{label: 'vfax', column: 'vfax', weight: '20',type:'text'},
+									{label: 'vemail', column: 'vemail', weight: '20',type:'text'},
+									{label: 'vweb', column: 'vweb', weight: '20',type:'text'},
+									{label: 'vweb', column: 'vweb', weight: '20',type:'text'}	
+								],
+						fieldListeners:{
+							onBeforeSave:function(row,insertion){
+								console.log("grid onBeforeSave: "+row);
+								return row
+							},
+							onAfterSave:function(row,insertion){
+								console.log("grid onAfterSave: "+row);
+							},
+							onSaveSuccess:function(row){
+								console.log("grid onSaveSuccess:"+row);
+							},
+							onChangeState:function(state_old,state_new){
+								console.log("grid onChangeState old: "+state_old + ", new: " +state_new);
+							}
+						}
 					   },
 					  
 					  //row six
@@ -338,7 +360,7 @@ app.controller('appController', ['$scope','$http', function ($scope,$http) {
 					{key: 'rango',type: 'range',col:'col-md-6',label: 'Slider',min:100,max:500,placeholder: 'Slider',autofocus:false,required: true },
 					
 					
-					{key: 'fecha',type: 'date',col:'col-md-4',lines: 5,inputSize:'sm',label:'Fechaxx',placeholder: 'Fecha',autofocus:false,required: true,showButtonCalendar:true,format:'dd/MM/yyyy',disabled:false,readonly:false,
+					{key: 'fecha',type: 'date',col:'col-md-4',lines: 5,inputSize:'sm',label:'Fechaxxy',minDate:'2019-01-14',maxDate:'2019-01-19',placeholder: 'Fecha',autofocus:false,required: true,showButtonCalendar:true,format:'dd/MM/yyyy',disabled:false,readonly:false,
 						fieldListeners:{
 							onChange:function(value,subitem,showCalendar){
 								console.log("onChange date:"+value+ ' ' +subitem+ ' showCalendar:'+showCalendar);
@@ -401,13 +423,14 @@ app.controller('appController', ['$scope','$http', function ($scope,$http) {
 																								   } 
 					}, 
 					{key: 'selectlocal',type: 'select',inputSize:"sm",loading:false,col:'col-md-4',required:true,label: 'Select datos locales',selecttypesource:'array',selectsource: $scope.municipios,groupBy:"value",
-																																																				fieldListeners:{
-																																																					onChange:function(value,item){
-																																																						console.log("cambio selelct:"+value);
-																																																						
-																																																					}
-																																																				},optionname:"name",optionvalue:"value",selectconcatvaluename:true,disabled:false,readonly:false},
-					{key: 'selectremoto', type: 'select',col:'col-md-4',required:true,label: 'Select datos remotos',emptyOptionText:'Seleccione una opción',selecttypesource:'url',selectsource: 'api/v1/municipios',optionname:"name",optionvalue:"value",selectconcatvaluename:true},
+																																																								fieldListeners:{
+																																																									onChange:function(value,item){
+																																																										console.log("cambio selelct:"+value);
+																																																										
+																																																									}
+																																																								},optionname:"name",optionvalue:"value",selectconcatvaluename:true,disabled:false,readonly:false
+																																																							},
+					{key: 'selectremoto', type: 'select',col:'col-md-4',required:true,multiple:true,label: 'Select datos remotos',emptyOptionText:'Seleccione una opción',selecttypesource:'url',selectsource: 'api/v1/municipios',optionname:"name",optionvalue:"value",selectconcatvaluename:true},
 					
 					{key: 'CODIGO_TEMA',emptyOptionText:'Seleccione una opción',
 						fieldListeners:{
@@ -433,7 +456,12 @@ app.controller('appController', ['$scope','$http', function ($scope,$http) {
 					];
 					
 					
+					setTimeout(function(){
+						_.find($scope.fields,{'key':'grid'}).fieldControl.refresh();
+					},400);
 										
 
-}])
+        }
+
+])
 

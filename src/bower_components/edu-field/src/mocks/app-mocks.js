@@ -84,16 +84,8 @@ angular.module('e2e-mocks', ['ngMockE2E'])
      
      // GET all centers from centers array with filters
     $httpBackend.whenGET(/api\/v1\/centros(\?([a-z0-9$_\.\+!\*\'\(\),;:@&=-]|%[0-9a-f]{2})*)*/).respond(function(method, url,data,headers) {
-        console.log("llamada a GET api/v1/centros?algo=algo "+method + " "+ url.split('?')[1]+ " url:"+url);
-        var params={};
-        params=queryStringToJSON(url.split('?')[1]);
-		var reverse=(params.order.toUpperCase()==='ASC')?false:true;
-        var centrosFiltered=filterFilter(centros, params.filter);
-        centrosFiltered = orderBy(centrosFiltered, params.orderby, reverse);
-        console.log("centrosFiltered:"+ centrosFiltered.length);
-        var centrosPaged=getPagedData(centrosFiltered,params.limit, params.offset, params.filter);
-        console.log("centrosPaged:"+centrosPaged.length);
-        return [200, centrosPaged, {}];
+        
+        return [200, [centros[0],centros[1],centros[2]], {}];
     });
 
      

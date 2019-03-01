@@ -7,7 +7,8 @@
         restrict: 'E',
         scope: {
           rows: '=watch',
-          sortFn: '='
+          sortFn: '=',
+		  changes:'='
         },
         template: '<div class="scrollableContainer">' +
                     '<div class="headerSpacer"></div>' +
@@ -144,6 +145,11 @@
               }
               el.attr("title", title.trim());
             });
+		//------------------------------------------------	
+			if(typeof $scope.changes=='function'){
+				$scope.changes();
+			}
+		//------------------------------------------------	
             headersAreFixed.resolve();
           }
 

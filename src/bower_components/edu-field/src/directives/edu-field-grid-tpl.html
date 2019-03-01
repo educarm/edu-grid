@@ -13,14 +13,14 @@
 		{{options.required ? '*' : ''}}
 	</label>
 	
-	<div style="overflow:auto;height:{{(options.height*1+40)}}px"  ng-style="options.width?{width:options.width+px}:''" id="input-grid-{{options.key}}"  style="position:relative">
-	    
-		<scrollable-table watch="options.gridRows" >
-		<table border="1" width="100%" height="100%" class="input-grid">
+	<div style="overflow-x:scroll; height:{{(options.height*1+40)}}px; position:relative;" class="form-control" id="input-grid-{{options.key}}"  >
+	    <!-- $scope.widthTableGrid=$scope.options.width?options.width+'px':'100%'  -->
+		<scrollable-table watch="gridRows" >
+		<table border="1" ng-style="widthTableGrid" height="100%" class="input-grid">
 			<thead>
 				<tr>
 					<th width="60px" title="Nuevo elemento" ng-show="options.showButtons!=false">
-						<button ng-click="gridNew()" class="btn btn-sm btn-info" ng-disabled="options.state!='list'">
+						<button ng-click="gridNew()" class="btn btn-sm btn-info" ng-disabled="options.state!='list' || options.buttonNewDisabled">
 							<span class="fa fa-plus">
 						</button>
 					</th>
@@ -44,30 +44,68 @@
 				    <td style="white-space: nowrap"  ng-show="options.showButtons!=false">
 						<!-- form -->
 						<form  ng-show="item.$visible" class="form-buttons form-inline" shown="item.$inserted">
-							  <button ng-click="gridSave(item)" ng-disabled="item.$waiting" class="btn btn-sm btn-warning">
+							  <button ng-click="gridSave(item)" ng-disabled="item.$waiting || options.buttonSaveDisabled" class="btn btn-sm btn-warning">
 								 <span class="fa fa-save">
 							  </button>
-							  <button type="button" ng-disabled="item.$waiting"  ng-click="gridCancel(item)" class="btn btn-sm btn-default">
+							  
+							  <button type="button" ng-show="options.state!='new'" ng-disabled="item.$waiting || options.buttonUndoDisabled"  ng-click="gridCancel(item)" class="btn btn-sm btn-default">
 								 <span class="fa fa-undo">
 							  </button>
+							  
+							   <button class="btn btn-sm btn-danger"  ng-show="options.state=='new'" ng-disabled="options.buttonDeleteDisabled" ng-click="gridDelete(item,$index)"> <span class="fa fa-remove"></button>
+							  
+							  
 						</form>
 						<div class="buttons" ng-show="!item.$visible">
-							  <button class="btn btn-sm btn-primary" ng-click="gridEdit(item)"> <span class="fa fa-edit"></button>
-							  <button class="btn btn-sm btn-danger" ng-click="gridDelete(item,$index)"> <span class="fa fa-remove"></button>
+							  <button class="btn btn-sm btn-primary" ng-disabled="options.buttonEditDisabled" ng-click="gridEdit(item)"> <span class="fa fa-edit"></button>
+							  <button class="btn btn-sm btn-danger" ng-disabled="options.buttonDeleteDisabled" ng-click="gridDelete(item,$index)"> <span class="fa fa-remove"></button>
 						</div>  
 						
 					</td>
 					
 					<td ng-repeat="field in options.listFields" ng-click="options.gridOnRowClick()">
 					    <div ng-switch on="field.type">
-							
+							<!-- input autocomplete  -->
+							<div ng-switch-when="autocomplete">
+								<span ng-show="!item.$visible">
+									{{item.$optionSelectedName[field.column]}}
+								</span>
+								<span ng-show="item.$visible">
+									<edu-complete 
+										 id_="{{id}}"
+										 name="{{name}}"
+										 onblur="onBlur()"
+										 onfocus="onFocus()"
+										
+										 edu-focus="options.autofocus"
+										 required="options.required"
+										 placeholder="{{options.placeholder}}"
+										 pause="{{autocpause}}"
+										 selectedobject="value"
+										 disabled="{{options.disabled}}"
+										 readonly="{{options.readonly}}"
+										 url="{{options.autocurldata}}"
+										 urldataloadall="{{options.autocurldataloadall}}"
+										 localdata="options.autoclocaldata"
+										 searchfields="{{options.autocsearchfields}}"
+										 datafield="{{options.autocfieldvalue}}"
+										 titlefield="{{options.autocfieldtitle}}"
+										 descriptionfield="{{options.autocfielddescription}}"
+										 imagefield="{{options.autocfieldimg}}"
+										 minlength="{{options.autocminlength}}"
+										 inputclass="form-control input-{{options.inputSize}}"
+										 widthdropdown="options.widthdropdown"
+										 whennotfoundreturnsearchstring="options.whenNotFoundReturnSearchString"
+									/>
+								</span>
+							</div>
 							<!-- input text -->
 							<div  ng-switch-when="text" >
 								<span  ng-show="!item.$visible">
 									{{item[field.column]}}
 								</span>
 								<span ng-show="item.$visible">
-									<input style="width:100%"  type="text" ng-model="item[field.column]"  class="form-control"/>
+									<input style="width:100%"  type="text" ng-disabled="field.disabled" ng-model="item[field.column]"  class="form-control"/>
 								</span>
 							</div>
 							
@@ -77,7 +115,7 @@
 									{{field.renderer(item[field.column], entry, field.column,field.type)}}
 								</span>
 								<span ng-show="item.$visible">
-									<input style="width:100%"  type="text" ng-model="item[field.column]"   class="form-control"/>
+									<input style="width:100%"  type="text" ng-disabled="field.disabled"  ng-model="item[field.column]"   class="form-control"/>
 								</span>
 							</div>
 							
@@ -87,7 +125,7 @@
 									{{item[field.column] | date:field.format ||'dd/MM/yyyy'}}
 								</span>
 								<span ng-show="item.$visible">
-									<input style="width:100%"  type="date" ng-model="item[field.column]"   class="form-control"/>
+									<input style="width:100%"  type="date" ng-disabled="field.disabled"  ng-model="item[field.column]"   class="form-control"/>
 								</span>
 							</div>
 							
@@ -98,7 +136,7 @@
 									{{item[field.column]  | toEuros}}
 								</span>
 								<span ng-show="item.$visible">
-									<input style="width:100%" type="text" ng-model="item[field.column]"   class="form-control"/>
+									<input style="width:100%" type="text" ng-disabled="field.disabled"  ng-model="item[field.column]"   class="form-control"/>
 								</span>
 								
 							</div>
@@ -109,7 +147,7 @@
 									<input type="checkbox" ng-model="item[field.column]" ng-false-value="{{options.false_value}}" ng-true-value="{{options.true_value}}" onclick="javascript: return false;" >
 								</span>
 								<span ng-show="item.$visible">
-									<input style="width:100%"  type="checkbox" ng-model="item[field.column]" ng-false-value="'N'" ng-true-value="'S'" >
+									<input style="width:100%"  type="checkbox" ng-disabled="field.disabled"  ng-model="item[field.column]" ng-false-value="'N'" ng-true-value="'S'" >
 								</span>
 							</div>
 							
@@ -122,7 +160,7 @@
 								</span>
 								<span ng-show="item.$visible">
 									
-									<select style="width:100%"  ng-model="item[field.column]"   class="form-control"> 
+									<select style="width:100%" ng-disabled="field.disabled"   ng-model="item[field.column]"   class="form-control"> 
 										<option></option>
 										<option ng-repeat="option in field.selectOptions" value="{{option.value}}">{{option.name}}</option>
 									</select>
@@ -136,7 +174,7 @@
 									{{item[field.column]}}
 								</span>
 								<span ng-show="item.$visible">
-									<input style="width:100%"  type="text" ng-model="item[field.column]"/>
+									<input style="width:100%"  type="text" ng-disabled="field.disabled"  ng-model="item[field.column]"/>
 								</span>
 							</div>
 							

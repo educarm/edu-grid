@@ -14,6 +14,10 @@
 	color: #428bca;
 }
 
+.groupColumnEndRow{
+    border-right:1px solid #DDDDDD;
+}
+
 .th-inner-group {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -117,3 +121,4 @@ position: relative;
   width:100%; 
   margin-left:100px;
 }
+

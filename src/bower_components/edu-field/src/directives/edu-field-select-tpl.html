@@ -3,8 +3,9 @@
 	<label for="{{id}}">
 		{{options.label}}
 		{{options.required ? '*' : ''}}
+		<i ng-if="options.loading" style="position:absolute;top:30px;left:25px;font-size:20px" class="loadinggif">&nbsp;&nbsp;&nbsp;</i>
 	</label>
-	<select ng-show="options.groupBy" ng-class="{'loadinggif':options.loading}"
+	<select ng-show="options.groupBy"
 			class="form-control input-{{options.inputSize}}"
 			id="1-{{id}}"
 			
@@ -23,10 +24,9 @@
 		<option value="">{{options.emptyOptionText}}</option> 
                  
 	</select>
-	<select ng-show="!options.groupBy" ng-class="{'loadinggif':options.loading}"
+	<select ng-show="!options.groupBy"
 			class="form-control input-{{options.inputSize}}"
 			id="2-{{id}}"
-			
 			dependent-control="options.dependentControl"
 			edu-focus="options.autofocus"
 			ng-blur="onBlur()"
@@ -43,6 +43,27 @@
 		<option value="">{{options.emptyOptionText}}</option> 
                  
 	</select>
+	<!--
+	<select ng-show="!options.groupBy && options.multiple==true" ng-class="{'loadinggif':options.loading}"
+			class="form-control input-{{options.inputSize}}"
+			id="2-{{id}}"
+			multiple
+			dependent-control="options.dependentControl"
+			edu-focus="options.autofocus"
+			ng-blur="onBlur()"
+			ng-focus="onFocus()"
+			ng-change="onChange()"
+			ng-model="value"
+     		ng-required="options.required"
+			
+			ng-disabled="options.disabled"
+			
+			ng-options="option.value as option.name for option in optionsSelect">
+			>
+		 
+		<option value="">{{options.emptyOptionText}}</option> 
+                 
+	</select>-->
 	
 	<div class="help-block has-error" ng-show="$invalid"  style="position:absolute;top:50px">
 				<small class="error" ng-show="$invalidRequired">Campo obligatorio. Introduzca un valor</small>

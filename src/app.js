@@ -129,10 +129,11 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
         height:550,
 		mode:'genericRest',
 		showGroupColumns:true,
+		showGroupColumnsL2:true,
         listFields: [
-				 {label: 'Código', column: 'vcodcen', weight: '10',type:'number',group:'Grupo 2', textGroup:'Texto para mostrar',styleGroup:['color:white','background-color:blue']},
-                 {label: 'Presupuesto', column: 'presupuesto', weight: '10',type:'currency',group:'Grupo 2'},
-				 {label: 'email', column: 'vemail', weight: '10',type:'checkbox','editable':false,group:'Grupo 2'},
+				 {label: 'Código', column: 'vcodcen', weight: '10',type:'number',group:'Grupo 2', textGroup:'Texto para mostrar',styleGroup:['color:white','background-color:blue'],groupL2:'grupol21', textGroupL2:'Texto para mostrar'},
+                 {label: 'Presupuesto', column: 'presupuesto', weight: '10',type:'currency',group:'Grupo 2',groupL2:'grupol21'},
+				 {label: 'email', column: 'vemail', weight: '10',type:'checkbox','editable':false,group:'Grupo 2',groupL2:'grupol21'},
 				 {label: 'Tit. públ.', column: 'vtitularidad', weight: '10',
 						type:'select',
 						options:[{'value':'S','name':'SÍ'},{'value':'N','name':'NO'}],
@@ -141,11 +142,11 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 														   console.log('changed:'+row);
 				                                          }
 				                   }
-				 ,group:'Grupo 2'},
-                 {label: 'Denominación', column: 'vdencen', weight: '30',type:'text',group:'Grupo 4'},
-                 {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text',group:'Grupo 3', textGroup:'Texto para mostrar',styleGroup:['color:green','background-color:yellow']},
-                 {label: 'Localidad', column: 'vloccen', weight: '10',type:'text',group:'Grupo 3'},
-                 {label: 'Municipio', column: 'vmuncen', weight: '20',type:'text',notOrder:true}
+				 ,group:'Grupo 2',groupL2:'grupol21'},
+                 {label: 'Denominación', column: 'vdencen', weight: '30',type:'text',group:'Grupo 4' , textGroup:'Texto para mostrar',groupL2:'grupol21'},
+                 {label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text',group:'Grupo 3', textGroup:'Texto para mostrar',styleGroup:['color:green','background-color:yellow'],groupL2:'grupol22', textGroupL2:'Texto para mostrar'},
+                 {label: 'Localidad', column: 'vloccen', weight: '10',type:'text',group:'Grupo 3',groupL2:'grupol22'},
+                 {label: 'Municipio', column: 'vmuncen', weight: '20',type:'text',notOrder:true,group:'Grupo 5',groupL2:'grupol22'}
 				 
         ],
         metaData:{
