@@ -203,7 +203,7 @@ eduGridDirectives.filter('toEuros', function () {
                   }
                 }
               } else {
-                column.group = '';
+                column.group = 'undefined';
                 currentGroup = column.group;
                 columnsGroups.push(angular.copy(column));
               }
@@ -225,7 +225,7 @@ eduGridDirectives.filter('toEuros', function () {
                     }
                   }
                 } else {
-                  column.groupL2 = '';
+                  column.groupL2 = 'undefined';
                   currentGroupL2 = column.groupL2;
                   columnsGroupsL2.push(angular.copy(column));
                 }

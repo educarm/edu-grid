@@ -185,11 +185,9 @@
 									if(column.hasOwnProperty('textGroup')){
 										columnsGroups[columnsGroups.length-1].textGroup=column.textGroup;
 									}
-									
 								}
 							}else{
-								
-								column.group='';
+								column.group='undefined';
 								currentGroup=column.group;
 								columnsGroups.push(angular.copy(column));
 							}
@@ -214,7 +212,7 @@
 									}
 								}else{
 									
-									column.groupL2='';
+									column.groupL2='undefined';
 									currentGroupL2=column.groupL2;
 									columnsGroupsL2.push(angular.copy(column));
 								}
