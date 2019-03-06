@@ -99,10 +99,12 @@
 										
 										</div>
 										<div ng-if="options.showAdvancedSearchInHeader" class="row">
-										<div class="col-md-offset-10 col-md-2  col-sm-offset-10 col-sm-2"> 				
-											<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="{{options.metaData.id}}_advancedSearch.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Buscar'}}</button> 
-											<!--<button ng-click="formAvancedSearchEventsCancel()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || 'Cancelar'}}</button> -->
-											<button ng-click="formAvancedSearchEventsClean()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || 'Limpiar'}}</button>
+										<div class="col-md-12">
+                                    	    <div class="pull-right" >									
+												<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="{{options.metaData.id}}_advancedSearch.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Buscar'}}</button> 
+												<!--<button ng-click="formAvancedSearchEventsCancel()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || 'Cancelar'}}</button> -->
+												<button ng-click="formAvancedSearchEventsClean()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || 'Limpiar'}}</button>
+											</div>
 										</div> 
 								</div>
 									</fieldset>	
