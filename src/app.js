@@ -97,7 +97,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		
 		
 		loadOnInit:true, // default value true. Used so that it does not load the grid at the beginning
-		
+		reloadAfterCleanFilter:false,
 		
 		filterOnInit:{},//{vcodcen:'30009319'}, //default {}. Assign value to los campos del formulario de búsqueda avanzada
 		
@@ -311,7 +311,61 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 					titleExtraButtonTopRight:'Informes',
 					extraButtonTopRight:'Informes'
 					
-				}
+		},
+		buttonsBarHeader:{
+					align:'right', // left, right, center
+					buttons:[
+							{class:'btn-primary btn-lg', text:'boton1',
+								listeners:{
+									onClick:function(){
+										alert("boton1 clickado");
+									}
+								}
+							},
+							{class:'btn-warning', text:'boton2',
+								listeners:{
+									onClick:function(){
+										alert("boton2 clickado");
+									}
+								}
+							},
+							{class:'btn-info btn-xs' , text:'boton3',
+								listeners:{
+									onClick:function(){
+										alert("boton3 clickado");
+									}
+								}
+							}
+					]
+			
+		},
+		buttonsBarFooter:{
+					align:'center', // left, right, center
+					buttons:[
+							{class:'btn-primary btn-sm', text:'boton1',
+								listeners:{
+									onClick:function(){
+										alert("boton1 clickado");
+									}
+								}
+							},
+							{class:'btn-warning', text:'boton2',
+								listeners:{
+									onClick:function(){
+										alert("boton2 clickado");
+									}
+								}
+							},
+							{class:'btn-info btn-xs' , text:'boton3',
+								listeners:{
+									onClick:function(){
+										alert("boton3 clickado");
+									}
+								}
+							}
+					]
+			
+		}
     };
 }])
 

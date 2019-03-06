@@ -83,31 +83,46 @@
 								   <a href="" title="{{options.snippets.titleExtraButtonTopRight}}" class="btn btn-primary  btn-xs" ng-show="options.showExtraButtonTopRight" ng-click="clickExtraButtonRight()"><span class="glyphicon glyphicon-{{options.iconExtraButtonTopRight || 'plus-sign'}}"></span> {{options.snippets.extraButtonTopRight}}</a>
 								</div>
 							</div>
-						   
-						 <form ng-if="options.showAdvancedSearchInHeader" role="form" novalidate autocomplete="off" name="{{options.metaData.id}}_advancedSearch">  
-						   <div  class="row">
-							
-								<fieldset class="avancedSearch">
-									<legend class="avancedSearch">  
-										<i class="fa fa-search"></i>
-										<span style="font-size:1.2em;font-weight:normal">{{options.snippets.formAvancedSearchTitle}}</span>
-									</legend>
-									 <div class="control-group">
-										<div class="" ng-repeat="field in options.formAvancedSearch.fields">
-											<div edu-field options="field" value="options.formAvancedSearchResult[field.key]"> </div>
+							<!-- avanced search in header  --> 
+							<form ng-if="options.showAdvancedSearchInHeader" role="form" novalidate autocomplete="off" name="{{options.metaData.id}}_advancedSearch">  
+							   <div  class="row">
+								
+									<fieldset class="avancedSearch">
+										<legend class="avancedSearch">  
+											<i class="fa fa-search"></i>
+											<span style="font-size:1.2em;font-weight:normal">{{options.snippets.formAvancedSearchTitle}}</span>
+										</legend>
+										 <div class="control-group">
+											<div class="" ng-repeat="field in options.formAvancedSearch.fields">
+												<div edu-field options="field" value="options.formAvancedSearchResult[field.key]"> </div>
+											</div>
+										
 										</div>
-									
+										<div ng-if="options.showAdvancedSearchInHeader" class="row">
+										<div class="col-md-offset-10 col-md-2  col-sm-offset-10 col-sm-2"> 				
+											<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="{{options.metaData.id}}_advancedSearch.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Buscar'}}</button> 
+											<!--<button ng-click="formAvancedSearchEventsCancel()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || 'Cancelar'}}</button> -->
+											<button ng-click="formAvancedSearchEventsClean()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || 'Limpiar'}}</button>
+										</div> 
+								</div>
+									</fieldset>	
+							   </div>
+							   
+							</form>	
+							
+							
+							<div class="row" ng-show="options.buttonsBarHeader">
+								<div class="col-md-12">
+									<div ng-class="{'pull-right':options.buttonsBarHeader.align=='right', 'row-centered':options.buttonsBarHeader.align=='center'}" style=" text-align:center;"> 
+										
+										<button ng-repeat="button in options.buttonsBarHeader.buttons" type="button" style="margin-right:5px" ng-click="button.listeners.onClick()" class="btn {{button.class}}">{{button.text}}</button>
+										
 									</div>
-								</fieldset>	
+								</div>
 						   </div>
-						   <div ng-if="options.showAdvancedSearchInHeader" class="row">
-								<div class="col-md-offset-9 col-md-3  col-sm-offset-9 col-sm-3"> 				
-									<button ng-click="formAvancedSearchEventsContinue()"  ng-disabled="{{options.metaData.id}}_advancedSearch.$invalid"  class="btn btn-sm btn-primary" >{{options.snippets.formAvancedSearchButtonContinue || 'Buscar'}}</button> 
-									<!--<button ng-click="formAvancedSearchEventsCancel()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonCancel || 'Cancelar'}}</button> -->
-									<button ng-click="formAvancedSearchEventsClean()" class="btn btn-sm">{{options.snippets.formAvancedSearchButtonClean || 'Limpiar'}}</button>
-								</div> 
-							</div>
-						</form>	
+							
+							
+							
 						   
 					    </div>
 					    <div class="panel-body" >
@@ -373,6 +388,15 @@
 							   </div>
 							  
 						   </div>
+					   </div>
+					   <div class="row bottonBarFooter" ng-show="options.buttonsBarFooter">
+							<div class="col-md-12">
+								<div ng-class="{'pull-right':options.buttonsBarFooter.align=='right', 'row-centered':options.buttonsBarFooter.align=='center'}" style=" text-align:center;"> 
+									
+									<button ng-repeat="button in options.buttonsBarFooter.buttons" type="button" style="margin-right:5px" ng-click="button.listeners.onClick()" class="btn {{button.class}}">{{button.text}}</button>
+									
+								</div>
+							</div>
 					   </div>
 			</div>
 			

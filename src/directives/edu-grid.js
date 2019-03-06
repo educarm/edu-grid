@@ -651,6 +651,10 @@
 				}
 				
 				// by default mode
+				if (!$scope.options.hasOwnProperty('reloadAfterCleanFilter')){
+					$scope.options.reloadAfterCleanFilter=true;
+				}
+				
 				if (!$scope.options.hasOwnProperty('mode')){
 					$scope.options.mode='normal';
 				}
@@ -1108,15 +1112,8 @@
 					}
 				}
 				
-				
-                
-                $scope.refresh=function(cleanFilters){
-					var oParams={};
-					/*
-					 * Click on button refresh, clear filters
-					 */
-					if(cleanFilters){
-						//global search
+				function fnCleanFilters(){
+					//global search
 						 $scope.searchQuery="";;
 						
 						//advanced search
@@ -1137,11 +1134,20 @@
                             })
                         }							
 						
-						
 						//color button advanced search to blue
 						$scope.listFiltered=false;
 						//clean array seleccion rows
 						$scope.options.selectionRows=[];
+					
+				}
+                
+                $scope.refresh=function(cleanFilters){
+					var oParams={};
+					/*
+					 * Click on button refresh, clear filters
+					 */
+					if(cleanFilters){
+						fnCleanFilters();
 					}
 					
 					//delete from formAvancedSearchResult input with value equal to 'undefined' or blank 
@@ -1333,6 +1339,7 @@
                        oParams=$scope.options.listListeners.transformParams(oParams);
 					}
 					
+					
 					if($scope.options.showPagination == true){
 						$scope.api.getCount(oParams,function (data) {
 								$scope.options.metaData.total=data.count;
@@ -1348,7 +1355,7 @@
 					
 					}
 					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onButtonRefreshClick == 'function'){
-                       $scope.options.listListeners.onButtonRefreshClick($scope.list);
+					   $scope.options.listListeners.onButtonRefreshClick($scope.list);
 					}
 					
 					
@@ -1451,7 +1458,7 @@
 						}
 					}
 					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onChangeSelectionRows == 'function'){
-                       $scope.options.listListeners.onChangeSelectionRows($scope.options.selectionRows);
+                       $scope.options.listListeners.onChangeSelectionRows($scope.options.selectionRows,row);
 					}
 				}
 				
@@ -1573,8 +1580,15 @@
                 // ON CLEAN BUTTON FORM AVANCED SEARCH
                 // ---	
 				 $scope.formAvancedSearchEventsClean=function(){
-					//cleaning filter and refresh grid
-				    $scope.refresh(true);
+					 
+					// Al limpiar filtros, se llama al método refresh; pero si la propiedad reloadAfterCleanFilter está establecida a false, no realiza el refresco
+					if ($scope.options.hasOwnProperty('reloadAfterCleanFilter') && typeof $scope.options.reloadAfterCleanFilter!=undefined && $scope.options.reloadAfterCleanFilter===true){
+						//cleaning filter and refresh grid
+						$scope.refresh(true);
+					}else{
+						fnCleanFilters();
+						$scope.list=[];
+					}
 					
 					// for Backwards compatibility
 					if ($scope.options.hasOwnProperty('listListeners') && typeof $scope.options.listListeners.onFormAvancedSearchCleanClick == 'function'){

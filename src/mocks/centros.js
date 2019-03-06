@@ -426,7 +426,7 @@ var centros=[
     "vfax":"968308389",
     "vemail":"30012331@murciaeduca.es",
     "vweb":"www.murciaeduca.es/30012331",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30010176,
@@ -439,7 +439,7 @@ var centros=[
     "vfax":"968602716",
     "vemail":"colegioazalea@gmail.com",
     "vweb":"www.murciaeduca.es/30010176",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30018734,
@@ -452,7 +452,7 @@ var centros=[
     "vfax":"868931045",
     "vemail":"evalopez@lasclarasdelmarmenor.com",
     "vweb":"www.murciaeduca.es/30018734",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30013797,
@@ -465,7 +465,7 @@ var centros=[
     "vfax":"968153866",
     "vemail":"administracion@colegiosigloxxi.com",
     "vweb":"www.colegiosigloxxi.com",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005764,
@@ -478,7 +478,7 @@ var centros=[
     "vfax":"968250109",
     "vemail":"direccion@eequipo.e.telefonica.net",
     "vweb":"www.murciaeduca.es/30005764",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30018710,
@@ -491,7 +491,7 @@ var centros=[
     "vfax":"968352403",
     "vemail":"info@gabrielperezcarcel.com",
     "vweb":"www.murciaeduca.es/30018710",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30002714,
@@ -504,7 +504,7 @@ var centros=[
     "vfax":"968763085",
     "vemail":"30002714@murciaeduca.es",
     "vweb":"aula.colegio-jaimebalmes.com",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009046,
@@ -517,7 +517,7 @@ var centros=[
     "vfax":"968260210",
     "vemail":"luis-vives@hotmail.com",
     "vweb":"www.murciaeduca.es/30009046",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30003411,
@@ -530,7 +530,7 @@ var centros=[
     "vfax":"968442407",
     "vemail":"mercedarias@mercedarias-lorca.net",
     "vweb":"www.murciaeduca.es/30003411",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30010024,
@@ -543,7 +543,7 @@ var centros=[
     "vfax":"968626133",
     "vemail":"colegiomonteazahar@gmail.com",
     "vweb":"www.murciaeduca.es/30010024",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30013414,
@@ -556,7 +556,7 @@ var centros=[
     "vfax":"968542213",
     "vemail":"30013414@murciaeduca.es",
     "vweb":"1\\t http://www.murciaeduca.es/cepsabinamora/sitio/",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30017912,
@@ -6186,7 +6186,7 @@ var centros=[
     "vfax":"968523605",
     "vemail":"administracion@isen.es",
     "vweb":"www.murciaeduca.es/30019726",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30012057,
@@ -6212,7 +6212,7 @@ var centros=[
     "vfax":"968192137",
     "vemail":"gerencia@aidemar.com",
     "vweb":"www.murciaeduca.es/30012690",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30008364,
@@ -6225,7 +6225,7 @@ var centros=[
     "vfax":"968760120",
     "vemail":"director@ascopas.com",
     "vweb":"www.murciaeduca.es/30008364",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009253,
@@ -6238,7 +6238,7 @@ var centros=[
     "vfax":"968757798",
     "vemail":"vies08@yahoo.es",
     "vweb":"www.murciaeduca.es/30009253",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009681,
@@ -6251,7 +6251,7 @@ var centros=[
     "vfax":"968795417",
     "vemail":"ampyeclaccee@hotmail.com",
     "vweb":"www.murciaeduca.es/30009681",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009496,
@@ -6264,7 +6264,7 @@ var centros=[
     "vfax":"968620913",
     "vemail":"direccion@ces-vegamedia.es",
     "vweb":"www.ces-vegamedia.com",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30008078,
@@ -6277,7 +6277,7 @@ var centros=[
     "vfax":"968643478",
     "vemail":"cep@cepmolina.com",
     "vweb":"www.murciaeduca.es/30008078",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30008947,
@@ -6290,7 +6290,7 @@ var centros=[
     "vfax":"968387424",
     "vemail":"30008947@murciaeduca.es",
     "vweb":"www.murciaeduca.es/30008947",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009502,
@@ -6303,7 +6303,7 @@ var centros=[
     "vfax":"968832852",
     "vemail":"lagrimasfp@yahoo.es",
     "vweb":"www.murciaeduca.es/30009502",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009277,
@@ -6316,7 +6316,7 @@ var centros=[
     "vfax":"968295425",
     "vemail":"fpsanantolin@fpsanantolin.com",
     "vweb":"www.fpsanantolin.com",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30013840,
@@ -6329,7 +6329,7 @@ var centros=[
     "vfax":"968218607",
     "vemail":"centrosanchezrosell@hotmail.com",
     "vweb":"www.murciaeduca.es/30013840",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30020248,
@@ -6342,7 +6342,7 @@ var centros=[
     "vfax":"",
     "vemail":"",
     "vweb":"",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005831,
@@ -6355,7 +6355,7 @@ var centros=[
     "vfax":"968251371",
     "vemail":"joseloustau@yahoo.es",
     "vweb":"www.murciaeduca.es/30005831",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005934,
@@ -6368,7 +6368,7 @@ var centros=[
     "vfax":"968260305",
     "vemail":"losbuenoslibros@hotmail.com",
     "vweb":"www.murciaeduca.es/30005934",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30001655,
@@ -6381,7 +6381,7 @@ var centros=[
     "vfax":"968502860",
     "vemail":"secretaria@patronatocartagena.es",
     "vweb":"www.patronatocartagena.es",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30002155,
@@ -6394,7 +6394,7 @@ var centros=[
     "vfax":"968512249",
     "vemail":"sacodolores@gmail.com",
     "vweb":"www.murciaeduca.es/30002155",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30019477,
@@ -6407,7 +6407,7 @@ var centros=[
     "vfax":"968618683",
     "vemail":"vistarreal@gmail.com",
     "vweb":"www.murciaeduca.es/30019477",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30000985,
@@ -6420,7 +6420,7 @@ var centros=[
     "vfax":"968654088",
     "vemail":"amordiosbullas@planalfa.es",
     "vweb":"www.murciaeduca.es/30000985",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30019787,
@@ -6433,7 +6433,7 @@ var centros=[
     "vfax":"",
     "vemail":"carlosv@colegiocarlosv.es",
     "vweb":"www.murciaeduca.es/30019787",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30018138,
@@ -6446,7 +6446,7 @@ var centros=[
     "vfax":"968280009",
     "vemail":"30018138@murciaeduca.com",
     "vweb":"www.colegioays.com",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30010802,
@@ -6459,7 +6459,7 @@ var centros=[
     "vfax":"968290490",
     "vemail":"finacanovas@cecei.es  /  fcampillo@cecei",
     "vweb":"www.murciaeduca.es/30010802",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30006343,
@@ -6472,7 +6472,7 @@ var centros=[
     "vfax":"968895069",
     "vemail":"cgalea@colegiociprianogalea.es",
     "vweb":"www.murciaeduca.es/30006343",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30012446,
@@ -6485,7 +6485,7 @@ var centros=[
     "vfax":"968469492",
     "vemail":"coopccs@hotmail.com",
     "vweb":"www.murciaeduca.es/30012446",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009526,
@@ -6498,7 +6498,7 @@ var centros=[
     "vfax":"968971939",
     "vemail":"admon.amatute@gmail.com",
     "vweb":"www.murciaeduca.es/30009526",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30006380,
@@ -6511,7 +6511,7 @@ var centros=[
     "vfax":"968884074",
     "vemail":"aguillen@pdi.ucam.edu",
     "vweb":"www.murciaeduca.es/30006380",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30019799,
@@ -6524,7 +6524,7 @@ var centros=[
     "vfax":"968672501",
     "vemail":"antonia@colegioelope.com",
     "vweb":"www.murciaeduca.es/30019799",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30018692,
@@ -6537,7 +6537,7 @@ var centros=[
     "vfax":"968851770",
     "vemail":"domingo.sanchez@colegiomontepinar.com",
     "vweb":"www.murciaeduca.es/30018692",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30002702,
@@ -6550,7 +6550,7 @@ var centros=[
     "vfax":"968760594",
     "vemail":"cristocrudirec@telefonica.net",
     "vweb":"www.murciaeduca.es/30002702",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30004632,
@@ -6563,7 +6563,7 @@ var centros=[
     "vfax":"",
     "vemail":"cristocm@planalfa.es",
     "vweb":"www.murciaeduca.es/30004632",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30004838,
@@ -6576,7 +6576,7 @@ var centros=[
     "vfax":"968379681",
     "vemail":"ccrucificadosa@planalfa.es",
     "vweb":"www.murciaeduca.es/30004838",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005752,
@@ -6589,7 +6589,7 @@ var centros=[
     "vfax":"968296531",
     "vemail":"creymurcia@planalfa.es",
     "vweb":"www.murciaeduca.es/30005752",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30010814,
@@ -6602,7 +6602,7 @@ var centros=[
     "vfax":"968716252",
     "vemail":"colegio@cruzdepiedra.es",
     "vweb":"www.murciaeduca.es/30010814",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005673,
@@ -6615,7 +6615,7 @@ var centros=[
     "vfax":"968232564",
     "vemail":"codimamur@yahoo.es",
     "vweb":"www.murciaeduca.es/30005673",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30007414,
@@ -6628,7 +6628,7 @@ var centros=[
     "vfax":"968624162",
     "vemail":"codimator@yahoo.es",
     "vweb":"www.murciaeduca.es/30007414",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005740,
@@ -6641,7 +6641,7 @@ var centros=[
     "vfax":"968284220",
     "vemail":"administracion@elbuenpastor.es",
     "vweb":"www.elbuenpastor.es",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009851,
@@ -6654,7 +6654,7 @@ var centros=[
     "vfax":"968389210",
     "vemail":"info@colegioeltaller.com",
     "vweb":"www.murciaeduca.es/30009851",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009563,
@@ -6667,7 +6667,7 @@ var centros=[
     "vfax":"968770685",
     "vemail":"30009563@murciaeduca.es",
     "vweb":"www.murciaeduca.es/30009563",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005806,
@@ -6680,7 +6680,7 @@ var centros=[
     "vfax":"968255519",
     "vemail":"ceipshermamurcia@gmail.com",
     "vweb":"www.murciaeduca.es/30005806",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30001564,
@@ -6693,7 +6693,7 @@ var centros=[
     "vfax":"968510400",
     "vemail":"colegiohispania@gmail.com",
     "vweb":"www.colegiohispania.es",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30004504,
@@ -6706,7 +6706,7 @@ var centros=[
     "vfax":"968724019",
     "vemail":"colegiojesua@terra.es",
     "vweb":"www.murciaeduca.es/30004504",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005821,
@@ -6719,7 +6719,7 @@ var centros=[
     "vfax":"968208553",
     "vemail":"gemasecret@jesusmariamurcia.net",
     "vweb":"www.murciaeduca.es/30005821",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30007943,
@@ -6732,7 +6732,7 @@ var centros=[
     "vfax":"968764400",
     "vemail":"cjuanramonjimenez@gmail.com",
     "vweb":"www.murciaeduca.es/30007943",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009861,
@@ -6745,7 +6745,7 @@ var centros=[
     "vfax":"968379117",
     "vemail":"julianromea@yahoo.es",
     "vweb":"www.murciaeduca.es/30009861",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30002325,
@@ -6758,7 +6758,7 @@ var centros=[
     "vfax":"968531476",
     "vemail":"cplaencarnacion@planalfa.es",
     "vweb":"www.murciaeduca.es/30002325",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30001588,
@@ -6771,7 +6771,7 @@ var centros=[
     "vfax":"968320772",
     "vemail":"lainmaculada@franciscanoscartagena.net",
     "vweb":"www.murciaeduca.es/30001588",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30007840,
@@ -6784,7 +6784,7 @@ var centros=[
     "vfax":"968790660",
     "vemail":"30007840@murciaeduca.es",
     "vweb":"www.murciaeduca.es/30007840",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005776,
@@ -6797,7 +6797,7 @@ var centros=[
     "vfax":"968231784 / 968",
     "vemail":"fuensanta@maristasmurcia.com",
     "vweb":"www.murciaeduca.es/30005776",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30000951,
@@ -6810,7 +6810,7 @@ var centros=[
     "vfax":"968778057",
     "vemail":"lamilablan@teleline.es",
     "vweb":"www.murciaeduca.es/30000951",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005892,
@@ -6823,7 +6823,7 @@ var centros=[
     "vfax":"968830925",
     "vemail":"dr.espinardo@hcsantaluisa.es",
     "vweb":"www.murciaeduca.es/30005892",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30007463,
@@ -6836,7 +6836,7 @@ var centros=[
     "vfax":"968418087",
     "vemail":"lamilagrosat@planalfa.es",
     "vweb":"www.colegio-lamilagrosa.es",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30001643,
@@ -6849,7 +6849,7 @@ var centros=[
     "vfax":"968508950",
     "vemail":"direccioncartagena@maristasmediterranea.",
     "vweb":"www.murciaeduca.es/30001643",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30004310,
@@ -6862,7 +6862,7 @@ var centros=[
     "vfax":"968644001",
     "vemail":"csagradafamilia@yahoo.es",
     "vweb":"www.murciaeduca.es/30004310",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30010450,
@@ -6875,7 +6875,7 @@ var centros=[
     "vfax":"968868887",
     "vemail":"edlasantacruz@gmail.com",
     "vweb":"www.colegiolasantacruz.es.tl",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30013803,
@@ -6888,7 +6888,7 @@ var centros=[
     "vfax":"968582323",
     "vemail":"direccion@lasclarasdelmarmenor.com",
     "vweb":"www.murciaeduca.es/30013803",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30019453,
@@ -6901,7 +6901,7 @@ var centros=[
     "vfax":"968-569363",
     "vemail":"centroleonardodavinci@gmail.com",
     "vweb":"www.murciaeduca.es/30019453",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30018503,
@@ -6914,7 +6914,7 @@ var centros=[
     "vfax":"968819248",
     "vemail":"presidencia@colegiolosolivos.es",
     "vweb":"www.murciaeduca.es/30018503",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30002726,
@@ -6927,7 +6927,7 @@ var centros=[
     "vfax":"968763312",
     "vemail":"jtouscieza@telefonica.net",
     "vweb":"www.murciaeduca.es/30002726",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30019465,
@@ -6940,7 +6940,7 @@ var centros=[
     "vfax":"968979902",
     "vemail":"contacto@majalblanco.es",
     "vweb":"www.murciaeduca.es/30019465",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005879,
@@ -6953,7 +6953,7 @@ var centros=[
     "vfax":"968300098",
     "vemail":"colmarcomurcia2000@yahoo.es",
     "vweb":"www.murciaeduca.es/30005879",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30000286,
@@ -6966,7 +6966,7 @@ var centros=[
     "vfax":"968446193",
     "vemail":"30000286@murciaeduca.es",
     "vweb":"www.murciaeduca.es/30000286",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30008935,
@@ -6979,7 +6979,7 @@ var centros=[
     "vfax":"968455049",
     "vemail":"migueldecervantes@telefonica.net",
     "vweb":"www.murciaeduca.es/30008935",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30019362,
@@ -6992,7 +6992,7 @@ var centros=[
     "vfax":"968316848",
     "vemail":"info@colegiomiralmonte.com",
     "vweb":"www.colegiomiralmonte.com",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30019349,
@@ -7005,7 +7005,7 @@ var centros=[
     "vfax":"968969274",
     "vemail":"colegiomirasierramurcia@yahoo.es",
     "vweb":"www.murciaeduca.es/30019349",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30001217,
@@ -7018,7 +7018,7 @@ var centros=[
     "vfax":"968518118",
     "vemail":"colegionarval@gmail.com",
     "vweb":"www.murciaeduca.es/30001217",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005922,
@@ -7031,7 +7031,7 @@ var centros=[
     "vfax":"968235465",
     "vemail":"nelva@fomento.edu",
     "vweb":"www.murciaeduca.es/30005922",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30012768,
@@ -7044,7 +7044,7 @@ var centros=[
     "vfax":"968708291",
     "vemail":"secretariacaravaca@gmail.com",
     "vweb":"www.murciaeduca.es/30012768",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005958,
@@ -7057,7 +7057,7 @@ var centros=[
     "vfax":"968306166",
     "vemail":"cnses@planalfa.es",
     "vweb":"www.murciaeduca.es/30005958",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30004784,
@@ -7070,7 +7070,7 @@ var centros=[
     "vfax":"968298314",
     "vemail":"dirgensenda@jesus-maria.net",
     "vweb":"www.murciaeduca.es/30004784",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30002544,
@@ -7083,7 +7083,7 @@ var centros=[
     "vfax":"968741110",
     "vemail":"ccnsmsvp@ccnsm.e.telefonica.net",
     "vweb":"www.murciaeduca.es/30002544",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30006720,
@@ -7096,7 +7096,7 @@ var centros=[
     "vfax":"968868915",
     "vemail":"cnsangeles@gmail.com",
     "vweb":"www.murciaeduca.es/30006720",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30007712,
@@ -7109,7 +7109,7 @@ var centros=[
     "vfax":"968541229",
     "vemail":"carmelitaslaunion@hispavista.com",
     "vweb":"www.murciaeduca.es/30007712",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30001023,
@@ -7122,7 +7122,7 @@ var centros=[
     "vfax":"968723074",
     "vemail":"colesgdocorazon@telefonica.net",
     "vweb":"www.murciaeduca.es/30001023",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30008251,
@@ -7135,7 +7135,7 @@ var centros=[
     "vfax":"968246017",
     "vemail":"cparra3@yahoo.es",
     "vweb":"www.murciaeduca.es/30008251",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30020017,
@@ -7148,7 +7148,7 @@ var centros=[
     "vfax":"968576441",
     "vemail":"pasicodos@virgendelpasico.net",
     "vweb":"",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30010279,
@@ -7161,7 +7161,7 @@ var centros=[
     "vfax":"968420195",
     "vemail":"rsofia2007@gmail.com",
     "vweb":"www.murciaeduca.es/30010279",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30000420,
@@ -7174,7 +7174,7 @@ var centros=[
     "vfax":"968806329",
     "vemail":"sagradocorazonmu@planalfa.es",
     "vweb":"www.murciaeduca.es/30000420",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30007049,
@@ -7187,7 +7187,7 @@ var centros=[
     "vfax":"968334090",
     "vemail":"scorazonsj@sagradocorazonsanjavier.es",
     "vweb":"www.murciaeduca.es/30007049",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30008157,
@@ -7200,7 +7200,7 @@ var centros=[
     "vfax":"968641745",
     "vemail":"salzillo@colegiosalzillo.com",
     "vweb":"www.murciaeduca.es/30008157",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30000419,
@@ -7213,7 +7213,7 @@ var centros=[
     "vfax":"968836529",
     "vemail":"samaniego@cesamaniego.com",
     "vweb":"http://www.cesamaniego.com",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30018539,
@@ -7226,7 +7226,7 @@ var centros=[
     "vfax":"968596148",
     "vemail":"info@colegiosanagustin.info",
     "vweb":"www.murciaeduca.es/30018539",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30006008,
@@ -7239,7 +7239,7 @@ var centros=[
     "vfax":"968204519",
     "vemail":"colegiocapuchinos.sb@gmail.com",
     "vweb":"www.murciaeduca.es/30006008",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30007852,
@@ -7252,7 +7252,7 @@ var centros=[
     "vfax":"968791443",
     "vemail":"30007852@murciaeduca.es",
     "vweb":"www.murciaeduca.es/30007852",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30003421,
@@ -7265,7 +7265,7 @@ var centros=[
     "vfax":"968477529",
     "vemail":"col.sanfranciscodeasis@hotmail.com",
     "vweb":"www.murciaeduca.es/30003421",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30018266,
@@ -7278,7 +7278,7 @@ var centros=[
     "vfax":"968842109",
     "vemail":"colegiosanjoselaalberca@yahoo.es",
     "vweb":"www.murciaeduca.es/30018266",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30006011,
@@ -7291,7 +7291,7 @@ var centros=[
     "vfax":"968858243",
     "vemail":"secretaria@colegiosanjose-espinardo.com",
     "vweb":"www.colegiosanjose-espinardo.com/",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30002167,
@@ -7304,7 +7304,7 @@ var centros=[
     "vfax":"968126113 ",
     "vemail":"cartagena@salesianos.edu",
     "vweb":"www.murciaeduca.es/30002167",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009575,
@@ -7317,7 +7317,7 @@ var centros=[
     "vfax":"968300074",
     "vemail":"colegiosanlorenzo1@yahoo.es",
     "vweb":"www.murciaeduca.es/30009575",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30018746,
@@ -7330,7 +7330,7 @@ var centros=[
     "vfax":"968184979",
     "vemail":"jumusandres@gmail.com",
     "vweb":"www.murciaeduca.es/30018746",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30001771,
@@ -7343,7 +7343,7 @@ var centros=[
     "vfax":"968314900",
     "vemail":"svpaulcar@planalfa.es",
     "vweb":"www.murciaeduca.es/30001771",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30006631,
@@ -7356,7 +7356,7 @@ var centros=[
     "vfax":"968342604",
     "vemail":"caradorc@gmail.com",
     "vweb":"www.murciaeduca.es/30006631",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30003196,
@@ -7369,7 +7369,7 @@ var centros=[
     "vfax":"968780270",
     "vemail":"ccsantaana@telefonica.net",
     "vweb":"www.murciaeduca.es/30003196",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30018001,
@@ -7382,7 +7382,7 @@ var centros=[
     "vfax":"968664327",
     "vemail":"cooperativa@colegiosantaclara.es",
     "vweb":"www.murciaeduca.es/30018001",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30004917,
@@ -7395,7 +7395,7 @@ var centros=[
     "vfax":"968379024",
     "vemail":"santaisabelalq@planalfa.es",
     "vweb":"www.murciaeduca.es/30004917",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30001692,
@@ -7408,7 +7408,7 @@ var centros=[
     "vfax":"968526612",
     "vemail":"direccion@carmelitasct.org",
     "vweb":"www.carmelitascartagena.es",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30006057,
@@ -7421,7 +7421,7 @@ var centros=[
     "vfax":"968267711",
     "vemail":"sjvedrunamu@planalfa.es",
     "vweb":"www.murciaeduca.es/30006057",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30001709,
@@ -7434,7 +7434,7 @@ var centros=[
     "vfax":"968520686",
     "vemail":"smmicaela@planalfa.es",
     "vweb":"www.murciaeduca.es/30001709",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30006069,
@@ -7447,7 +7447,7 @@ var centros=[
     "vfax":"968249988",
     "vemail":"smpaz@colegiosfec.com",
     "vweb":"www.santamariadelapazmurcia.com",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005946,
@@ -7460,7 +7460,7 @@ var centros=[
     "vfax":"968344203",
     "vemail":"smcarmenmu@planalfa.es",
     "vweb":"www.murciaeduca.es/30005946",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009800,
@@ -7473,7 +7473,7 @@ var centros=[
     "vfax":"968822965",
     "vemail":"info@severoochoa.net",
     "vweb":"www.murciaeduca.es/30009800",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009630,
@@ -7486,7 +7486,7 @@ var centros=[
     "vfax":"968627117",
     "vemail":"colegiosusarte@hotmail.com",
     "vweb":"www.murciaeduca.es/30009630",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30009629,
@@ -7499,7 +7499,7 @@ var centros=[
     "vfax":"968340504",
     "vemail":"colegiotorresalinas@hotmail.com",
     "vweb":"www.murciaeduca.es/30009629",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30010589,
@@ -7512,7 +7512,7 @@ var centros=[
     "vfax":"968389213",
     "vemail":"colegiovicentemedina@gmail.com",
     "vweb":"www.murciaeduca.es/30010589",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30013049,
@@ -7629,7 +7629,7 @@ var centros=[
     "vfax":"968246687",
     "vemail":"monteagudo@fomento.edu",
     "vweb":"www.murciaeduca.es/30005910",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30002805,
@@ -7642,7 +7642,7 @@ var centros=[
     "vfax":"968685018",
     "vemail":"cristocfortuna@planalfa.es",
     "vweb":"www.murciaeduca.es/30002805",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30018126,
@@ -7655,7 +7655,7 @@ var centros=[
     "vfax":"968336435",
     "vemail":"v-pasico@v-pasico.com",
     "vweb":"www.murciaeduca.es/30018126",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30005077,
@@ -7668,7 +7668,7 @@ var centros=[
     "vfax":"968833321",
     "vemail":"cabezo@salesianos.edu",
     "vweb":"www.murciaeduca.es/30005077",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30019350,
@@ -7681,7 +7681,7 @@ var centros=[
     "vfax":"",
     "vemail":"fuenteblanca@fuenteblanca.com",
     "vweb":"www.murciaeduca.es/30019350",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30012926,
@@ -7694,7 +7694,7 @@ var centros=[
     "vfax":"968311522",
     "vemail":"info@colegiolavaguada.com",
     "vweb":"www.murciaeduca.es/30012926",
-    "vtitularidad":"C","presupuesto":100345.45
+    "vtitularidad":"N","presupuesto":100345.45
   },
   {
     "vcodcen":30019180,

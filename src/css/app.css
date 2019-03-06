@@ -4,6 +4,12 @@
 	'position': relative;
 }
 */
+.bottonBarFooter{
+	padding-top:0px;
+	padding-left:15px;
+	padding-right:15px;
+	padding-bottom:10px;
+}
 
 .groupColumn{
     border-bottom:1px solid #DDDDDD;
