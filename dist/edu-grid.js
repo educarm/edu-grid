@@ -1230,7 +1230,10 @@ eduGridDirectives.filter('toEuros', function () {
         $scope.changeOrder = function (field, orderBy, order) {
           $scope.options.metaData.orderBy = orderBy;
           $scope.options.metaData.order = order.toUpperCase();
-          $scope.refresh();
+          // Al limpiar filtros, se llama al método refresh; pero si la propiedad reloadAfterCleanFilter está establecida a false, no realiza el refresco
+          if ($scope.options.hasOwnProperty('reloadAfterCleanFilter') && typeof $scope.options.reloadAfterCleanFilter != undefined && $scope.options.reloadAfterCleanFilter === true) {
+            $scope.refresh();
+          }
           for (var fieldKey in $scope.options.listFields) {
             if ($scope.options.listFields[fieldKey] === field)
               continue;
