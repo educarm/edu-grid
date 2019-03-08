@@ -1468,7 +1468,7 @@
 				    $scope.options.metaData.order=order.toUpperCase();
 					
 					// Al limpiar filtros, se llama al método refresh; pero si la propiedad reloadAfterCleanFilter está establecida a false, no realiza el refresco
-					if ($scope.options.hasOwnProperty('reloadAfterCleanFilter') && typeof $scope.options.reloadAfterCleanFilter!=undefined && $scope.options.reloadAfterCleanFilter===true){
+					if ($scope.list.length>0){
 						$scope.refresh();
 					}
                    
