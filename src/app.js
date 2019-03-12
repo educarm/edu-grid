@@ -169,9 +169,12 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
                                                               },
                                                                
                                                              {
-                                                                 label: 'Denominación', column: 'vdencen', weight: '30',type:'text',
+                                                                 label: 'Denominación', column: 'vdencen', weight: '30',type:'html',
                                                                  group:'Grupo 3',
-                                                                 groupL2:'Grupo 21'
+                                                                 groupL2:'Grupo 21',
+																 renderer:function(value){ 
+																	 return  '<b>'+value.split(" ").join('<br>')+'</b>';
+																 }
 
                                                              },
                                                             {

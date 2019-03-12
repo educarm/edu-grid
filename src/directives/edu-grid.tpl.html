@@ -270,11 +270,14 @@
 									   </td>
 									   <!-- fields -->
 									   <td ng-repeat="field in options.listFields" ng-click="onRowClick()" ng-class="{'nowrap_overflow_hidden_ellipsis':options.overflow_hidden}" ng-style="entry.$styles">
-										   <div ng-if="field.type!='currency' && field.type!='number' && field.type!='date' && field.type!='date-time'  && field.type!='checkbox' && field.type!='select' && field.type!='input-text' && field.type!='input-date' && field.type!='input-select' && field.type!='input-radio'">
-										   {{field.renderer(entry[field.column], entry, field.column,field.type)}}
+										   <div ng-if="field.type!='html' && field.type!='currency' && field.type!='number' && field.type!='date' && field.type!='date-time'  && field.type!='checkbox' && field.type!='select' && field.type!='input-text' && field.type!='input-date' && field.type!='input-select' && field.type!='input-radio'">
+											{{field.renderer(entry[field.column], entry, field.column,field.type)}}
 										   </div>
 										   <div ng-if="field.type=='number'"  class="pull-right">
-										  {{field.renderer(entry[field.column], entry, field.column,field.type)}}
+											{{field.renderer(entry[field.column], entry, field.column,field.type)}}
+										   </div>
+										   <div ng-if="field.type=='html'" ng-bind-html="field.renderer(entry[field.column], entry, field.column,field.type)">
+											
 										   </div>
 										   <div ng-if="field.type=='date'">
 										   {{entry[field.column] | date:field.format ||'dd/MM/yyyy'}}
