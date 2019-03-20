@@ -201,7 +201,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 			order:'asc'
         },
         listListeners: {
-			onChangeSelectionRows:function(rows){
+			onChangeSelectionRows:function(rows,row){
 				console.log('SelectionRows:'+rows.length );
 			},
 			
@@ -211,10 +211,15 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		    onPageLoadComplete:function(rows){
 				
 				for(var i=0;i<rows.length;i++){
+					
+					
+					
 					if(i%2==0){
 						rows[i].$styles={'background':'green'};
+						rows[i].disabledSelection=true;
 					}else{
 						rows[i].$styles={'background':'red'};
+						rows[i].disabledSelection=false;
 					}
 				}
             	//console.log('onPageLoadComplete rows:'+angular.toJson(rows));
@@ -316,7 +321,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 					
 		},
 		buttonsBarHeader:{
-					align:'right', // left, right, center
+					align:'left', // left, right, center
 					buttons:[
 							{class:'btn-primary btn-lg', text:'boton1',
 								listeners:{
