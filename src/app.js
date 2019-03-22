@@ -320,60 +320,106 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 					extraButtonTopRight:'Informes'
 					
 		},
-		buttonsBarHeader:{
-					align:'left', // left, right, center
-					buttons:[
-							{class:'btn-primary btn-lg', text:'boton1',
-								listeners:{
-									onClick:function(){
-										alert("boton1 clickado");
-									}
+		formHeader:{
+					align:'left',
+					col:'col-md-offset-3 col-md-6',
+					bgColor:'red',
+					fields:[	  
+							{key: 'vdencen',type: 'text',col:'col-md-3',label: 'Fecha inicio22',placeholder: 'Denominación',autofocus:'',required: false },
+							{key: 'vloccen',type: 'text',col:'col-md-3',label: 'Fecha fin3',placeholder: 'Municipio',autofocus:'',required: false },
+							{key: 'vcodcen',type: 'text',col:'col-md-3',label: 'Tipo',placeholder: 'Código',autofocus:'',required: false,
+								fieldListeners:{
+									
+									onKeypress:function(event){
+										console.log("pulsada la tecla con código:"+event.keyCode);
+										
+									} 
 								}
 							},
-							{class:'btn-warning', text:'boton2',
-								listeners:{
-									onClick:function(){
-										alert("boton2 clickado");
-									}
-								}
-							},
-							{class:'btn-info btn-xs' , text:'boton3',
-								listeners:{
-									onClick:function(){
-										alert("boton3 clickado");
-									}
-								}
+							{key: 'button7',type: 'button',col:'col-md-3',label:'button',icon:'fa fa-external-link-square fa-2x',state:"danger",size:"",disabled:false
+														   ,onClick:function(){ 
+																					alert("botón clickado");
+																			   } 
 							}
-					]
+						]
+					},
+		formFooter:{
+				align:'left',
+				col:'col-md-offset-6 col-md-6',
+				bgColor:'grey',
+				fields:[	  
+			        {key: 'vdencen',type: 'text',col:'col-md-4',label: 'Fecha inicio22',placeholder: 'Denominación',autofocus:'',required: false },
+					{key: 'vloccen',type: 'text',col:'col-md-4',label: 'Fecha fin3',placeholder: 'Municipio',autofocus:'',required: false },
+					{key: 'vcodcen',type: 'text',col:'col-md-4',label: 'Tipo',placeholder: 'Código',autofocus:'',required: false,
+						fieldListeners:{
+							
+							onKeypress:function(event){
+								console.log("pulsada la tecla con código:"+event.keyCode);
+								
+							} 
+						}
+					},
+					{key: 'button7',type: 'button',col:'col-md-4',label:'button',icon:'fa fa-external-link-square',state:"danger",size:"",disabled:false
+					                               ,onClick:function(){ 
+																			alert("botón clickado");
+																	   } 
+					}
+				]
+		  },
+		// buttonsBarHeader:{
+					// align:'left', // left, right, center
+					// buttons:[
+							// {class:'btn-primary btn-lg', text:'boton1',
+								// listeners:{
+									// onClick:function(){
+										// alert("boton1 clickado");
+									// }
+								// }
+							// },
+							// {class:'btn-warning', text:'boton2',
+								// listeners:{
+									// onClick:function(){
+										// alert("boton2 clickado");
+									// }
+								// }
+							// },
+							// {class:'btn-info btn-xs' , text:'boton3',
+								// listeners:{
+									// onClick:function(){
+										// alert("boton3 clickado");
+									// }
+								// }
+							// }
+					// ]
 			
-		},
-		buttonsBarFooter:{
-					align:'center', // left, right, center
-					buttons:[
-							{class:'btn-primary btn-sm', text:'boton1',
-								listeners:{
-									onClick:function(){
-										alert("boton1 clickado");
-									}
-								}
-							},
-							{class:'btn-warning', text:'boton2',
-								listeners:{
-									onClick:function(){
-										alert("boton2 clickado");
-									}
-								}
-							},
-							{class:'btn-info btn-xs' , text:'boton3',
-								listeners:{
-									onClick:function(){
-										alert("boton3 clickado");
-									}
-								}
-							}
-					]
+		// },
+		// buttonsBarFooter:{
+					// align:'center', // left, right, center
+					// buttons:[
+							// {class:'btn-primary btn-sm', text:'boton1',
+								// listeners:{
+									// onClick:function(){
+										// alert("boton1 clickado");
+									// }
+								// }
+							// },
+							// {class:'btn-warning', text:'boton2',
+								// listeners:{
+									// onClick:function(){
+										// alert("boton2 clickado");
+									// }
+								// }
+							// },
+							// {class:'btn-info btn-xs' , text:'boton3',
+								// listeners:{
+									// onClick:function(){
+										// alert("boton3 clickado");
+									// }
+								// }
+							// }
+					// ]
 			
-		}
+		// }
     };
 }])
 

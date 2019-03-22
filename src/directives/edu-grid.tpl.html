@@ -112,21 +112,20 @@
 							   
 							</form>	
 							
-							
-							<div class="row" ng-show="options.buttonsBarHeader">
-								<div class="col-md-12">
-									<div ng-class="{'pull-left':options.buttonsBarHeader.align=='left','pull-right':options.buttonsBarHeader.align=='right', 'row-centered':options.buttonsBarHeader.align=='center'}" style=" text-align:center;"> 
-										
-										<button ng-repeat="button in options.buttonsBarHeader.buttons" type="button" style="margin-right:5px" ng-click="button.listeners.onClick()" class="btn {{button.class}}">{{button.text}}</button>
-										
+							<!--FORM HEADER -->
+							<div class="row" ng-show="options.formHeader" >
+								<div class="{{options.formHeader.col}}" style="background-color:{{options.formHeader.bgColor}}">
+									<div class="row"> 											
+										<div class="" ng-repeat="field in options.formHeader.fields">
+											<div edu-field options="field" value="options.formHeaderResult[field.key]"> </div>
+										</div>
 									</div>
 								</div>
-						   </div>
+							</div>
 							
-							
-							
-						   
 					    </div>
+					
+						
 					    <div class="panel-body" >
 					   
 					    <!-- grid --> 
@@ -394,15 +393,17 @@
 							  
 						   </div>
 					   </div>
-					   <div class="row bottonBarFooter" ng-show="options.buttonsBarFooter">
-							<div class="col-md-12">
-								<div ng-class="{'pull-left':options.buttonsBarHeader.align=='left','pull-right':options.buttonsBarFooter.align=='right', 'row-centered':options.buttonsBarFooter.align=='center'}" style=" text-align:center;"> 
-									
-									<button ng-repeat="button in options.buttonsBarFooter.buttons" type="button" style="margin-right:5px" ng-click="button.listeners.onClick()" class="btn {{button.class}}">{{button.text}}</button>
-									
+					   
+					   <!--FORM FOOTER -->
+					    <div class="row bottonBarFooter" ng-show="options.formFooter" >
+							<div class="{{options.formFooter.col}}" style="background-color:{{options.formFooter.bgColor}}">
+								<div class="row"> 											
+									<div class="" ng-repeat="field in options.formFooter.fields">
+										<div edu-field options="field" value="options.formFooterResult[field.key]"> </div>
+									</div>
 								</div>
 							</div>
-					   </div>
+						</div>
 			</div>
 			
 			<!-- overlay-edu-grid loading -->
