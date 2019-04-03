@@ -148,8 +148,8 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
                  // {label: 'Localidad', column: 'vloccen', weight: '10',type:'text',group:'Grupo 3',groupL2:'grupol22'},
                  // {label: 'Municipio', column: 'vmuncen', weight: '20',type:'text',notOrder:true,group:'Grupo 5',groupL2:'grupol22'}
 				                                             {
-                                                                    label: 'Código', column: 'vcodcen', weight: '10',type:'number'
-																	,group:'Grupo 20',
+                                                                    label: 'Código', column: 'vcodcen', weight: '10',type:'input-text',pattern:'^-?[0-9]+$',
+																	group:'Grupo 20',
                                                                    groupL2:'Grupo 21'
                                                               },
                                                               {
@@ -169,7 +169,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
                                                               },
                                                                
                                                              {
-                                                                 label: 'Denominación', column: 'vdencen', weight: '30',type:'html',
+                                                                 label: 'Denominación', column: 'vdencen', weight: '35',type:'html',
                                                                  group:'Grupo 3',
                                                                  groupL2:'Grupo 21',
 																 renderer:function(value){ 

@@ -299,9 +299,9 @@
 										   -->
 										    <div ng-if="field.type=='input-text'" class="editable-controls form-group" ng-class="{'has-error': $error}">
 												
-													<form name="{{options.fieldKey+'_'+field.column}}">
+													<form name="{{'form'+field.column}}">
 													   <div class="editable-buttons">
-														 <input type="text" class="editable-has-buttons editable-input form-control editable-buttons" ng-keydown="cacheFieldRow(entry,field)" ng-model="entry[field.column]">
+														 <input type="text" ng-pattern="field.pattern" class="editable-has-buttons editable-input form-control editable-buttons" ng-keydown="cacheFieldRow(entry,field)" ng-model="entry[field.column]">
 												       </div>	
 													   <div class="editable-buttons" style="position:relative">
 													     
@@ -319,8 +319,9 @@
 																<i class="fa fa-close" style="font-size:30px;color:red"></i>
 															</div>
 															<!--buttons-->
-														   <button class="btn btn-warning btn-sm" style="height: 34px" title="Guardar" ng-hide="!entry.$cache[field.column]" ng-click="onInputEditableChange(entry,field)">
+														   <button class="btn btn-warning btn-sm" style="height: 34px" title="Guardar" ng-disabled="{{'form'+field.column+'.$invalid'}}"  ng-hide="!entry.$cache[field.column]" ng-click="onInputEditableChange(entry,field)">
 																<span class="glyphicon glyphicon-floppy-disk"></span>
+																
 															</button>
 															<button type="button" class="btn btn-default btn-sm" style="height: 34px" ng-hide="!entry.$cache[field.column]" ng-click="onInputEditableCancel(entry,field)" title="Cancelar" aria-label="Cancelar">
 																<span class="glyphicon glyphicon-remove"></span>
