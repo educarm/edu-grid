@@ -291,9 +291,46 @@
 												<!-- <img height="{{field.height || '40'}}px" width="{{field.width || '35'}}px" ng-src="{{entry[field.column]}}"/> -->
 												<img height="{{field.height || '40'}}px" width="{{field.width || '35'}}px" data-ng-src="data:image/png;base64,{{entry[field.column]}}" data-err-src="{{field.whenNotImg}}"/>
 										   </div>
+										   
+										   <!-- 
 										   <div ng-if="field.type=='input-text'">
 												<input type="text" ng-model="entry[field.column]">
 										   </div>
+										   -->
+										    <div ng-if="field.type=='input-text'" class="editable-controls form-group" ng-class="{'has-error': $error}">
+												
+													<form name="{{options.fieldKey+'_'+field.column}}">
+													   <div class="editable-buttons">
+														 <input type="text" class="editable-has-buttons editable-input form-control editable-buttons" ng-keydown="cacheFieldRow(entry,field)" ng-model="entry[field.column]">
+												       </div>	
+													   <div class="editable-buttons" style="position:relative">
+													     
+															<!--loading-->
+															<div  ng-if="entry.$loading==true">
+																<i style="position:absolute;top:4px;left:0px;font-size:20px" class="loadinggif">&nbsp;&nbsp;&nbsp;</i>
+															</div>
+															<!--success-->
+															<div  ng-if="entry.$success==true">	
+															
+																<i class="fa fa-check" style="font-size:30px;color:green"></i>
+															</div>
+															<!--error-->
+															<div  ng-if="entry.$error==true">
+																<i class="fa fa-close" style="font-size:30px;color:red"></i>
+															</div>
+															<!--buttons-->
+														   <button class="btn btn-warning btn-sm" style="height: 34px" title="Guardar" ng-hide="!entry.$cache[field.column]" ng-click="onInputEditableChange(entry,field)">
+																<span class="glyphicon glyphicon-floppy-disk"></span>
+															</button>
+															<button type="button" class="btn btn-default btn-sm" style="height: 34px" ng-hide="!entry.$cache[field.column]" ng-click="onInputEditableCancel(entry,field)" title="Cancelar" aria-label="Cancelar">
+																<span class="glyphicon glyphicon-remove"></span>
+															</button>
+														</div>
+													</form>
+												
+											</div>
+										   
+										   
 										   <div ng-if="field.type=='input-date'">
 												<input type="date"  ng-model="entry[field.column]">
 										   </div>

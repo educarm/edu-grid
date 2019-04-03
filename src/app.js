@@ -178,7 +178,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 
                                                              },
                                                             {
-                                                                 label: 'Domicilio', column: 'vdomcen', weight: '20',type:'text',
+                                                                 label: 'Domicilio', column: 'vdomcen', weight: '20',type:'input-text',
                                                                  group:'Grupo 4', textGroup:'Texto para mostrar',styleGroup:['color:green','background-color:yellow'],
                                                                 groupL2:'Grupo 22',textGroupL2:'Texto para mostrar', styleGroupL2:['color:white','background-color:blue']
                                                              },
@@ -325,9 +325,9 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 					col:'col-md-offset-3 col-md-6',
 					bgColor:'red',
 					fields:[	  
-							{key: 'vdencen',type: 'text',col:'col-md-3',label: 'Fecha inicio22',placeholder: 'Denominación',autofocus:'',required: false },
-							{key: 'vloccen',type: 'text',col:'col-md-3',label: 'Fecha fin3',placeholder: 'Municipio',autofocus:'',required: false },
-							{key: 'vcodcen',type: 'text',col:'col-md-3',label: 'Tipo',placeholder: 'Código',autofocus:'',required: false,
+							{key: 'vdencen',type: 'text',col:'col-md-1',label: 'Fecha inicio22',placeholder: 'Denominación',autofocus:'',required: false },
+							{key: 'vloccen',type: 'text',col:'col-md-1',label: 'Fecha fin3',placeholder: 'Municipio',autofocus:'',required: false },
+							{key: 'vcodcen',type: 'text',col:'col-md-1',label: 'Tipo',placeholder: 'Código',autofocus:'',required: false,
 								fieldListeners:{
 									
 									onKeypress:function(event){
@@ -340,7 +340,8 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 														   ,onClick:function(){ 
 																					alert("botón clickado");
 																			   } 
-							}
+							},
+							{key: 'vdencen',type: 'literal',col:'col-md-6',label: '',placeholder: 'Denominación',autofocus:'',required: false },
 						]
 					},
 		formFooter:{

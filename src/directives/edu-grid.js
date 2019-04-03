@@ -1081,14 +1081,22 @@
 						return oId;
 				}
 				
-				$scope.onInputEditableChange=function(row,options){
-					console.log('checkbox changed value:'+row[options.column]);
-					if(options.editable){
+				$scope.onInputEditableChange=function(row,field){
+					
+					//if(field.editable){
 					    console.log('checkbox editable:'+row);
 						var oId = getOid(row);
-						
+						row.$loading=true;
 						$scope.api.update(oId,row,function (data) {  
-                             if ($scope.options.hasOwnProperty('gridListeners')){
+                            delete row.$cache[field.column];
+							row.$loading=false;
+							
+							row.$success=true;
+							$timeout(function(){
+								row.$success=false;
+							},1500);
+							
+							if ($scope.options.hasOwnProperty('gridListeners')){
 								if ($scope.options.gridListeners.hasOwnProperty('onAfterSave')&& typeof($scope.options.gridListeners.onAfterSave)=='function') {
 									$scope.options.gridListeners.onAfterSave(data);
 								}
@@ -1097,10 +1105,22 @@
 							if(data.hasOwnProperty('success') && data.success==false){
 								$scope.options.gridControl.showOverlayFormSuccessError('0',data.message,20000);
 							}else{
-								$scope.refresh(false);
+								//$scope.refresh(false);
+								delete row.$cache[field.column];
 							}
 							
+							
             	        },function(data){
+							//si no se han guardado los cambios, los deshace
+							row.$loading=false;
+							
+							row.$error=true;
+							$timeout(function(){
+								row.$error=false;
+							},1500);
+							
+							$scope.onInputEditableCancel(row,field);
+							//llama a los listeners
 							if ($scope.options.hasOwnProperty('gridListeners')){
 								if ($scope.options.gridListeners.hasOwnProperty('onAfterSave')&& typeof($scope.options.gridListeners.onAfterSave)=='function') {
 									$scope.options.gridListeners.onAfterSave(data);
@@ -1109,6 +1129,23 @@
 							$scope.options.gridControl.showOverlayFormSuccessError('0',data.data || data.message,20000);
 						});
 					
+					//}
+				}
+				
+				
+				$scope.onInputEditableCancel=function(row,field){
+					if(row.hasOwnProperty('$cache') && row.$cache.hasOwnProperty(field.column)){
+						row[field.column]=row.$cache[field.column];
+						delete row.$cache[field.column];
+					}
+				}
+				
+				$scope.cacheFieldRow=function(row,field){
+					if(!row.hasOwnProperty('$cache')){
+						row.$cache={};
+					}
+					if(!row.$cache.hasOwnProperty(field.column)){
+						row.$cache[field.column]=row[field.column];
 					}
 				}
 				
