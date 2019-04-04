@@ -298,8 +298,13 @@
 										   </div>
 										   -->
 										    <div ng-if="field.type=='input-text'" class="editable-controls form-group" ng-class="{'has-error': $error}">
-												
-													<form name="{{'form'+field.column}}">
+												    
+													<div ng-if="field.editable==false">
+														{{entry[field.column]}}
+													</div>
+													
+													
+													<form name="{{'form'+field.column}}" ng-if="field.editable==true">
 													   <div class="editable-buttons">
 														 <input type="text" ng-pattern="field.pattern" class="editable-has-buttons editable-input form-control editable-buttons" ng-keydown="cacheFieldRow(entry,field)" ng-model="entry[field.column]">
 												       </div>	

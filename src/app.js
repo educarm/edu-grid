@@ -178,7 +178,7 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 
                                                              },
                                                             {
-                                                                 label: 'Domicilio', column: 'vdomcen', weight: '20',type:'input-text',
+                                                                 label: 'Domicilio', column: 'vdomcen', weight: '20',type:'input-text',editable:false,
                                                                  group:'Grupo 4', textGroup:'Texto para mostrar',styleGroup:['color:green','background-color:yellow'],
                                                                 groupL2:'Grupo 22',textGroupL2:'Texto para mostrar', styleGroupL2:['color:white','background-color:blue']
                                                              },
