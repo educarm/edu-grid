@@ -1147,9 +1147,6 @@
 					if(!row.$cache.hasOwnProperty(field.column)){
 						row.$cache[field.column]=row[field.column];
 					}
-					if(!$scope.$$phase) {
-						$scope.$apply();
-					}
 				}
 				
 				function fnCleanFilters(){
