@@ -319,11 +319,11 @@
 																<i class="fa fa-close" style="font-size:30px;color:red"></i>
 															</div>
 															<!--buttons-->
-														   <button class="btn btn-warning btn-sm" style="height: 34px" title="Guardar" ng-disabled="{{'form'+field.column+'.$invalid'}}"  ng-if="entry.$cache[field.column]" ng-click="onInputEditableChange(entry,field)">
+														   <button class="btn btn-warning btn-sm" style="height: 34px" title="Guardar" ng-disabled="{{'form'+field.column+'.$invalid'}}"  ng-if="entry.$cache.hasOwnProperty(field.column)" ng-click="onInputEditableChange(entry,field)">
 																<span class="glyphicon glyphicon-floppy-disk"></span>
 																
 															</button>
-															<button type="button" class="btn btn-default btn-sm" style="height: 34px" ng-if="entry.$cache[field.column]" ng-click="onInputEditableCancel(entry,field)" title="Cancelar" aria-label="Cancelar">
+															<button type="button" class="btn btn-default btn-sm" style="height: 34px" ng-if="entry.$cache.hasOwnProperty(field.column)" ng-click="onInputEditableCancel(entry,field)" title="Cancelar" aria-label="Cancelar">
 																<span class="glyphicon glyphicon-remove"></span>
 															</button>
 														</div>
