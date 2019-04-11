@@ -63,7 +63,7 @@
 								</div>
 							   
 							    <!-- global search -->
-							    <div class="col-md-3 col-sm-2" >
+							    <div class="col-md-2 col-sm-2" >
 								   <div ng-show="options.showSearch && options.showTopSearch">
 									   <label for="ag_search">{{options.snippets.search || 'Buscar:'}}</label>
 									   <input type="text" class="form-inline" ng-model="searchQuery" ng-change="onChangeSearchQuery()"/>
@@ -77,9 +77,11 @@
 									   <a class="btn  btn-sm" ng-class="{'btn-primary':!listFiltered,'btn-danger':listFiltered}"  ng-click="onClickAvancedSearch()"><i class="glyphicon glyphicon-search"></i> {{options.snippets.avancedSearch || ' Avanzada'}}  </a>
 									</div>
 								</div>
-								<div class="col-md-4 col-sm-4">
+								<div class="col-md-1 col-sm-1">
 								   <span class="btn  btn-xs" ng-show="options.showRefreshButton" ng-click="refresh(true)"><i class="glyphicon glyphicon-refresh"></i></span>
-								   <a href="" title="{{options.snippets.titleExtraButtonTopRight}}" class="pull-right btn btn-primary  btn-xs" ng-show="options.showExtraButtonTopRight" ng-click="clickExtraButtonRight()"><span class="glyphicon glyphicon-{{options.iconExtraButtonTopRight || 'plus-sign'}}"></span> {{options.snippets.extraButtonTopRight}}</a>
+								   </div>
+								<div class="col-md-2 col-sm-2">
+								    <a href="" title="{{options.snippets.titleExtraButtonTopRight}}" class="btn btn-primary  btn-xs" ng-show="options.showExtraButtonTopRight" ng-click="clickExtraButtonRight()" style="margin-bottom:4px;white-space: normal;"><span class="glyphicon glyphicon-{{options.iconExtraButtonTopRight || 'plus-sign'}}"></span> {{options.snippets.extraButtonTopRight}}</a>
 								</div>
 							</div>
 							<!-- avanced search in header  --> 

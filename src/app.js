@@ -316,8 +316,8 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 			
 		},
 		snippets:{
-					titleExtraButtonTopRight:'Informes',
-					extraButtonTopRight:'Informes'
+					titleExtraButtonTopRight:'Informes adfa asdfa fas asdf sadfsadf asdf asdfsdf',
+					extraButtonTopRight:'Informes adfa asdfa fas asdf sadfsadf asdf asdfsdf'
 					
 		},
 		formHeader:{
