@@ -203,10 +203,35 @@ app.controller('appController', ['$scope','$http','dataFactoryGrid', function ($
 		gridListeners:{
 			onAfterSave:function(row,field,data){
 				console.log('onAfterSave field:'+field + ':'+row[field]);
-			}
+			},
 			
 		},
         listListeners: {
+			onBeforeRenderListFields:function(listFields){
+				//Modificar listFields aquí
+				
+				//copia para tenerlo por valor y no por referencia
+				var copyListFields=angular.copy(listFields);
+				
+				var indexElementDelete=copyListFields.findIndex(function(element, index, array){
+																									return element.column=='vcodcen'
+																						
+																								});
+																						
+				var indexElementRename=copyListFields.findIndex(function(element, index, array){
+																									return element.column=='presupuesto'
+																						
+																								});
+						
+				copyListFields[indexElementRename].label="Cambiado";		
+																						
+				if (indexElementDelete > -1) {
+					copyListFields.splice(indexElementDelete, 1);
+				}
+				
+				return copyListFields
+			},
+			
 			onChangeSelectionRows:function(rows,row){
 				console.log('SelectionRows:'+rows.length );
 			},

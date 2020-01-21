@@ -132,6 +132,14 @@
 					$scope.options.metaData.id='grid'+ Math.floor((Math.random() * 100000) + 1);	
 				}
 				
+				//Modifica la estructura $scope.options.listFields
+				if($scope.options.hasOwnProperty('listListeners')){
+					if($scope.options.listListeners.hasOwnProperty('onBeforeRenderListFields')){
+						$scope.options.listFields=$scope.options.listListeners.onBeforeRenderListFields($scope.options.listFields);
+					}
+				}
+				
+				
 				function setWidth(column){
 					for(var listColumn, j=0;listColumn=$scope.options.listFields[j];j++){
 						if(listColumn.column==column){
@@ -171,6 +179,8 @@
 								}		
 							}
 						});
+						
+						
 						
 						for(var column,j=0;column=$scope.options.listFields[j];j++){
 							if(column.hasOwnProperty('group')) {
